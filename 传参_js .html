@@ -58,20 +58,32 @@
       //可以传参也可以不传
       //console.log()打咩
 
-      function chuancan(target) {
-        if(target===undefined){
-          alert("没参数啊笨蛋")
-          //console.error("没传参啊笨蛋")
-          //targer = 9 //默认为9
-        }
-        for (var a = 1; a <= target; a++) {
-          for (var b = 1; b <= a; b++) {
-            document.write("<span>" + a + "*" + b + "=" + a * b + "</span>");
-          }
-          document.write("<br>");
-        }
+      // function chuancan(target) {
+      //   if (target === undefined) {
+      //     alert("没参数啊笨蛋");
+      //     //console.error("没传参啊笨蛋")
+      //     //targer = 9 //默认为9
+      //   }
+      //   for (var a = 1; a <= target; a++) {
+      //     for (var b = 1; b <= a; b++) {
+      //       document.write("<span>" + a + "*" + b + "=" + a * b + "</span>");
+      //     }
+      //     document.write("<br>");
+      //   }
+      // }
+      // chuancan(target);
+
+      //d
+      function add(a,b,c){
+        var result = a*b*c
+        return result
       }
-      chuancan();
+       var res=add(1,2,3)
+      function test(a){
+        console.log( "后端用",a)
+      }
+      test(res)
+
     </script>
   </body>
 </html>
