@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style>
+      span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      /*function
+      函数 一个复杂数据类型
+      */
+      // 1.定义函数
+      //  (1).声明式（可以先调用再定义
+      //  function test1(){
+      //   console.log("需要调用我")
+      //  }
+      //  (2),赋值式（仅能先定义再调用
+      //  var test2 = function(){
+      //   console.log("没吃午饭 因为家里没饭")
+      //  }
+      // 2.调用函数
+      // test1()
+      // test2()
+      // function jiujiu() {//被定义的参数叫做行参
+      //   for (var a = 1; a <= 9; a++) {
+      //     for (var b = 1; b <= a; b++) {
+      //       document.write("<span>" + a + "*" + b + "=" + a * b + "</span>");
+      //     }
+      //     document.write("<br>");
+      //   }
+      // }
+      // jiujiu();//被调用的叫做实参
+
+      // function test(a, b) {
+      //   var zaofan = a == 2 ? "皮蛋瘦肉粥" : "豆腐脑";
+      //   var wufan = b == 2 ? "不吃" : "西红柿鸡蛋面";
+      //   var wanfan = "猪蹄子";
+
+      //   console.log("今天的饭饭", zaofan, wufan, wanfan);
+      // }
+      // test(2, 4);
+
+      //形参只能函数内部使用
+      //可以传参也可以不传
+      //console.log()打咩
+
+      // function chuancan(target) {
+      //   if (target === undefined) {
+      //     alert("没参数啊笨蛋");
+      //     //console.error("没传参啊笨蛋")
+      //     //targer = 9 //默认为9
+      //   }
+      //   for (var a = 1; a <= target; a++) {
+      //     for (var b = 1; b <= a; b++) {
+      //       document.write("<span>" + a + "*" + b + "=" + a * b + "</span>");
+      //     }
+      //     document.write("<br>");
+      //   }
+      // }
+      // chuancan(target);
+
+      //d
+      function add(a,b,c){
+        var result = a*b*c
+        return result
+      }
+       var res=add(1,2,3)
+      function test(a){
+        console.log( "后端用",a)
+      }
+      test(res)
+
+    </script>
+  </body>
+</html>
