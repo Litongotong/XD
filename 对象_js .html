@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style></style>
+  </head>
+  <body>
+    <script>
+      //创建空对象
+      var obj = {};
+      console.log(obj);
+      //字面量方式创建对象
+      var obj1 = {
+        name: "Hana", //key值
+        age: 18,
+        hobby: "**",
+        food: "rice",
+      };
+      console.log(obj1);
+      //内置构造函数的方式创建对象
+
+      var obj2 = new Object();
+      obj2.name = "Hana"; //添加变量
+      console.log(obj2);
+      //  增 -1
+      var obj3 = {};
+      obj3.zeng = "增操作";
+      console.log(obj3);
+      //  增 -2
+      var obj3 = {};
+      obj3["name"] = "另一种增操作"; //["name"] 属性
+      console.log(obj3);
+      //  删-1
+      delete obj1.a;
+      console.log(obj1);
+      //  删-2
+      delete obj1["hobby"];
+      //  改-1
+      var obj1 = {
+        name: "Hana", //key，key值
+        age: 18,
+        hobby: "**",
+      };
+      console.log(obj1);
+      obj1.name = 20 + "改操作";
+      //  改-2
+      obj1["hobby"] = "eat";
+      console.log(obj1);
+      //  查-1
+      var obj4 = {
+        zaofan: "馒头",
+      };
+      obj4.cha = "查操作";
+      document.write("查找到" + obj4.查);
+      //  查-2
+      console.log(obj3["name"]);
+
+      //对象的遍历
+      var obj6 = {
+        zaofan: "馒头",
+        wufan: "方便面",
+        wanfan: "鸡腿",
+      };
+      for (var i in obj6) {
+        //获取key
+        console.log(i);
+        //获取value
+        console.log(obj6[i]);
+
+        document.write(i + ":" + obj6[i]);
+        document.write("<br>");
+      }
+    </script>
+  </body>
+</html>
