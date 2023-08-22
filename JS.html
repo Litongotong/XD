@@ -1,4 +1,4 @@
-<!--
+<!-- 
     js书写位置：行内，内嵌，外联
 
 -->
@@ -7,213 +7,215 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--
-        viewport 表示领域
-        initial-scale 初期倍率
-        width=device-width デバイスの幅
-    -->
-      <!-- 外部引入
-    <script src="外部引入.js">
 
-    </script> --
-    <title>Document</title>>
-    </head>
-      <body>
+    <!-- viewport 表示领域 initial-scale 初期倍率 width=device-width デバイスの幅
+    外部引入 -->
+    <script src="外部引入.js"></script>
+    --
+    <title>Document</title>
+    >
+  </head>
+  <body>
     <script>
-      //内嵌式
-      //    alert("爱学习的恋爱脑")//调用BOM
+            //内嵌式
+            //    alert("爱学习的恋爱脑")//调用BOM
 
-      //    document.write("嗷呜！")//调用DOM
+            //    document.write("嗷呜！")//调用DOM
 
-      //    console.log("早安！")// 输出在控制台，调试用
+            //    console.log("早安！")// 输出在控制台，调试用
 
-      // var a,b,c // 定义变量不赋值
-      // var x = 200//定义变量赋值
-      // console.log(x+2000)
-      /*变量的命名规则
-        大小写区分
-        _,#,数字，字母
-        不能以数字开头
-        不能是保留字和关键字
-        不要出现空格
-    变量的命名规范
-        有意义
-        驼峰命名规则
-
-    */
-      /*
-   基本类型
-       1. number 
-        //var age = 18 //12.3 浮点数
-        //console.log(age+12)
-       2. string 字符串
-        //var age = “18 ”
-        //console.log(age+12)
-       3. boolean
-        // true or false
-        4.undefined 声明但未赋值
-        var a
-        console.log(a)
-        5.null
-        定义对象，但是对象不存在
-        var whichobject
-        console.log(whichobjct)
-        symbol
-    对象类型
-        1.判断对象类型
-        var a = 100
-        console.log(tpyeof a)
-    类型转换
-        var a =　"100"
-        var b =　number(a)
-        console.log(typeof b)
-        //NAN： not a number
-
-        var a =　false
-        var b =　number(a)
-        console.log(typeof b)
-        //1，0
-
-        var a =　null
-        var b =　number(a)
-        console.log(typeof b)
-        //0
-
-        var a =　undefind
-        var b =　number(a)
-        console.log(typeof b)
-        //NAN
-
-        var a =　123abc
-        var b =　parseInt(a)
-        console.log( b)
-        //123 parseInt 即 解析整数部分，小数和非整数部分一概舍弃
-         
-
-        var a =　123abc
-        var b =　number(a)
-        console.log(typeof b)
-        //NAN
-
-        var a =　123.22abc
-        var b = persefloat(a)//针对浮点数
-        console.log( b)
-        //123.22
-
-    其他类型转字符串
-        var a =　123.22abc
-        var b = string(a)
-        console.log( b)
-    var a
-    var b = a.toString() // 无法转换undefined和null
-    console.log(b)
+            // var a,b,c // 定义变量不赋值
+            // var x = 200//定义变量赋值
+            // console.log(x+2000)
+      // 变量的命名规则
+      //         大小写区分
+      //         _,#,数字，字母
+      //         不能以数字开头
+      //         不能是保留字和关键字
+      //         不要出现空格
+      //     变量的命名规范
+      //         有意义
+      //         驼峰命名规则
 
 
-  
-    其他类型转布尔
-        boolean(变量)//除了'',0,null,undefined,NAN,其他都是true    
-        特殊：！！a 转布尔值 (取反)        
-    */
-      //且的用法 截断
-      // var 1000
-      // console.log(y&&y.toString(y))
+      //    基本类型
+      //        1. number
+      //         //var age = 18 //12.3 浮点数
+      //         //console.log(age+12)
+      //        2. string 字符串
+      //         //var age = “18 ”
+      //         //console.log(age+12)
+      //        3. boolean
+      //         // true or false
+      //         4.undefined 声明但未赋值
+      //         var a
+      //         console.log(a)
+      //         5.null
+      //         定义对象，但是对象不存在
+      //         var whichobject
+      //         console.log(whichobjct)
+      //         symbol
+      //     对象类型
+      //         1.判断对象类型
+      //         var a = 100
+      //         console.log(tpyeof a)
+      //     类型转换
+      //         var a =　"100"
+      //         var b =　number(a)
+      //         console.log(typeof b)
+      //         //NAN： not a number
 
-      // console.log(200)
+      //         var a =　false
+      //         var b =　number(a)
+      //         console.log(typeof b)
+      //         //1，0
 
-      //自增自减运算符
-      //n++，++n即 n+1
-      // var number = 10
-      // document.write(number++)//10
-      // document.write(++number)// 11
+      //         var a =　null
+      //         var b =　number(a)
+      //         console.log(typeof b)
+      //         //0
 
-      //三元运算符 条件？a:b(a,b为语句和变量都可以)
-      //满二百减十块
-      // var sum= 210
-      // var youhui= sum>200?sum-10:sum
-      // console.log(sum,youhui)//210,200
-      //满一百减五块，满二百减十块
-      // var a= 210
-      // var youhui= a>200?a-20:(a>100?a-5:a)
-      // console.log(youhui)
+      //         var a =　undefind
+      //         var b =　number(a)
+      //         console.log(typeof b)
+      //         //NAN
 
-      //条件分支if语句
-      //   if (条件) {
-      //     执行代码;
-      //   }
-      //   var sum = 210;
-      //   var youhui;
-      //   if (sum > 200) {
-      //     youhui = sum - 10;
-      //   } else {
-      //     youhui = sum;
-      //   }
-      //   console.log(youhui);
+      //         var a =　123abc
+      //         var b =　parseInt(a)
+      //         console.log( b)
+      //         //123 parseInt 即 解析整数部分，小数和非整数部分一概舍弃
 
-      // var sum= 210
-      // var youhui
-      // if(sum>200){
-      //     youhui= sum-10
-      // }
-      // else if() {}
-      // else if() {}
-      // else  {}
-      // console.log(youhui)
 
-      //Switch条件分支结构
-    //   var code = 1;
 
-    //   switch (code) {
-    //     case 1:
-    //       document.write("已付款");
-    //       break;//千万不可以忘记break
-    //     case 2:
-    //       document.write("已发货");
-    //       break;
-    //     case 3:
-    //       document.write("未付款");
-    //       break;
-    //     case 4:
-    //       document.write("未发货");
-    //       break;
-    //     case 5:
-    //       document.write("已失效");
-    //       break;
-    //     default:
-    //       document.write("出错啦");// 加上比较好
-    //   }
 
-    // //循环分支while
-    //     var a =0
-    //     while(a<100){
-    //         console.log("今天好像啥也没干")
-    //         a++
-    //     }
+      //         var a =　123abc
+      //         var b =　number(a)
+      //         console.log(typeof b)
+      //         //NAN
 
-    //练习 球1-100的总合
-    // var n=1
-    // var sum=0
-    // while(n<=100){
-    //     console.log(n)
-    //     sum+=n
-    //     n++
-   
+      //         var a =　123.22abc
+      //         var b = persefloat(a)//针对浮点数
+      //         console.log( b)
+      //         //123.22
 
-    // 练习 5*4*3*2*1
-    // var n=1
-    // var sum=1
-    // while(n<=100){
-    //     console.log(n)
-    //     sum+=n
-    //     n--
-    // }
+      //     其他类型转字符串
+      //         var a =　123.22abc
+      //         var b = string(a)
+      //         console.log( b)
+      //     var a
+      //     var b = a.toString() // 无法转换undefined和null
+      //     console.log(b)
 
-    //DO WHILE 循环 //和while的区别：第一次循环时不符合条件的时，while不执行
 
-    //alert("111")//bom
-    //promt("111")
+
+      //     其他类型转布尔
+      //         boolean(变量)//除了'',0,null,undefined,NAN,其他都是true
+      //         特殊：！！a 转布尔值 (取反)
+          
+            //且的用法 截断
+            // var 1000
+            // console.log(y&&y.toString(y))
+
+            // console.log(200)
+
+            //自增自减运算符
+            //n++，++n即 n+1
+            // var number = 10
+            // document.write(number++)//10
+            // document.write(++number)// 11
+
+            //三元运算符 条件？a:b(a,b为语句和变量都可以)
+            //满二百减十块
+            // var sum= 210
+            // var youhui= sum>200?sum-10:sum
+            // console.log(sum,youhui)//210,200
+            //满一百减五块，满二百减十块
+            // var a= 210
+            // var youhui= a>200?a-20:(a>100?a-5:a)
+            // console.log(youhui)
+
+            //条件分支if语句
+            //   if (条件) {
+            //     执行代码;
+            //   }
+            //   var sum = 210;
+            //   var youhui;
+            //   if (sum > 200) {
+            //     youhui = sum - 10;
+            //   } else {
+            //     youhui = sum;
+            //   }
+            //   console.log(youhui);
+
+            // var sum= 210
+            // var youhui
+            // if(sum>200){
+            //     youhui= sum-10
+            // }
+            // else if() {}
+            // else if() {}
+            // else  {}
+            // console.log(youhui)
+
+            //Switch条件分支结构
+          //   var code = 1;
+
+          //   switch (code) {
+          //     case 1:
+          //       document.write("已付款");
+          //       break;//千万不可以忘记break
+          //     case 2:
+          //       document.write("已发货");
+          //       break;
+          //     case 3:
+          //       document.write("未付款");
+          //       break;
+          //     case 4:
+          //       document.write("未发货");
+          //       break;
+          //     case 5:
+          //       document.write("已失效");
+          //       break;
+          //     default:
+          //       document.write("出错啦");// 加上比较好
+          //   }
+
+          // //循环分支while
+          //     var a =0
+          //     while(a<100){
+          //         console.log("今天好像啥也没干")
+          //         a++
+          //     }
+
+          //练习 球1-100的总合
+          // var n=1
+          // var sum=0
+          // while(n<=100){
+          //     console.log(n)
+          //     sum+=n
+          //     n++
+
+
+          // 练习 5*4*3*2*1
+          // var n=1
+          // var sum=1
+          // while(n<=100){
+          //     console.log(n)
+          //     sum+=n
+          //     n--
+          // }
+
+          //DO WHILE 循环 //和while的区别：第一次循环时不符合条件的时，while不执行
+
+          //alert("111")//bom
+          //promt("111")
+
+
+              var a=123.4
+              var b =parseInt(a)
+              // var C =math.trunc(123.4)
+              console.log(b)
     </script>
- 
-
 
     <!--
      行内：不推荐 需要依靠事件来触发   

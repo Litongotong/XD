@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style>
+      span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function ajax(url) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            //如果成功;
+            resolve();
+            // 如果失败;
+            // reject();
+          }, 3000);
+        });
+      }
+
+      // //弊端 容易造成回调地狱
+
+      ajax(
+        "1111",
+        () => {
+          console.log("ajax成功调用");
+        },
+        () => {
+          console.log("ajax调用失败");
+        }
+      );
+
+      //ajax then catch封装
+      ajax("1111")
+        .then(() => {
+          console.log("ajax成功调用"); //成功回调
+        })
+        .catch(() => {
+          console.log("ajax调用失败"); //失败回调
+        });
+
+      //promise 前期画饼
+      //promise g构造函数
+      var mypro = new Promise((resolve, reject) => {
+        //接受参数 执行器
+        setTimeout(() => {
+          //如果销售额达到
+          // resolve();
+          //如果没达到
+          reject();
+        }, 3000);
+      });
+      mypro.then(
+        () => {
+          console.log("发钱"); //成功回调
+        },
+        () => {
+          console.log("没钱"); //失败回调
+        }
+      );
+      console.log(mypro);
+
+      //catch 仅在请求拒绝时，执行
+      mypro.catch(() => {
+        console.log("没钱"); //失败回调
+      });
+      console.log(mypro);
+
+      //catch和then相结合
+      mypro
+        .then(() => {
+          console.log("发钱"); //成功回调
+        })
+        .catch(() => {
+          console.log("没钱"); //失败回调
+        });
+      console.log(mypro);
+    </script>
+  </body>
+</html>
+//promise是什么 解决异步编程的一种方案
