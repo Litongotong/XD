@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style>
+      span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var test1 = [1, 2, 3, 4, 4, 4, 5, 3, 5, 1, 1];
+      //去重1
+      var test2 = [];
+      for (let i = 0; i< test1.length; i++) {//i 下标
+        if (test2.indexOf(test1[i]) === -1) {
+          test2.push(test1[i]);
+        }
+      }
+      console.log(test1,test2);
+
+      //去重2
+      var obj={}
+      for (let i = 1; i< test1.length; i++){
+        obj[test1[i]]="why"
+      }
+      console.log(obj)
+      var test3=[]
+      for(var i in obj){
+        test3.push(i-0)
+      }
+      console.log(test1,test3)
+
+      //*var 版本缺陷（慎用，可能不报错
+      //*let 非常量
+      //*const(常量，不发生变化) 数组 对象;避免重复定义
+
+      //去重3 new Set 
+      const set1 =new Set(test1)//set结构不允许有重复 ，利用该特性去重
+      console.log(set1)
+      const test4=Array.from(set1)//将set结构变成数组结构
+      console.log(test4)
+    </script>
+  </body>
+</html>
