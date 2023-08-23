@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style>
+      span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      //promise 对象
+      //promise.resolve 将现有对象转换成promise对象
+      var test=Promise.resolve("yabozi")
+      console.log(test)
+      //相当于
+      new Promise(resolve=> resolve("yabozi"))
+      console.log(Promise)
+      //project.reject（reason）返回新的promise实例，实力状态为rejected
+      //
+    </script>
+  </body>
+</html>
+//promise是什么 解决异步编程的一种方案
