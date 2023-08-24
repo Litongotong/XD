@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style></style>
+  </head>
+  <body>
+    <script>
+      //创建字符串 1 字面量
+      const str="hello"
+      console.log(str+"H")
+      //创建字符串 2 构造函数
+      const str1=new String("hello")
+      console.log(str1+"H")
+
+      console.log(str.length ,str1.length)
+      //对于字符串length 只读，对于数组length 可以改变长度
+      str.length=0
+      console.log(str.length ,str1.length)
+
+      //索引/下标 只读
+      console.log(str[1])
+
+      //遍历
+      for(i=0;i<str.length;i++){
+        console.log(i,str[i])
+      }
+    </script>
+  </body>
+</html>
