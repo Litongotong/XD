@@ -15,24 +15,47 @@
   <body>
     <script>
       //创建字符串 1 字面量
-      const str="hello"
-      console.log(str+"H")
-      //创建字符串 2 构造函数
-      const str1=new String("hello")
-      console.log(str1+"H")
+      // const str="hello"
+      // console.log(str+"H")
+      // //创建字符串 2 构造函数
+      // const str1=new String("hello")
+      // console.log(str1+"H")
 
-      console.log(str.length ,str1.length)
-      //对于字符串length 只读，对于数组length 可以改变长度
-      str.length=0
-      console.log(str.length ,str1.length)
+      // console.log(str.length ,str1.length)
+      // //对于字符串length 只读，对于数组length 可以改变长度
+      // str.length=0
+      // console.log(str.length ,str1.length)
 
-      //索引/下标 只读
-      console.log(str[1])
+      // //索引/下标 只读
+      // console.log(str[1])
 
-      //遍历
-      for(i=0;i<str.length;i++){
-        console.log(i,str[i])
-      }
+      // //遍历
+      // for(i=0;i<str.length;i++){
+      //   console.log(i,str[i])
+      // }
+
+      //charAt(索引)返回索引对应的字符
+      //const str="hana"
+      // const str2=str.charAt() //返回第0位索引值
+      // console.log(str,str2)
+
+      //charCodeAt (索引)返回索引对应的字符编码 并没卵用。。。
+      // const str = "hana";
+      // const str2 = str.charCodeAt(); //返回第0位索引值
+      // console.log(str, str2);
+      
+      //fromcharCode (索引)返回索引编码对应的字符
+      // const str3 = [];
+      // for(i=65;i<91;i++){//65-91 即a-z，数字转换字母
+      //   console.log(String.fromCharCode(i))
+      //   str3.push(String.fromCharCode(i))
+      // }
+      // console.log(str3)
+
+      //toUpperCase(),toLowerCase() 小写转大写，大写转小写（仅英文
+      const str="AbCd"
+      console.log(str.toUpperCase())
+      console.log(str.toLowerCase())
     </script>
   </body>
 </html>
