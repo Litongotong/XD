@@ -32,15 +32,85 @@
 
       // console.log(arr_name);
 
-      //冒泡排序sort
-      // var arr = [4,2]
-      // var temp = arr[0]
-      // arr[0]=arr[1]
-      // arr[1]=temp
-      // console.log(arr)
+      //foreach 遍历
+      // const arr=["aaa","bbb","ccc"]
+      // arr.forEach(function(item,[index,arr]){//item:每一项 index:索引值 arr：原数组
+      //     console.log(item)
+      // })
 
+      // //map 映射
+      // const arr=[1,2,3,4,5]
+      // const arr1=arr.map(function(item){
+      //   return item*item
+      // })
+      // console.log(arr1)
+      // //即
+      // for(i=0;i<arr.length;i++){
+      //   arr1[i]=arr[i]*arr[i]
+      // }
+      // console.log(arr1)
 
+      //map 练习
+      // const arr2 = ["黄焖鸡", "烤鱼", "葱爆羊肉"];
+      // arr3 = arr2.map(function (item) {
+      //   return "<li>" + item + "</li>"; //字符串拼接++
+      // });
+      // console.log(arr3);
+      // document.write(arr3.join("")); //
 
+      //filter 过滤
+      // const arr = [1, 2, 3, 4, 5];
+      // const arr4 = arr.filter(function (item) {
+      //   return item > 2;
+      // });
+
+      // console.log(arr4);
+
+      //filter 练习
+      // const arr5 = [
+      //   { name: "黄焖鸡", price: 20 },
+      //   { name: "烤鱼", price: 30 },
+      //   { name: "小鸡炖蘑菇", price: 25 },
+      //   { name: "鸡屁股", price: 0 }
+      // ];
+      // const arr6 = arr5.filter(function (item) {
+
+      //   return item.price > 20;
+      // });
+      //  console.log(arr6);
+
+      //every 每一个 返回true or false
+      // const arr7 = [10, 20, 30, 40, 50];
+      // const arr8 = arr7.every(function(item){
+      //   return item>=10
+      // })
+      // console.log(arr8)
+
+      //some 只要满足一个条件 就是true
+      // const arr9 = [10, 20, 30, 40, 50];
+      // const arr10 = arr9.some(function (item) {
+      //   return item < 10;
+      // });
+      // console.log(arr10);
+
+      //fine 可以代替filter
+      // const arr11 = [
+      //   { name: "黄焖鸡", price: 20 },
+      //   { name: "烤鱼", price: 20 },
+      //   { name: "小鸡炖蘑菇", price: 25 },
+      //   { name: "鸡屁股", price: 0 },
+      // ];
+      // const arr12 = arr11.filter(function (item) {
+      //   return item.price === 20;
+      // });
+      // console.log(arr12);
+
+      //reduce 叠加计算
+      // const arr13 = [10, 20, 30, 40, 50];
+      // const arr14 = arr13.reduce(function (prev,item) {//prev 是上次return的结果，没有就是初始值0，item第一个数据
+      //   return item +prev;
+      // },0);//0为初始值
+      // console.log(arr14);
     </script>
   </body>
 </html>
