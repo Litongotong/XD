@@ -53,9 +53,29 @@
       // console.log(str3)
 
       //toUpperCase(),toLowerCase() 小写转大写，大写转小写（仅英文
-      const str="AbCd"
-      console.log(str.toUpperCase())
-      console.log(str.toLowerCase())
+      // const str="AbCd"
+      // console.log(str.toUpperCase())
+      // console.log(str.toLowerCase())
+
+      //截取 substr substring/slice
+      const str="hana"
+      const str1=str.substr(0,2)//(开始索引位置，索引长度)
+      const str2=str.substring(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
+      const str3=str.substring(1)//从1开始索引
+      const str4=str.slice(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
+      const str5=str.slice(1)//从1开始索引
+      console.log(str1,str2,str3,str4,str5)
+      //实现开头首字母大写
+      console.log(str.substring(0,1).toUpperCase()+str.substring(1))
+
+      //replace 代替 替换第一个字符 ；全部替换可以使用正则表达
+      const str6="aaaaa"
+      const str7=str6.replace("a","*")//*aaaa
+      console.log(str7)
+
+      //split 分割，把字符串分割成数组/ join 把数组转换成字符串
+        const str8="a,b,c"
+        console.log()
     </script>
   </body>
 </html>
