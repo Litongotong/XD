@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+        viewport 表示领域
+        initial-scale 初期倍率
+        width=device-width デバイスの幅
+    -->
+    <!-- <script src="外部引入.js">//外部引入 -->
+    <title>Document</title>
+    <style>
+      span{
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      for (var a = 1; a <= 9; a++) {
+        for (var b = 1; b <= a; b++) {
+          document.write("<span>" + a + "*" + b + "=" + a * b + "</span>");
+        }
+        document.write("<br>");
+      }
+    </script>
+  </body>
+</html>
