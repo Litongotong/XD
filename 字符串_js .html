@@ -43,7 +43,7 @@
       // const str = "hana";
       // const str2 = str.charCodeAt(); //返回第0位索引值
       // console.log(str, str2);
-      
+
       //fromcharCode (索引)返回索引编码对应的字符
       // const str3 = [];
       // for(i=65;i<91;i++){//65-91 即a-z，数字转换字母
@@ -58,24 +58,39 @@
       // console.log(str.toLowerCase())
 
       //截取 substr substring/slice
-      const str="hana"
-      const str1=str.substr(0,2)//(开始索引位置，索引长度)
-      const str2=str.substring(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
-      const str3=str.substring(1)//从1开始索引
-      const str4=str.slice(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
-      const str5=str.slice(1)//从1开始索引
-      console.log(str1,str2,str3,str4,str5)
-      //实现开头首字母大写
-      console.log(str.substring(0,1).toUpperCase()+str.substring(1))
+      // const str="hana"
+      // const str1=str.substr(0,2)//(开始索引位置，索引长度)
+      // const str2=str.substring(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
+      // const str3=str.substring(1)//从1开始索引
+      // const str4=str.slice(0,2)//(开始索引位置，结束索引) 符合包前不包后原则
+      // const str5=str.slice(1)//从1开始索引
+      // console.log(str1,str2,str3,str4,str5)
+      // //实现开头首字母大写
+      // console.log(str.substring(0,1).toUpperCase()+str.substring(1))
 
-      //replace 代替 替换第一个字符 ；全部替换可以使用正则表达
-      const str6="aaaaa"
-      const str7=str6.replace("a","*")//*aaaa
-      console.log(str7)
+      // //replace 代替 替换第一个字符 ；全部替换可以使用正则表达
+      // const str6="aaaaa"
+      // const str7=str6.replace("a","*")//*aaaa
+      // console.log(str7)
 
-      //split 分割，把字符串分割成数组/ join 把数组转换成字符串
-        const str8="a,b,c"
-        console.log()
+      // //split 分割，把字符串分割成数组/ join 把数组转换成字符串
+      //   const str8="ab,c"
+      //   console.log(str8)
+      //   console.log(str,str.split(","),str8.split(","))
+
+      //indexOf查找索引位置 lastIndexOf 从后往前索引
+      // const str9="abcdega"
+      //   console.log(str9.indexOf("a",3))//从第三个位置开始查
+      //   console.log(str9.lastIndexOf("a",3))
+      //   //concat/++ 连接字符串
+      //   const str10="abc"
+      //   console.log(str10.concat("a"),str10+"a")//abca
+
+      // trim 去掉首位空格
+      // trimStart() trimLeft() 去掉首部空格
+      //   trimEnd() trimRight() 去掉尾部空格
+      const str11=" 高高 上班 "
+      console.log("."+str11+".","."+str11.trim()+".")
     </script>
   </body>
 </html>
