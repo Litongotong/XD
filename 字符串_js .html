@@ -99,10 +99,30 @@
       // console.log=(str)//返回解析完成的对象
 
       //前台传给后台时进行交互  对象转换json字符串JSON.stringify()
-      const obj= {"name":"aaa","age":18}
-     console.log(obj)//返回对象
-      const str=JSON.stringify(obj)//对象转换json字符串
-      console.log(str)//返json字符串
+    //   const obj= {"name":"aaa","age":18}
+    //  console.log(obj)//返回对象
+    //   const str=JSON.stringify(obj)//对象转换json字符串
+    //   console.log(str)//返json字符串
+
+    
+    
+    //es6 模板字符串 ``,${}的使用
+    
+    const myhtml=`<li>mmmmmm</li>
+    <li>ssss</li>` //使用``时 换行可以不报错
+    document.write(myhtml)
+
+    const a=1
+    const b=2
+    const c= `我后面是js领域${a+b}${a>b?a:b}`
+    console.log(c)
+
+    //练习 字符串模板+映射
+    const name =["hana","tomoya","broke"]
+    const res= name.map(function(item){
+      return `<li>${item}</li>`
+    })
+    document.write(res.join(""))
     </script>
   </body>
 </html>
