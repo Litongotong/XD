@@ -89,8 +89,20 @@
       // trim 去掉首位空格
       // trimStart() trimLeft() 去掉首部空格
       //   trimEnd() trimRight() 去掉尾部空格
-      const str11=" 高高 上班 "
-      console.log("."+str11+".","."+str11.trim()+".")
+      // const str11=" 高高 上班 "
+      // console.log("."+str11+".","."+str11.trim()+".")
+
+      //json字符串 格式严格{"key":"value"}  JSON.parse()
+      // const jsonstr= '{"name":"aaa","age":18}'
+      // console.log(jsonstr)//返回字符串*不是对象
+      // const str=JSON.parse(jsonstr)//解析
+      // console.log=(str)//返回解析完成的对象
+
+      //前台传给后台时进行交互  对象转换json字符串JSON.stringify()
+      const obj= {"name":"aaa","age":18}
+     console.log(obj)//返回对象
+      const str=JSON.stringify(obj)//对象转换json字符串
+      console.log(str)//返json字符串
     </script>
   </body>
 </html>
