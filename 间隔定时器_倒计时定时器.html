@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn1">定时器</button>
+    <button id="btn2">清除定时器</button>
+    <script>
+      //倒计时定时器
+      //setTimeout（a,b）参数a：回调函数，参数b：延迟时间
+      let time1 = setTimeout(function () {
+        console.log("hana");
+      }, 2000); //注册定时器
+
+      //间隔定时器 每几秒触发一次
+      //setInterval(a,b)
+      let time2 = setInterval(function () {
+        console.log(new Date());
+      }, 2000); //注册定时器
+
+
+      //console.log(time1,time2)
+      //console.log(btn1, btn2); //通过id拿到按钮对象
+
+
+      btn1.onclick = function () {
+        console.log("btn1 click");
+        clearTimeout(time1);
+      };
+
+      btn2.onclick = function () {
+        console.log("btn2 click");
+        clearInterval(time2);
+      };
+
+//异步等待同步任务结束后才执行，同步函数优先级高
+
+    </script>
+  </body>
+</html>
