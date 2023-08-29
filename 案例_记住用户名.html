@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      用户名：
+      <input type="text" id="username" />
+    </div>
+    <div>
+      密码：
+      <input type="password" id="password" />
+    </div>
+    <div>
+      <button id="login">登录</button>
+    </div>
+    
+    <script>
+
+      //先获取密码信息 进行存储
+      const uservalue= localStorage.getItem("username")
+      const passvalue= localStorage.getItem("password")
+      //为输入框赋值
+      password.value=passvalue
+      username.value=uservalue
+      
+      login.onclick = function (){
+        console.log(username.value,password.value); //获取Name和password的值, password.value
+        localStorage.setItem("username",username.value)
+        localStorage.setItem("password",password.value)
+
+      };
+    </script>
+  </body>
+</html>
