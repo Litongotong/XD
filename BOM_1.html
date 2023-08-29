@@ -14,6 +14,7 @@
   <body>
     <div style="height: 2000px; width: 100px"></div>
     <button id="button">回到顶部</button>
+    <button id="btn3">去BOM_2.html</button>
     <!-- <button id="button">点我出现alert</button> -->
     <script>
       //BOM 浏览器对象模型，即操作浏览器的能力
@@ -40,10 +41,11 @@
 
       //浏览器的地址栏
       //location.href 获取地址
-      // console.log(location.href)//获取地址
-      // button.onclick=function(){
-      //     location.href="XXX"//跳转至
-      // }
+      //console.log(location.href)//获取地址
+      btn3.onclick=function(){
+          //location.href="BOM_2.html"//跳转至
+          history.forward("BOM_2.html")//必须保证有下一个页面
+      }
       //location.reload页面重载
       // button.onclick=function(){
       //     location.reload()//刷新
