@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1">打开百度</button>
+    <button id="btn2">关闭</button>
+    <button id="btn3">回到BOM_1</button>
+    <button id="btn4">本地存</button>
+    <button id="btn5">本地取</button>
+    <button id="btn6">本地删除</button>
+    <button id="btn7">本地clear</button>    
+    <script>
+        //浏览器标签控制
+        //location.href=""跳转
+        //window.open("") 跳转
+        btn1.onclick=function(){
+            window.open("http://www.baidu.com")
+        }
+        //window.close()关闭当前页面
+        btn2.onclick=function(){
+            window.close()
+        }
+
+
+        //浏览器的历史记录
+        //history.back()
+        btn3.onclick=function(){
+            history.back()//必须保证有上一个页面
+            history.go(1)//history.go(1)前进一个页面，history.go(2)前进两个页面，history.go(-1)回退一个页面
+        }
+
+
+        //本地存储
+        //localStorage 永久存储
+        // *仅能存储字符串，不能存对象，因此需要Jsonstringify和json parse进行解析
+        //存 
+        btn4.onclick=function(){
+            localStorage.setItem("obj",JSON.stringify({name:"hana",age:"18"}))
+        }
+        //取
+        btn5.onclick=function(){
+            console.log(JSON.parse(localStorage.getItem("obj")))
+        }
+        //删
+        btn6.onclick=function(){
+            localStorage.removeItem("name")
+        }
+        //清空
+        btn7.onclick=function(){
+            localStorage.clear()
+        }
+        
+        //sessionStorage 会话存储 关闭页面存储内容消失
+        btn4.onclick=function(){
+            sessionStorage.setItem("obj",JSON.stringify({name:"hana",age:"18"}))
+        }
+        //取
+        btn5.onclick=function(){
+            console.log(JSON.parse(sessionStorage.getItem("obj")))
+        }
+        //删
+        btn6.onclick=function(){
+            sessionStorage.removeItem("name")
+        }
+        //清空
+        btn7.onclick=function(){
+            sessionStorage.clear()
+        }
+        
+    </script>
+</body>
+</html>
