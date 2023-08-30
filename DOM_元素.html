@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="box"></div>
+    <input type="text" value="hello" />
+    <input type="checkbox" check id="rember" />
+    <li>aaaa</li>
+    <li>bb</li>
+    <li>ddd</li>
+    <li>dd</li>
+    <li>ee</li>
+    <li>eeee</li>
+
+    <script>
+      //DOM (树）文档对象模型
+      //DOM的核心是document对象
+
+      //获取DOM节点/元素
+
+      /*
+        非常规 html,head,body(页面最外层)
+         */
+      //   console.log(document.documentElement); //rem
+      //   console.log(document.head); //获取head
+      //   console.log(document.body); //获取body
+
+      /*
+        常规 id,class,tag... 
+        */
+      //getElementById（''） 通过id名称获取节点
+      //   console.log(document.getElementById(""));
+      //getElementByClassName("")通过class获取节点
+      //   const item = document.getElementByClassName("XXX");
+      //   console.log(item);
+      //getElementByTagName("")通过获取标签/节点
+      //   const item1 = document.getElementByTagName("li");
+      //   console.log(item);
+      //getElementByName("")通过获取标签/节点
+
+      //querySelector 返回一个对象
+      //   document.querySelector("#box")//("ul li")只能取第一个
+
+      //querySelectorAll
+      //   document.querySelectorAll("ul li")//取出所有li
+
+      //操作元素属性
+      /*
+      属性：
+      1.元素自带（原生）属性
+      2.自定义属性
+      */
+      //自定义
+      //自定义属性
+      //   box.setAttribute("标题", "内容");
+      //   console.log(box.getAttribute("标题"));
+      //删除自定义属性
+      //   box.removeAttribute("标题");
+      //   console.log(box.getAttribute("标题"));
+
+      //html5：  自定义属性格式：data-***
+      console.log(box.dataset)
+      box.dataset.litongtong="超可爱"//画面显示代码为data-litongtong="超可爱"
+      delete box.dataset.litongtong//删除该属性
+    </script>
+  </body>
+</html>
