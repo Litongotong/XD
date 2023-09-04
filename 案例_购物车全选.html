@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="checkbox" id="all" />全选/全不选
+    <hr />
+    <ul class="check_item">
+      <li><input type="checkbox" /> 馕</li>
+      <li><input type="checkbox" /> 菠菜咖喱</li>
+      <li><input type="checkbox" /> 鸡肉咖喱</li>
+      <li><input type="checkbox" /> 周末吃个馕</li>
+      <li><input type="checkbox" /> 三鲜饺子</li>
+      <li><input type="checkbox" /> 红烧鱼</li>
+      <li><input type="checkbox" /> 鱼香肉丝</li>
+      <li><input type="checkbox" /> 臭豆腐</li>
+    </ul>
+
+    <script>
+      const check_all = document.querySelector("#all"); //获取all的值
+      const check_item = document.querySelectorAll(".check_item input"); //获取每一项的值
+      //console.log(check_item)
+      check_all.onclick = function () {
+        //绑定check_all点击事件
+        //console.log(check_all.checked);
+        for (let i = 0; i < check_item.length; i++) {
+          check_item[i].checked = check_all.checked; //遍历赋值true/false
+        }
+      };
+      //绑定check_item点击事件
+      for (let i = 0; i < check_item.length; i++) {
+        check_item[i].onclick = handler;
+      }
+      function handler() {
+        let count = 0;
+        for (let i = 0; i < check_item.length; i++) {
+          if (check_item[i].checked) {
+            count ++; //统计checked个数
+          }
+        }
+        if (count === check_item.length) {
+          check_all.checked = true;
+        } else {
+          check_all.checked = false;
+        }
+      }
+    </script>
+  </body>
+</html>
