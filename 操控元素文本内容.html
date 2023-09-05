@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="text" value="hello">
+    <div id="box">
+        晚饭吃点啥
+        <div>
+            不知道啊
+        </div>
+    </div>
+    <script>
+        //innerHTML
+        // console.log(box.innerHTML)//获取box中的所有内容（解析html
+        // box.innerHTML="<h1>覆盖<h1>"//更改box中的内容（解析html
+        
+        //innerText
+        console.log(box.innerText)//获取box中的文本（不解析html
+        box.innerText="<h1>覆盖<h1>"//更改box中的内容（不解析html
+
+        //value
+        console.log(text.value)//获取id中的值
+        text.value="下班"//更改id中的value
+    </script>
+</body>
+</html>
