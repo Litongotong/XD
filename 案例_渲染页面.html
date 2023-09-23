@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        list-style: none; /* 去掉列表中的点点 */
+      }
+      li {
+        overflow: hidden; /* 清除浮动 */
+      }
+      li img {
+        float: left;
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <!-- <li>
+            <img src="https://i.ytimg.com/vi/sfqDMyAe7Go/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB5PMTU76A65mnZKadwWc-pIh3aKw" alt="">
+            <h3>鹊刀门传奇</h3>
+            <p>EP10</p>
+        </li> -->
+    </ul>
+    <script>
+      let FILMLIST=[
+          {URL:"https://i.ytimg.com/vi/sfqDMyAe7Go/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB5PMTU76A65mnZKadwWc-pIh3aKw",
+          title:"aaa",
+          grade:7.6},
+          {URL:"https://i.ytimg.com/vi/sfqDMyAe7Go/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB5PMTU76A65mnZKadwWc-pIh3aKw",
+          title:"bbb",
+          grade:7.6},
+          {URL:"https://i.ytimg.com/vi/sfqDMyAe7Go/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB5PMTU76A65mnZKadwWc-pIh3aKw",
+          title:"ccc",
+          grade:7.6}
+      ]//模拟后端数据
+
+        let filmItems=FILMLIST.map(function(item){
+            return`<li>
+            <img src="${item.URL}" alt="">
+            <h3>${item.title}</h3>
+            <p>${item.grade}</p>
+        </li>`
+        })
+        console.log(filmItems)
+    </script>
+  </body>
+</html>

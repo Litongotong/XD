@@ -1,0 +1,21 @@
+.accordion{
+    margin: 0 auto;
+    width: 500px;
+}
+.accordion-head{
+    margin: 0 auto;
+    padding: 10px;
+    color: rgb(250, 246, 243);
+    background-color:black ;
+    display: block;
+    border: 1px solid darkgray;
+}
+.accordion-contents{
+    margin: 0;
+    padding: 10px;
+    color:black ;
+    background-color: rgb(250, 246, 243);
+    border: 1px solid darkgray;
+    display: none;   /* 初始化时 隐藏 */
+   
+}

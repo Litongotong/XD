@@ -1,0 +1,5 @@
+2023/09/23 question
+Q1: js-class.js第四行 getElementsByTagName('a')无效为啥？？？
+
+memo
+①js函数放入css中调用时，前缀this.

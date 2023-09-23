@@ -1,0 +1,24 @@
+  .tab{width: 500px;}
+  .tab-nav{
+    display: flex;/* 横並び */
+  }
+  .tab-nav-item{
+    background-color: #ccc;
+    color: #000;
+    border-radius:5px 5px 0 0 ;
+    padding: 10px 20px;
+    margin-right: 2px;
+  }
+
+  .tab-nav-item.is-active{
+    background-color: #0a0a0a;
+    color: #faf9f9;
+  }
+  .tab-contents{
+    border:1px solid #ccc ;
+    border-radius: 0 0 5px 5px;
+    padding: 40px;
+  }
+  .tab-contents-item{
+    display: none;
+  }
