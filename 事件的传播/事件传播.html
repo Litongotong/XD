@@ -1,0 +1,199 @@
+<!-- ## 事件的传递
+1.当元素就触发一个事件的时候，父元素也会触发相同的事件，父元素的父元素也会触发相同的事件 -->
+<!-- 例： -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="事件传播.css" />
+  </head>
+  <body>
+    <div id="outer">
+      <div id="center">
+        <div id="inner"></div>
+      </div>
+    </div>
+    <script>
+      inner.onclick = function () {
+        console.log("inner");
+      };
+      center.onclick = function () {
+        console.log("center");
+      };
+      outer.onclick = function () {
+        console.log("outer");
+      };
+      document.body.onclick= function () {
+        console.log("document.body");
+      };
+      document.documentElement.onclick= function () {
+        console.log("document.documentElement");
+      };
+      document.onclick= function () {
+        console.log("document");
+      };
+      window.onclick=function(){
+        console.log("window");
+
+      }
+
+    </script>
+  </body>
+</html> -->
+
+<!-- ##标准的DOM事件流：
+    捕获：wiondw=>document=>body=>.... 
+    目标：inner
+    冒泡：...=>body=>document=>window
+
+    默认情况下（dom0） 仅在冒泡阶段触发
+    按照dom2事件绑定，并进行配置 才能看到捕获的回调函数被触发 ，因为在DOM2的第三个参数中可以设置是否显示捕获阶段
+-->
+<!-- 例： -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="事件传播.css" />
+
+  </head>
+  <body>
+    <div id="outer">
+        <div id="center">
+          <div id="inner"></div>
+        </div>
+      </div>
+    <script>
+      inner.addEventListener("click", function () {
+        console.log("inner");
+      });
+      center.addEventListener("click", function () {
+        console.log("center");
+      });
+      outer.addEventListener("click", function () {
+        console.log("outer");
+      });
+      document.body.addEventListener("click", function () {
+        console.log("document.body");
+      });
+      document.documentElement.addEventListener("click", function () {
+        console.log("document.documentElement");
+      });
+      document.addEventListener("click", function () {
+        console.log("document");
+      });
+      window.addEventListener("click", function () {
+        console.log("window");
+      });
+
+      inner.addEventListener("click", function () {
+        console.log("inner-捕获阶段")
+      },true);//Dom2 的第三个参数默认为false，即不显示捕获阶段
+      center.addEventListener("click", function () {
+        console.log("center-捕获阶段")
+      },true);
+      outer.addEventListener("click", function () {
+        console.log("outer-捕获阶段")
+      },true);
+      document.body.addEventListener("click", function () {
+        console.log("document.body-捕获阶段")
+      },true);
+      document.documentElement.addEventListener("click", function () {
+        console.log("document.documentElement-捕获阶段")
+      },true);
+      document.addEventListener("click", function () {
+        console.log("document-捕获阶段")
+      },true);
+      window.addEventListener("click", function () {
+        console.log("window-捕获阶段")
+      },true);
+    </script>
+  </body>
+</html> -->
+
+<!-- 阻止事件流/冒泡  
+    标准：evt.stopPropagation() 
+    但是该方法对IE无效 IE：evt.cancelBubble =true
+    例：145行 -->
+<!-- <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="事件传播.css" />
+  </head>
+  <body>
+    <div id="outer">
+      <div id="center">
+        <div id="inner"></div>
+      </div>
+    </div>
+    <script>
+      inner.onclick = function () {
+        console.log("inner");
+      };
+      center.onclick = function (evt) {
+        console.log("center");
+        evt.stopPropagation()//从这里阻止事件传播
+      };
+      outer.onclick = function () {
+        console.log("outer");
+      };
+      document.body.onclick= function () {
+        console.log("document.body");
+      };
+      document.documentElement.onclick= function () {
+        console.log("document.documentElement");
+      };
+      document.onclick= function () {
+        console.log("document");
+      };
+      window.onclick=function(){
+        console.log("window");
+
+       
+      }
+
+    </script>
+  </body>
+</html>  -->
+
+<!-- 阻止默认行为
+    DOM0:return false这个没有兼容性 哪里都能用 好用！超好用der！
+    DOM2:evt.peventDfault() 有兼容性不推荐
+例： 192行-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="myform">
+      <input type="text" id="username" />
+      <input type="submit" />
+      <input type="reset" value="提交" />
+    </form>
+    <script>
+      username.onfocus = function () {
+        console.log("获取焦点");
+      };
+      username.onblur = function () {
+        console.log("失去焦点");
+      };
+      myform.onsubmit = function () {
+        console.log("send");
+        //阻止默认行为
+        return false;
+      };
+      myform.onblur = function () {
+        console.log("reset");
+      };
+    </script>
+  </body>
+</html>
