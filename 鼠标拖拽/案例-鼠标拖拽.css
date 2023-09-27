@@ -1,0 +1,15 @@
+/*样式清除 */
+*{
+    margin: 0;
+    padding: 0;
+ }
+
+#box{
+     width: 200px;
+     height: 200px;
+     background: pink;
+     border-radius: 5px;
+     border: 1px solid black;
+     position: relative;/*p跟随鼠标 所以这里要相对定位 */
+     
+ } 
