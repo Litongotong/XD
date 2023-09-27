@@ -8,3 +8,55 @@
 →原因：页面设置尺寸超出屏幕，自动换行
 
 -------------------------------------------------------------
+<<<<<<< HEAD
+2023/09/26 18:39 王シンさんが説明していただいた。
+懒加载
+①获取滚动距离的写法 ※window定义过的方法调用方式
+ memo
+ ① 定义的变量放在function中才能进行实时监听，否则只能输出初始化内容
+ -------------------------------------------------------------
+ 2023/09/27
+
+ 懒加载- question(╯▔皿▔)╯シンさんが説明していただいた。
+ 0919.js  
+ 22行（设备精度问题）→　pass
+ 28行→可以实现 需要调查 不在练习范围内，一旦中止
+
+ 懒加载- memo
+ 偏移量:
+  offsetLeft 
+  offsetTop 
+    ※ **以上偏移量的都是相对于定位父级的/如果没有定位，那偏移量默认相对于body**
+    
+    【question】什么是定位父级？
+     →该级遇到的第一个css带有定位的父级 （positon:relative）
+    【question】什么是结构父级？
+      →div的上一层div
+  
+ 获取窗口大小
+  clientLeft 边框（border）宽度
+  clientTop
+
+ (window.) innerHeight窗口的高度（包含滚动条
+ (window.)innerWidth窗口的宽度（包含滚动条
+
+  document.documentElement.clientWidth窗口的高度（不包含滚动条
+  document.documentElement.clientHeight窗口的宽度（不包含滚动条
+
+  滚动距离
+  scrollTop
+
+
+TIPS
+  解决重复触发加载功能的方式
+  isloading = true
+
+
+
+这三个属性虽然都很类似，但是每一个又有一些不一样的地方，总结起来就下面三点：
+
+offsetHeight = 内容高度 + padding + border
+clientheight = 内容高度 + padding
+scrollHeight = 内容实际尺寸 + padding
+=======
+>>>>>>> db48801c4caf32b3188adeb6b28864e62e5090b1
