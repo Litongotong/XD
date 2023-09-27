@@ -1,0 +1,7 @@
+2023/09/27 
+memo
+1.setoffX setoffY均为number，需要加‘+px’才能操作行内样式
+2.mousemove时鼠标属性无效化的两种办法
+ 1. 不正经办法：mousemove中手动添加距离（evt.offsetX+50px+'px'）参考：鼠标跟随事件.js 17-21行 
+ 2. 正经办法：css中添加穿透属性（ pointer-events: none;）参考：鼠标跟随事件.css 23行 
+3.Z-index属性可用于提高层级
