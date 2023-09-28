@@ -1,0 +1,18 @@
+/*样式清除 */
+*{
+    margin: 0;
+    padding: 0;
+ }
+
+ul{
+    list-style: none;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: none; /*非表示 */
+    position: absolute;
+}
+ul li:hover{
+ background-color: peachpuff;
+}

@@ -1,0 +1,4 @@
+2023/09/28
+memo
+1.右键方法 contextmenu 参考：案例-自定义菜单.js 第3行
+2.利用冒泡机制可以实现事件委托 通过evt.target||evt.srcElement拿到事件源 参考：案例-自定义菜单.js 第23行
