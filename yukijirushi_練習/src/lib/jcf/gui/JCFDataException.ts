@@ -13,18 +13,30 @@
  *
  * All Rights Reserved, Copyright (C) Fujitsu Limited & MEGMILK SNOW BRAND Co.,Ltd 2013-2025.
  ******************************************************************************/
-export class JCFDataException extends Error {
-  /**
-   * JCFDataException インスタンスを作成する。
-   * @param s message
-   */
-  constructor()
-  constructor(s: string)
+import { Exception } from '@/lib/native/lang/Exception'
+
+export class JCFDataException extends Exception {
   constructor(s?: string) {
-    if (s != null) {
-      super(s!)
-    } else {
-      super()
-    }
+    super(s)
+  }
+
+  _getName(): string {
+    return 'JCFDataException'
+  }
+
+  static _getName(): string {
+    return 'JCFDataException'
+  }
+
+  _getType() {
+    return JCFDataException as any
+  }
+
+  _getFullName(): string {
+    return 'jcf.gui.JCFDataException'
+  }
+
+  static _getFullName(): string {
+    return 'jcf.gui.JCFDataException'
   }
 }

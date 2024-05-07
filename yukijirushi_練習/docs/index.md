@@ -19,4 +19,6 @@ features:
     details: 開発関連の規約や方法を確認できる。
   - title: 部品
     details: 部品関連の情報を確認できる。
+  - title: 変換指示書
+    details: ロジックを Java から TypeScript に変換する為の説明書。
 ---

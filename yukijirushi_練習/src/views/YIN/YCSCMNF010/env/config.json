@@ -1,0 +1,257 @@
+{
+  "actionCodeMap": {
+    "SYSSTART": {
+      "actionID": "ACT_INIT",
+      "dataSet": false
+    },
+    "SYSSCREENPRE": {
+      "actionID": "ACT_BEFORE_DISPLAY",
+      "dataSet": true
+    },
+    "login": {
+      "actionID": "ACT_LOGIN",
+      "dataSet": true
+    },
+    "infraSystem": {
+      "actionID": "ACT_INFRA_SYSTEM",
+      "dataSet": true
+    },
+    "dwh": {
+      "actionID": "ACT_DWH",
+      "dataSet": true
+    },
+    "listworks": {
+      "actionID": "ACT_LISTWORKS",
+      "dataSet": true
+    },
+    "header_button12": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    "SYSF12000": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    "errorscreen": {
+      "actionID": "ACT_ERROR",
+      "dataSet": true
+    },
+    "SYSINPUTPRE": {
+      "actionID": "ACT_BEFORE_INPUT",
+      "dataSet": true
+    },
+    "SYSEND": {
+      "actionID": "ACT_SYS_EXIT",
+      "dataSet": false
+    }
+  },
+  "panelMap": {
+    "PNL_COMMON_HEAD": "sms.sol.sys.cjf.panel.SMSCommonHeaderPanel",
+    "PNL_COMMON_FOOT": "sms.sol.sys.cjf.panel.SMSCommonFooterPanel",
+    "PNL_YCSCMNF010M": "ycs.cmn.cjf.panel.YCSCMNF010MPanel",
+    "PNL_YCSCMNF030M": "ycs.cmn.cjf.panel.YCSCMNF030MPanel",
+    "PNL_SYSTEM_ERROR": "sms.sol.sys.cjf.panel.SMSSystemErrorPanel"
+  },
+  "layoutMap": {
+    "LAYOUT01": [
+      {
+        "frameID": "FLM_MAIN_HEAD",
+        "startX": "0",
+        "startY": "0",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "80",
+        "defaultPanelID": "PNL_COMMON_HEAD"
+      },
+      {
+        "frameID": "FLM_MAIN_BODY",
+        "main": "TRUE",
+        "startX": "0",
+        "startY": "1",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "*",
+        "defaultPanelID": "PNL_YCSCMNF010M"
+      },
+      {
+        "frameID": "FLM_MAIN_FOOT",
+        "startX": "0",
+        "startY": "2",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "64",
+        "defaultPanelID": "PNL_COMMON_FOOT"
+      }
+    ]
+  },
+  "transitionMap": {
+    "ACT_INIT": [
+      {
+        "to": {
+          "screenID": "SCR_YCSCMNF010M",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF010M"
+            }
+          }
+        }
+      },
+      {
+        "to": {
+          "screenID": "SCR_YCSCMNF030M",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF030M"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_LOGIN": [
+      {
+        "screenID": "SCR_YCSCMNF010M",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF030M",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF030M"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_EXIT": [
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "to": {
+          "screenID": "SCR_YCSCMNF010M",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF010M"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "ERROR",
+        "to": {
+          "screenID": "SCR_YCSCMNF010M",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF010M"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_ERROR": [
+      {
+        "to": {
+          "screenID": "ERROR",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_SYSTEM_ERROR"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "actionMap": {
+    "ACT_INIT": [
+      {
+        "className": "ycs.cmn.cjf.logic.YCSCMNF010MLogic",
+        "methodName": "init"
+      }
+    ],
+    "ACT_BEFORE_DISPLAY": [
+      {
+        "screenID": "SCR_YCSCMNF010M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF010MLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF030MLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "panelID": "PNL_SYSTEM_ERROR",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF070MLogic",
+        "methodName": "beforeDisplay"
+      }
+    ],
+    "ACT_LOGIN": [
+      {
+        "screenID": "SCR_YCSCMNF010M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF010MLogic",
+        "methodName": "login"
+      }
+    ],
+    "ACT_INFRA_SYSTEM": [
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF030MLogic",
+        "methodName": "infraSystem"
+      }
+    ],
+    "ACT_DWH": [
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF030MLogic",
+        "methodName": "dwh"
+      }
+    ],
+    "ACT_LISTWORKS": [
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF030MLogic",
+        "methodName": "listworks"
+      }
+    ],
+    "ACT_EXIT": [
+      {
+        "screenID": "SCR_YCSCMNF030M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF030MLogic",
+        "methodName": "logout"
+      },
+      {
+        "screenID": "SCR_YCSCMNF010M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF010MLogic",
+        "methodName": "exitSystem"
+      }
+    ],
+    "ACT_BEFORE_INPUT": [
+      {
+        "panelID": "PNL_SYSTEM_ERROR",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF070MLogic",
+        "methodName": "beforeInput"
+      }
+    ],
+    "ACT_SYS_EXIT": [
+      {
+        "screenID": "SCR_YCSCMNF010M",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF010MLogic",
+        "methodName": "closeBrowser"
+      }
+    ]
+  }
+}

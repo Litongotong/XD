@@ -1,0 +1,284 @@
+{
+  "actionCodeMap": {
+    "SYSSTART": {
+      "actionID": "ACT_INIT",
+      "dataSet": false
+    },
+    "SYSSCREENPRE": {
+      "actionID": "ACT_BEFORE_DISPLAY",
+      "dataSet": true
+    },
+    "body_button": {
+      "actionID": "ACT_SELECT_MENU",
+      "dataSet": true
+    },
+    "header_button10": {
+      "actionID": "ACT_RETURN",
+      "dataSet": true
+    },
+    "SYSF10000": {
+      "actionID": "ACT_RETURN",
+      "dataSet": true
+    },
+    "header_button11": {
+      "actionID": "ACT_HEADER_TO_MENU",
+      "dataSet": true
+    },
+    "SYSF11000": {
+      "actionID": "ACT_HEADER_TO_MENU",
+      "dataSet": true
+    },
+    "header_button12": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    "SYSF12000": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    "errorscreen": {
+      "actionID": "ACT_ERROR",
+      "dataSet": true
+    }
+  },
+  "panelMap": {
+    "PNL_COMMON_HEAD": "sms.sol.sys.cjf.panel.SMSCommonHeaderPanel",
+    "PNL_COMMON_FOOT": "sms.sol.sys.cjf.panel.SMSCommonFooterPanel",
+    "PNL_YCSCMNF030M": "ycs.cmn.cjf.panel.YCSCMNF030MPanel",
+    "PNL_YCSCMNF031S": "ycs.cmn.cjf.panel.YCSCMNF031SPanel",
+    "PNL_YCSCMNF032S": "ycs.cmn.cjf.panel.YCSCMNF032SPanel",
+    "PNL_YCSCMNF033S": "ycs.cmn.cjf.panel.YCSCMNF033SPanel",
+    "PNL_EXIT_SYSTEM": "sms.sol.sys.cjf.panel.SMSExitPanel",
+    "PNL_SYSTEM_ERROR": "sms.sol.sys.cjf.panel.SMSSystemErrorPanel"
+  },
+  "layoutMap": {
+    "LAYOUT01": [
+      {
+        "frameID": "FLM_MAIN_HEAD",
+        "startX": "0",
+        "startY": "0",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "80",
+        "defaultPanelID": "PNL_COMMON_HEAD"
+      },
+      {
+        "frameID": "FLM_MAIN_BODY",
+        "main": "TRUE",
+        "startX": "0",
+        "startY": "1",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "*",
+        "defaultPanelID": "PNL_YCSCMNF031S"
+      },
+      {
+        "frameID": "FLM_MAIN_FOOT",
+        "startX": "0",
+        "startY": "2",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "64",
+        "defaultPanelID": "PNL_COMMON_FOOT"
+      }
+    ]
+  },
+  "transitionMap": {
+    "ACT_INIT": [
+      {
+        "to": {
+          "screenID": "SCR_YCSCMNF031S",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF031S"
+            }
+          }
+        }
+      },
+      {
+        "to": {
+          "screenID": "SCR_YCSCMNF032S",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF032S"
+            }
+          }
+        }
+      },
+      {
+        "to": {
+          "screenID": "SCR_YCSCMNF033S",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF033S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_SELECT_MENU": [
+      {
+        "screenID": "SCR_YCSCMNF031S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF032S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF032S"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCSCMNF032S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF033S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF033S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_RETURN": [
+      {
+        "screenID": "SCR_YCSCMNF032S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF031S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF031S"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCSCMNF033S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF032S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF032S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_HEADER_TO_MENU": [
+      {
+        "screenID": "SCR_YCSCMNF032S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF031S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF031S"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCSCMNF033S",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCSCMNF031S",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCSCMNF031S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_ERROR": [
+      {
+        "to": {
+          "screenID": "ERROR",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_SYSTEM_ERROR"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "actionMap": {
+    "ACT_INIT": [
+      {
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "init"
+      }
+    ],
+    "ACT_EXIT": [
+      {
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "exitSystem"
+      }
+    ],
+    "ACT_BEFORE_DISPLAY": [
+      {
+        "screenID": "SCR_YCSCMNF031S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "screenID": "SCR_YCSCMNF032S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "screenID": "SCR_YCSCMNF033S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "beforeDisplay"
+      }
+    ],
+    "ACT_SELECT_MENU": [
+      {
+        "screenID": "SCR_YCSCMNF031S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "selectMenu"
+      },
+      {
+        "screenID": "SCR_YCSCMNF032S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "selectMenu"
+      },
+      {
+        "screenID": "SCR_YCSCMNF033S",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF031SLogic",
+        "methodName": "selectMenu"
+      }
+    ]
+  }
+}

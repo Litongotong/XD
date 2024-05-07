@@ -14,136 +14,124 @@
  * All Rights Reserved, Copyright (C) Fujitsu Limited & MEGMILK SNOW BRAND Co.,Ltd 2013-2025.
  ******************************************************************************/
 import { ref } from 'vue'
-import { LanguageNativeType } from '@/lib/native/config/enums'
 import { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
 import { JCFDataException } from '@/lib/jcf/gui/JCFDataException'
+import { bindThis } from '@/utils/class/bind'
+import { Double } from '@/lib/native/lang/Double'
+import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
+
+// 🟢 完成
 
 export class JCFFieldDoubleData extends JCFItemData {
-  private value = ref<number>(0.0)
-  private viewText = ref<string>('')
+  value = ref(0)
+  viewText = ref('')
 
-  /**
-   * JCFFieldDoubleData インスタンスを作成する。
-   * @param itemID itemID
-   */
   constructor(itemID: string) {
     super(itemID)
-    this.value.value = 0.0
-    this.viewText.value = ''
+
+    bindThis(this)
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::getValue()
-   * @see {@link JCFItemData#getValue}
-   */
-  getValue = (): string => {
+  getValue(): string {
     return this.value.value.toString()
   }
 
-  // [[setValue]]
-  /**
-   * jcf.gui.JCFFieldDoubleData::setValue(number newValue)
-   * @param newValue newValue for appends
-   * @see {@link JCFItemData#setValue}
-   */
   setValue(newValue: number): void
-
-  /**
-   * jcf.gui.JCFFieldDoubleData::setValue(string newValue)
-   * @param newValue newValue for appends
-   * @see {@link JCFItemData#setValue}
-   */
   setValue(newValue: string): void
-
   setValue(newValue: number | string): void {
-    const numberNewValue = !Number.isNaN(newValue)
-    const stringNewValue = typeof newValue === LanguageNativeType.STRING
-
-    if (newValue == null || newValue == undefined) {
-      this.value.value = 0.0
-      this.viewText.value = ''
-      return
-    }
-    if (stringNewValue) {
-      this._setStringValue(newValue as string)
-      return
-    }
-    if (numberNewValue) {
-      this._setNumberDoubleValue(newValue as number)
-      return
+    const isString = typeof newValue === 'string'
+    const isNumber = typeof newValue === 'number'
+    if (isString) {
+      this.__setValueWithString(newValue as string)
+    } else if (isNumber) {
+      this.__setValueWithNumber(newValue as number)
+    } else {
+      throw new Error('Invalid value')
     }
   }
 
-  private _setStringValue(newValue: string): void {
+  private __setValueWithString(newValue: string): void {
     try {
-      this.value.value = Number(newValue)
+      this.value.value = Double.parseDouble(newValue)
       this.viewText.value = newValue
-      this.callChangedListener()
-    } catch (e: any) {
+    } catch (e) {
       throw new JCFDataException('ERROR_TYPE')
     }
   }
 
-  private _setNumberDoubleValue(newValue: number): void {
+  private __setValueWithNumber(newValue: number): void {
     this.value.value = newValue
     this.viewText.value = this.value.toString()
-    this.callChangedListener()
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::getDoubleValue()
-   */
-  getDoubleValue = (): number => {
+  getDoubleValue(): number {
     return this.value.value
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::setData(JCFItemData itemData)
-   * @param JCFItemData itemData for appends
-   * @see {@link JCFItemData#setData}
-   */
-  setData = (itemData: JCFItemData): void => {
-    if (itemData == null || itemData == undefined) {
+  setData(item?: JCFItemData): void {
+    if (!item) {
       return
     }
-    if (!(itemData instanceof JCFFieldDoubleData)) {
-      return
-    } else {
-      const fieldLongData: JCFFieldDoubleData = itemData as JCFFieldDoubleData
-      this.setValue(fieldLongData.getDoubleValue())
-      this.setViewText(fieldLongData.getViewText())
+    if (item?._getType() !== JCFFieldDoubleData) {
       return
     }
+    const ins = item as JCFFieldDoubleData
+    // set value
+    this.setValue(ins.getValue())
+    // set view text
+    this.setViewText(ins.getViewText())
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::getCommunicationData()
-   * @see {@link JCFItemData#getCommunicationData}
-   */
-  getCommunicationData = (): Object => {
-    return Object(this.getValue())
+  setDataAndAttributes(item?: JCFItemData): void {
+    if (!item) {
+      return
+    }
+    if (item?._getType() !== JCFFieldDoubleData) {
+      return
+    }
+    // set data
+    this.setData(item)
+    // super
+    super.setDataAndAttributes(item)
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::setCommunicationData(Object newValue)
-   * @param newValue CommunicationData for appends
-   * @see {@link JCFItemData#setCommunicationData}
-   */
-  setCommunicationData = (newValue: Object): void => {
-    this.setValue(newValue.toString())
-  }
-
-  /**
-   * jcf.gui.JCFFieldDoubleData::getViewText()
-   */
-  getViewText = (): string => {
+  getViewText(): string {
     return this.viewText.value
   }
 
-  /**
-   * jcf.gui.JCFFieldDoubleData::setViewText()
-   */
-  setViewText = (viewText: string): void => {
+  setViewText(viewText: string): void {
     this.viewText.value = viewText
+  }
+
+  getCommunicationData(): any {
+    return this.getValue()
+  }
+
+  setCommunicationData(newValue: any) {
+    this.setValue(newValue as string)
+  }
+
+  _getComponentName(): string {
+    return EComponentName.JCFFieldDouble
+  }
+
+  _getName(): string {
+    return 'JCFFieldDoubleData'
+  }
+
+  static _getName(): string {
+    return 'JCFFieldDoubleData'
+  }
+
+  _getType() {
+    return JCFFieldDoubleData as any
+  }
+
+  _getFullName(): string {
+    return 'jcf.gui.JCFFieldDoubleData'
+  }
+
+  static _getFullName(): string {
+    return 'jcf.gui.JCFFieldDoubleData'
   }
 }

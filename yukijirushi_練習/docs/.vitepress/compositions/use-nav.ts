@@ -11,8 +11,14 @@ export default function useNav(): DefaultTheme.NavItem[] {
 
     {
       text: '部品',
-      link: '/components/component-information',
+      link: '/components/component-creation-process',
       activeMatch: '/components/',
+    },
+
+    {
+      text: '変換指示書',
+      link: '/changing-manual/manual-sample.md',
+      activeMatch: '/changing-manual/',
     },
   ]
 }

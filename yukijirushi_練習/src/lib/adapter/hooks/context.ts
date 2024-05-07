@@ -1,18 +1,29 @@
-import { JCFContext } from '../sms/jcf'
+import { JCFContext } from '@/lib/jcf/ctrl/JCFContext'
 
-let context: JCFContext;
+let context: JCFContext
 
-export const createContext = () => {
-  if (!context) {
-    context = new JCFContext();
-  }
+export interface IGlobalInstance {
+  context: JCFContext
 }
 
-export const useContext = () => {
+export const createContext = (
+  opts?: ConstructorParameters<typeof JCFContext>[0],
+) => {
   if (!context) {
-    createContext();
+    context = new JCFContext(opts)
   }
-  return {
+  const insMap: IGlobalInstance = {
     context,
   }
+  return insMap
+}
+
+export const getGlobalContext = () => {
+  if (!context) {
+    throw new Error('Context is not initialized')
+  }
+  const insMap: IGlobalInstance = {
+    context,
+  }
+  return insMap
 }

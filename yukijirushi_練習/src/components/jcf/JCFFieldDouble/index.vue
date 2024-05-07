@@ -1,0 +1,109 @@
+<template>
+  <div :data-item-id="id" :data-component-name="EComponentName.JCFFieldDouble">
+    <template v-if="!isInputMode">
+      <div class="flex-row center-right text" :style="commonStyle">
+        {{ text }}
+      </div>
+    </template>
+
+    <template v-else>
+      <input
+        class="base-input"
+        type="text"
+        :maxLength="maxLength"
+        :disabled="!enabled"
+        :style="commonStyle"
+        v-model="inputedValue"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      />
+    </template>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { JCFFieldDoubleProps } from './types'
+import type { JCFFieldDoubleData } from '@/lib/jcf/gui/JCFFieldDoubleData'
+
+import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
+import { computed, ref, watch } from 'vue'
+import { addThousandsSeparator, toRGB } from '../utils/common'
+import { installInstance } from '../utils/instance'
+import { calculateCommonStyle, transformToColor } from '../utils/transform'
+
+// 部品名
+defineOptions({
+  name: EComponentName.JCFFieldDouble,
+})
+
+// 部品 props
+const props = defineProps<JCFFieldDoubleProps>()
+
+// 部品データを用意する
+const instance = installInstance<JCFFieldDoubleData, JCFFieldDoubleProps>(
+  props.isYuki ? EComponentName.YUKIFieldDouble : EComponentName.JCFFieldDouble,
+  props,
+)
+
+const inputedValue = ref(instance!.value.value)
+
+const id = props.id
+
+watch(inputedValue, (newValue) => {
+  let finalValue = newValue
+  if (props.isYuki) {
+    // YUKIFieldDoubleの場合、カンマを入力できないように制御する
+    // finalValue = finalValue?.toString().replace(/\,/g, '')
+  }
+
+  instance?.setValue(finalValue)
+})
+
+/** 部品が編集可否 */
+const isInputMode = props.inputMode !== undefined
+
+/** 編集不可時の表示値 */
+const text = computed(() => {
+  const fallback = props.value || ''
+  return instance ? instance.value.value : fallback
+})
+
+// 業務ロジック
+const maxLength = props.maxLength
+
+// 算出スタイル
+const commonStyle = computed(() => {
+  const style = calculateCommonStyle({ instance, props })
+  //初期化時の背景色
+  style.background = toRGB(transformToColor(props.equalBackground))
+  //初期化時の文字揃えるを右寄せにする
+  style.textAlign = 'right'
+  return style
+})
+
+// フォカス時に「,」を取り除く
+const handleFocus = (event: Event): void => {
+  const node = event.target as HTMLInputElement
+  node.value = (instance ? instance.value.value : 0).toString()
+}
+
+// フォカスアウト時に3桁毎にカンマ「,」を付ける
+const handleBlur = (event: Event): void => {
+  const node = event.target as HTMLInputElement
+  node.value = addThousandsSeparator(instance!.value.value)
+}
+</script>
+
+<style scoped>
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.center-right {
+  align-items: center;
+  justify-content: right;
+}
+.base-input {
+  box-sizing: border-box;
+}
+</style>

@@ -1,23 +1,51 @@
-# ディレクトリ構成
+# ディレクトリ構造（修正待ち）
 
 ## 構造
 
-| Directory            | 説明                                                                 | 主な操作者                                |
-| -------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
-| assets               | 静的資源（CSS、画像等）                                              | 基盤側                                    |
-| components           | Project の [Atomic Design](https://atomicdesign.bradfrost.com/) 部品 | 基盤側                                    |
-| components/atoms     | 原子。UI の最小単位（button、入力欄等）                              | 基盤側                                    |
-| components/molecules | 分子。atmos で構成される意味を持つ要素（search bar、menu 等）        | 基盤側                                    |
-| components/organisms | 生体。molecules で構成される単体で機能する要素（header、sidebar 等） | 基盤側                                    |
-| views                | 画面部品。router によって異なる画面を表示する                        | `.vue` file は基盤側；`.ts` file は開発側 |
-| layouts              | 画面共通の表示部分                                                   | 基盤側                                    |
-| services             | Backend API との通信を管理する                                       | 開発側                                    |
-| config               | Project の設定 File                                                  |
-| enums                | 列挙型                                                               | 開発側                                    |
-| router               | Project の router 設定                                               | 基盤側                                    |
-| stores               | Pinia による状態の管理                                               | 開発側                                    |
-| utils                | Tool 関数や helper                                                   | 開発側                                    |
-| types                | Global Type                                                          | 開発側                                    |
+```shell
+.
+│  .env.xxx # 環境変数
+│  env.d.ts # 環境変数型定義
+│  index.html # HTML ファイル
+│  package.json # Node.js config
+│  README.md # 説明ファイル
+│  tsconfig.xxx.json # TypeScript config
+│  vite.config.ts # Vite config
+│
+├─.vscode # VSCode local config
+├─docs # 開発用内部資料（規約等）
+├─node_modules # npm 依存インストール先
+├─public # パッケージングの必要のない資源（favicon 等）
+└─src # パッケージングされる資源
+    ├─assets # 静的資源（CSS、icon 等）
+    ├─components # 部品
+    │  ├─jcf
+    ├─config # ソース内コンフィグ（ユーザーが変更可能な定数等）
+    │  ├─common-const
+    │  └─views-info
+    ├─enums # 列挙型
+    ├─layouts # 画面レイアウト
+    ├─lib # 単独で完結するライブラリ（Java で言う JDK 等）
+    │  ├─adapter # Panel と Logic ファイルをバインドする為の制御層
+    │  ├─jcf # JCF の翻訳ソース（自動化作業あり）
+    │  ├─native # Java Lang JDK の翻訳ソース（自動化作業あり）
+    │  ├─sms # SMS の翻訳ソース（自動化作業あり）
+    │  └─ybm # YBM の翻訳ソース（自動化作業あり）
+    │
+    ├─router # ルーター
+    │  └─routes # ルート
+    ├─services # サービス呼出定義（API メソッド）
+    │  ├─axios # Axios 設定
+    │  └─modules # サービス（API）
+    ├─stores # global store（移行内容以外のグローバル状態）
+    ├─types # TypeScript 用グローバル型定義
+    ├─utils # ツール関数
+    └─views # 画面
+        └─YBM
+          └─YBMKKSF620M
+              YBMKKSF620M-logic.ts # logic ファイル
+              YBMKKSF620M-panel.vue # panel ファイル
+```
 
 ## 規約
 

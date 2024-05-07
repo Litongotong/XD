@@ -1,0 +1,33 @@
+/* 2024/04/26 wx このファイルは修正禁止！　*/
+
+/* for wjimo */
+:root {
+  /* 淡い黄色（スプレッド行色等） */
+  --color-light-yellow: rgb(255, 255, 187);
+  /* 水色（スプレッドヘッダ（編集不可）背景色等） */
+  --color-light-blue: rgb(182, 198, 250);
+  --color-deep-blue: rgb(123, 149, 251);
+}
+
+/* for components */
+:root {
+  /* color */
+  --color-default: #3d3d3d;
+  --color-white: #fff;
+  --color-light-gray: rgb(192, 192, 192);
+  --color-error: rgb(255, 175, 175);
+
+  /* font */
+  --font-family-default: 'MS Gothic';
+  --font-size-default: 1.4rem;
+
+  /* button */
+  --jcf-button-color: var(--color-default);
+  --jcf-button-border: 1px solid var(--color-light-gray);
+  --jcf-button-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  --jcf-button-disabled-color: var(--color-light-gray);
+
+  /* grid */
+  --frame-gap: 1.5px;
+  --panel-padding: 2px;
+}

@@ -1,0 +1,2 @@
+
+export const API_GAMEN_ID = '__INTERNAL_FOR_API_GAMEN_ID__'

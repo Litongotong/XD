@@ -13,100 +13,112 @@
  *
  * All Rights Reserved, Copyright (C) Fujitsu Limited & MEGMILK SNOW BRAND Co.,Ltd 2013-2025.
  ******************************************************************************/
- import { ref } from 'vue'
- import { LanguageNativeType } from '@/lib/native/config/enums'
- import { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
- 
- export class JCFToggleButtonData extends JCFItemData {
-   private value = ref<string | boolean>(false)
-   private label = ref<string>('')
- 
-   /**
-    * JCFToggleButtonData インスタンスを作成する。
-    * @param itemID itemID
-    */
-   constructor(itemID: string) {
-     super(itemID)
-     this.value.value = false
-     this.label.value = ''
-   }
- 
-   /**
-    * jcf.gui.JCFToggleButtonData::getValue()
-    * @see {@link JCFItemData#getValue()}
-    */
-   getValue = (): string => {
-     return this.value.value.toString();
-   }
- 
-   // [[setValue]]
-   /**
-    * jcf.gui.c::setValue(string newValue)
-    * @param newValue newValue for appends
-    */
-   setValue(newValue: string): void
- 
-   /**
-    * jcf.gui.JCFToggleButtonData::setValue(boolean newValue)
-    * @param newValue newValue for appends
-    * @see {@link JCFItemData#setValue(boolean)}
-    */
-   setValue(newValue: boolean): void
- 
-   setValue(newValue: string | boolean): void {
- 
-     if (newValue == null || newValue == undefined) {
-       this.value.value = false
-       return
-     }
-     if (typeof newValue === LanguageNativeType.STRING) {
-       this.value.value = (newValue as string).toLowerCase() === 'true';
-       return
-     } else {
-       this.value.value = newValue as boolean;
-     }
-   }
- 
-   /**
-    * jcf.gui.JCFToggleButtonData::getBooleanValue()
-    */
-   getBooleanValue = (): boolean => {
-     return this.value.value as boolean;
-   }
+import { ref } from 'vue'
+import { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
+import { bindThis } from '@/utils/class/bind'
+import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 
+// 🟢 完成
 
-   /**
-    * jcf.gui.JCFToggleButtonData::setData(JCFItemData itemData)
-    * @param JCFItemData itemData for appends
-    * @see {@link JCFItemData#setData(JCFItemData)}
-    */
-   setData = (itemData: JCFItemData): void => {
-    if (itemData == null) {
-      return
-    }
-    if (!(itemData instanceof JCFToggleButtonData)) {
-      return
-    } else {
-      const toggleButtonData: JCFToggleButtonData = itemData as JCFToggleButtonData
-      this.setValue(toggleButtonData.getBooleanValue())
-      return
-    }
+export class JCFToggleButtonData extends JCFItemData {
+  value = ref(false)
+  label = ref('')
+
+  constructor(itemID: string) {
+    super(itemID)
+
+    bindThis(this)
   }
- 
-   /**
-    * jcf.gui.JCFToggleButtonData::getCommunicationData()
-    * @see {@link JCFItemData#getCommunicationData()}
-    */
-   getCommunicationData = (): Object => {
-     return Object(this.getValue())
-   }
- 
-   /**
-    * jcf.gui.JCFToggleButtonData::setCommunicationData(Object newValue)
-    * @param newValue CommunicationData for appends
-    * @see {@link setCommunicationData(Object)}
-    */
-   setCommunicationData = (newValue: Object): void => {
-     this.setValue(newValue.toString())
-   }
- }
+
+  getValue(): string {
+    return this.value.value.toString()
+  }
+
+  setValue(newValue?: boolean | string): void {
+    if (newValue === null || newValue === undefined) {
+      this.value.value = false
+      return
+    }
+    if (typeof newValue !== 'boolean') {
+      this.value.value = false
+      return
+    }
+    this.value.value = newValue
+  }
+
+  getLabel(): string {
+    return this.label.value
+  }
+
+  setLabel(newValue?: string): void {
+    if (newValue === null || newValue === undefined) {
+      this.label.value = ''
+      return
+    }
+    this.label.value = newValue
+  }
+
+  getBooleanValue(): boolean {
+    return this.value.value
+  }
+
+  setData(itemData: JCFItemData): void {
+    if (!itemData) {
+      return
+    }
+    if (itemData?._getType?.() !== JCFToggleButtonData) {
+      return
+    }
+    const ins = itemData as JCFToggleButtonData
+    // set value
+    this.setValue(ins.getBooleanValue())
+    // set label
+    this.setLabel(ins.getLabel())
+  }
+
+  setDataAndAttributes(item?: JCFItemData) {
+    if (!item) {
+      return
+    }
+    if (item?._getType?.() !== JCFToggleButtonData) {
+      return
+    }
+    const ins = item as JCFToggleButtonData
+    // set data
+    this.setData(ins)
+    // super
+    super.setDataAndAttributes(item)
+  }
+
+  getCommunicationData(): any {
+    return this.getValue()
+  }
+
+  setCommunicationData(newValue: any) {
+    this.setValue(newValue as string)
+  }
+
+  _getComponentName(): string {
+    return EComponentName.JCFToggleButton
+  }
+
+  _getName(): string {
+    return 'JCFToggleButtonData'
+  }
+
+  static _getName(): string {
+    return 'JCFToggleButtonData'
+  }
+
+  _getType() {
+    return JCFToggleButtonData as any
+  }
+
+  _getFullName(): string {
+    return 'jcf.gui.JCFToggleButtonData'
+  }
+
+  static _getFullName(): string {
+    return 'jcf.gui.JCFToggleButtonData'
+  }
+}

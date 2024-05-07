@@ -1,46 +1,50 @@
-import { JCFItemData, JCFPanelData, JCFScreenData } from '../sms/jcf'
+import { JCFPanelData } from '@/lib/jcf/gui/JCFPanelData'
+import { JCFScreenData } from '@/lib/jcf/ctrl/JCFScreenData'
 import { provider } from '../provider'
-import { useContext } from './context'
+import { getGlobalContext } from './context'
+import type { ISetupItem } from '../interface'
+import { bindThis } from '@/utils/class/bind'
 
 export const useSetup = () => {
-  const { context } = useContext()
+  const { context } = getGlobalContext()
 
   const setupScreen = (screenId: string) => {
     context.currentScreenId = screenId
-    context.globalData[screenId] ||= new JCFScreenData(context, screenId, {})
-    return context.globalData[screenId]
-  }
-
-  const setupFrame = (frameId: string) => {
-    const screenId = provider.inject.screen() || 'defaultId'
-    console.log('setup frame', screenId, context.globalData[screenId])
-    context.globalData[screenId].data[frameId] ||= new JCFPanelData(
+    context.globalData[screenId] ||= new JCFScreenData({
       context,
-      frameId,
-      {},
-    )
-    return context.globalData[screenId].data[frameId]
+      screenId,
+    })
   }
 
-  const setupItem = <Value = any>(itemId: string, defaultValue?: Value) => {
-    const screenId = provider.inject.screen() || 'defaultId'
-    const frameId = provider.inject.frame() || 'defaultId'
+  const setupPanel = (panelId: string) => {
+    const screenId = provider.inject.screen()
+    context.globalData[screenId].data[panelId] ||= new JCFPanelData({
+      context,
+      panelId,
+    })
+  }
 
-    let screenData = context.globalData[screenId]
-    if (!screenData) screenData = setupScreen(screenId)
-
-    let frameData = screenData.data[frameId]
-    if (!frameData) frameData = setupFrame(frameId)
-
-    frameData.data[itemId] ||= new JCFItemData(
-      itemId,
-      defaultValue,
-    )
+  const setupItem: ISetupItem = (itemId, instance) => {
+    const screenId = provider.inject.screen()
+    const frameId = provider.inject.frame()
+    const panelId = context.viewData.frameIdToPanelIdMap[frameId]
+    if (!panelId) {
+      throw new Error(`Panel ID not found, frameId: ${frameId}`)
+    }
+    const hasConstructor = typeof instance === 'function'
+    const panelData = context.globalData[screenId].data[panelId].data
+    if (panelData[itemId]) {
+      // pass
+    } else {
+      const ins = hasConstructor ? new instance(itemId) : instance
+      bindThis(ins)
+      panelData[itemId] = ins
+    }
   }
 
   return {
     setupScreen,
-    setupFrame,
+    setupPanel,
     setupItem,
   }
 }

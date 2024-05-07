@@ -77,13 +77,11 @@ import { ref, type Ref } from 'vue'
 
 ## 画面作成
 
-- ファイル・ディレクトリ作成規約は[ディレクトリ規約](/guide/directory-tree.html#規約)を参照してください。
+- ファイル・ディレクトリ作成規約は[ディレクトリ規約](/guide/directory-tree.md#規約)を参照してください。
 - 画面サイズ等の設計は [IN_D05.01\_画面設計規約(Applet->Vue.js).xlsx](https://itacsolution.sharepoint.com/:x:/s/megmilksnow/ET22t3GW579Pn-sF8_PFpjEBRmigHmnQGYfzwMGh5F9o7A?e=ffEVCh) を参考してください。
-- 既存画面ルートの作成は[既存画面のルートの追加](/guide/routing.html#既存画面のルートの追加)を参照してください。
-- 新規画面のルート作成は要相談。ルートモジュールの新規追加になる場合は[新規ルートモジュールの作成](/guide/routing.html#新規ルートモジュールの作成)を参照してください。
+- 現行画面ルートの作成は[現行画面のルートの追加](/guide/routing.md#現行画面のルートの追加)を参照してください。
+- 新規画面のルート作成は要相談。ルートモジュールの新規追加になる場合は[新規ルートモジュールの作成](/guide/routing.md#新規ルートモジュールの作成)を参照してください。
 
 ## 部品作成
 
-- 共通部品のファイル・ディレクトリ作成規約は[ディレクトリ規約](/guide/directory-tree.html#規約)を参照してください。
-- 独自部品は独自モジュールに `components` ディレクトリを作成しその中に置いてください。命名等は[ディレクトリ規約](/guide/directory-tree.html#規約)に準ずる。
-- 部品関連の詳細は[部品情報](/components/component-information)を確認してください。
+- 部品のファイル・ディレクトリ作成規約は[部品ディレクトリ構造](/components/component-creation-process.md#部品ディレクトリ構造)を参照してください。

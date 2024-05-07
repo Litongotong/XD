@@ -1,36 +1,37 @@
 <template>
-  <RouterView />
+  <template v-if="isPrepared">
+    <RouterView></RouterView>
+  </template>
 </template>
 
-<script lang="ts" setup>
-import type { UserInfo } from '@/types/user-info-type'
+<script setup lang="ts">
+import { onBeforeMount, ref } from 'vue';
+import { FileSystem } from '@/utils/filesystem';
+import { createContext } from '@/lib/adapter/hooks';
+import { useView } from '@/routes/view/useView';
+import { Dev } from '@/lib/adapter/dev';
+import { MsisDebug } from './utils/debug/log';
 
-import { useUserInfoStore } from '@/stores/user-info'
-import { ViewMode } from './enums'
+const view = useView()
+const isPrepared = ref(false)
 
-const { saveUserInfo } = useUserInfoStore()
+onBeforeMount(async () => {
+  MsisDebug.log('App onBeforeMount')
 
-const initUserInfo: UserInfo = {
-  userId: '00001',
-  userFirstName: '富士通',
-  userGivenName: '太朗',
-  userKatakanaName: 'フジツ　タイロ',
-  staffCode: '10001',
-  companyCode: '2020202',
-  companyName: '富士通株式会社',
-  departmentName: 'テスト部署',
-  factoryCode: '100-200-333',
-  warehouseCode: '200-321-111',
-  projectCode: '432123',
-  departmentCodeLeve3: '3000321',
-  departmentCodeLeve4: '4000444',
-  roleDistinguish: '01',
-  myPostName: '5173',
-  clientIpAddress: '192.168.0.0',
-  loginDate: '2023/09/02',
-  useDate: '2023/09/03',
-  mode: ViewMode.NEW,
-}
+  // init global db
+  await FileSystem.init()
 
-saveUserInfo(initUserInfo)
+  // create global context
+  const insMap = createContext()
+  view.system.setGlobalInstance(insMap)
+
+  // mock
+  if (import.meta.env.DEV) {
+    const devClass = new Dev()
+    devClass.login()
+  }
+
+  isPrepared.value = true
+  MsisDebug.log('App onBeforeMount end, prepared')
+})
 </script>
