@@ -1,0 +1,21 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: var(--font-size-default);
+  font-family: var(--font-family-default);
+  color: var(--color-default);
+}
+
+/* reset css */
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

@@ -1,0 +1,1 @@
+export { syncHttp } from './commonRequest'

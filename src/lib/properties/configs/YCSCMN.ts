@@ -1,0 +1,51 @@
+// FWClib/properties/client/YCSCMN.properties
+
+export default {
+  //  ログイン画面：YCSCMNF010M
+  YCSCMNF010M_SCREEN_NAME: 'ログイン',
+  //   2014/6/23 Fujitsu)Kubota ADD START
+  YCSCMNF010M_ENV_MODE: '0',
+  //   2014/6/23 Fujitsu)Kubota ADD E N D
+  // YCSCMNF010M_MAX_DISPLAY_CNT=
+
+  //  パスワード変更画面：YCSCMNF020M
+  YCSCMNF020M_SCREEN_NAME: 'パスワード変更',
+  // YCSCMNF020M_MAX_DISPLAY_CNT=
+
+  //  システムメニュー画面：YCSCMNF030M
+  YCSCMNF030M_SCREEN_NAME: 'システムメニュー',
+  // YCSCMNF030M_MAX_DISPLAY_CNT=
+
+  //  メインメニュー画面：YCSCMNF031S
+  YCSCMNF031S_SCREEN_NAME: 'メインメニュー',
+  // YCSCMNF031S_MAX_DISPLAY_CNT=
+
+  //  業務メニュー画面：YCSCMNF032S
+  YCSCMNF032S_SCREEN_NAME: '業務メニュー',
+  // YCSCMNF032S_MAX_DISPLAY_CNT=
+
+  //  サブメニュー画面：YCSCMNF033S
+  YCSCMNF033S_SCREEN_NAME: 'サブメニュー',
+  // YCSCMNF033S_MAX_DISPLAY_CNT=
+
+  //  帳票一覧画面：YCSCMNF040M
+  YCSCMNF040M_SCREEN_NAME: '帳票一覧',
+  // YCSCMNF040M_MAX_DISPLAY_CNT=
+
+  //  バッチ状況一覧画面：YCSCMNF050M
+  YCSCMNF050M_SCREEN_NAME: 'バッチ状況一覧',
+  // 最大表示件数
+  YCSCMNF050M_MAX_DISPLAY_CNT: '500',
+  // 最大取得件数
+  YCSCMNF050M_MAX_SELECT_CNT: '500',
+
+  //  システムエラー画面：YCSCMNF070M
+  YCSCMNF070M_SCREEN_NAME: 'システムエラー画面',
+  // YCSCMNF070M_MAX_DISPLAY_CNT=
+
+  // 帳票CBSの名前
+  CBS_PRINT_NAME: 'SMSPrintCBS_MS',
+
+  // システムメニュー画面親メニューコード
+  MAIN_MENU_KEY: '00000000000',
+}
