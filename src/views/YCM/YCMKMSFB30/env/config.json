@@ -1,12 +1,592 @@
 {
-    "actionCodeMap": {
+  "actionCodeMap": {
+    "SYSSCREENPRE": {
+      "actionID": "ACT_BEFORE_DISPLAY",
+      "dataSet": true
     },
-    "panelMap": {
-      },
-    "layoutMap": {
+    "SYSBACKWARDPRE": {
+      "actionID": "ACT_PRESHOW_BACK",
+      "dataSet": true
     },
-    "transitionMap": {
+    "SYSWINDOWCLOSE": {
+      "actionID": "ACT_CLOSE_WINDOW",
+      "dataSet": false
     },
-    "actionMap": {
+    "footer_button07": {
+      "actionID": "ACT_CLEAR",
+      "dataSet": true
+    },
+    "SYSF01000": {
+      "actionID": "ACT_CLEAR",
+      "dataSet": true
+    },
+    "footer_button09": {
+      "actionID": "ACT_REGISTER",
+      "dataSet": true
+    },
+    "SYSF09000": {
+      "actionID": "ACT_REGISTER",
+      "dataSet": true
+    },
+    "header_button10": {
+      "actionID": "ACT_RETURN",
+      "dataSet": true
+    },
+    "SYSF10000": {
+      "actionID": "ACT_RETURN",
+      "dataSet": true
+    },
+    "header_button11": {
+      "actionID": "ACT_HEADER_TO_MENU",
+      "dataSet": true
+    },
+    "SYSF11000": {
+      "actionID": "ACT_HEADER_TO_MENU",
+      "dataSet": true
+    },
+    "header_button12": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    "SYSF12000": {
+      "actionID": "ACT_EXIT",
+      "dataSet": true
+    },
+    // "SYSSTART": {
+    //   "actionID": "ACT_INIT",
+    //   "dataSet": false
+    //  },
+    "SYSERROR": {
+      "actionID": "ACT_SYSTEM_ERROR",
+      "dataSet": false
+    },
+    "errorscreen": {
+      "actionID": "ACT_ERROR",
+      "dataSet": true
+    },
+    "body_button01": {
+      "actionID": "ACT_SHOW_BTN",
+      "dataSet": true
+    },
+    "body_button02": {
+      "actionID": "ACT_GO",
+      "dataSet": true
+    },
+    "body_button03": {
+      "actionID": "ACT_ADD",
+      "dataSet": true
+    },
+    "footer_button01": {
+      "actionID": "ACT_CLEAR",
+      "dataSet": true
+    },
+    "F1キー": {
+      "actionID": "ACT_CLEAR",
+      "dataSet": true
+    },
+    "body_copy": {
+      "actionID": "ACT_COPY",
+      "dataSet": true
+    },
+    "body_delete": {
+      "actionID": "ACT_DELETE",
+      "dataSet": true
+    },
+    "body_cancel": {
+      "actionID": "ACT_CANCEL",
+      "dataSet": true
+    },
+    "body_prev": {
+      "actionID": "ACT_PREV",
+      "dataSet": true
+    },
+    "body_next": {
+      "actionID": "ACT_NEXT",
+      "dataSet": true
+    },
+    "geneSearchKakutei": {
+      "actionID": "ACT_GENE_SEARCH_KAKUTEI",
+      "dataSet": true
+    },
+    "geneSearchClose": {
+      "actionID": "ACT_GENE_SEARCH_CLOSE",
+      "dataSet": true
+    },
+    "geneSearchKensaku": {
+      "actionID": "ACT_GENE_SEARCH_KENSAKU",
+      "dataSet": true
+    },
+    "geneSearchSelect": {
+      "actionID": "ACT_GENE_SEARCH_SELECT",
+      "dataSet": true
+    },
+    "GeneralSearch021": {
+      "actionID": "ACT_GeneralSearch021",
+      "dataSet": true
+    },
+    "SYSITEMEXIT": {
+      "actionID": "ACT_ES00",
+      "dataSet": true
     }
+  },
+  "panelMap": {
+    "PNL_COMMON_HEAD": "sms.sol.sys.cjf.panel.SMSCommonHeaderPanel",
+    "PNL_COMMON_FOOT": "sms.sol.sys.cjf.panel.SMSCommonFooterPanel",
+    "PNL_EXIT_SYSTEM": "sms.sol.sys.cjf.panel.SMSExitPanel",
+    "PNL_SYSTEM_ERROR": "sms.sol.sys.cjf.panel.SMSSystemErrorPanel",
+    "PNL_YCMKMSFB30M": "ycm.kms.cjf.panel.YCMKMSFB30MPanel",
+    "PNL_YCMKMSFB31S": "ycm.kms.cjf.panel.YCMKMSFB31SPanel",
+    "PNL_YCSCMNE032S": "ycs.cmn.cjf.panel.YCSCMNE032SPanel",
+    "PNL_YCSCMNF060_HEAD": "ycs.cmn.cjf.panel.YCSCMNF060SHeaderPanel",
+    "PNL_YCSCMNF060_FOOT": "ycs.cmn.cjf.panel.YCSCMNF060SFooterPanel",
+    "PNL_YCSCMNF060": "ycs.cmn.cjf.panel.YCSCMNF060SPanel"
+  },
+  "layoutMap": {
+    "LAYOUT01": [
+      {
+        "frameID": "FLM_MAIN_HEAD",
+        "startX": "0",
+        "startY": "0",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "80",
+        "defaultPanelID": "PNL_COMMON_HEAD"
+      },
+      {
+        "frameID": "FLM_MAIN_BODY",
+        "main": "TRUE",
+        "startX": "0",
+        "startY": "1",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "*",
+        "defaultPanelID": "PNL_YCMKMSFB30M"
+      },
+      {
+        "frameID": "FLM_MAIN_FOOT",
+        "startX": "0",
+        "startY": "2",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "64",
+        "defaultPanelID": "PNL_COMMON_FOOT"
+      }
+    ],
+    "LAYOUT02": [
+      {
+        "frameID": "FLM_SUB_HEAD",
+        "startX": "0",
+        "startY": "0",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "56",
+        "defaultPanelID": "PNL_YCSCMNF060_HEAD"
+      },
+      {
+        "frameID": "FLM_SUB_BODY",
+        "main": "TRUE",
+        "startX": "0",
+        "startY": "1",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "*",
+        "defaultPanelID": "PNL_YCSCMNF060"
+      },
+      {
+        "frameID": "FLM_SUB_FOOT",
+        "startX": "0",
+        "startY": "2",
+        "sizeX": "1",
+        "sizeY": "1",
+        "width": "*",
+        "height": "75",
+        "defaultPanelID": "PNL_YCSCMNF060_FOOT"
+      }
+    ]
+  },
+  "transitionMap": {
+    "ACT_INIT": [
+      {
+        "to": {
+          "screenID": "SCR_YCMKMSFB30M01",
+          "target": "_TOP",
+          "layoutID": "LAYOUT01",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "NO",
+              "panelID": "PNL_YCMKMSFB30M"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_ADD": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCMKMSFB31S01",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCMKMSFB31S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_GO": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "to": {
+          "backward": "TRUE",
+          "screenID": "SCR_YCMKMSFB31S01",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCMKMSFB31S"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_RETURN": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "to": {
+          "screenID": "_BACKWARDSCREENID",
+          "target": "_BACK",
+          "frame": {
+            "_BACK": {
+              "inheritance": "DATA",
+              "panelID": "PNL_YCMKMSFB30M"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_GeneralSearch021": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "to": {
+          "screenID": "SCR_YCSCMNF060S01",
+          "target": "_DIALOG",
+          "layoutID": "LAYOUT02",
+          "width": "908",
+          "height": "648",
+          "frame": {
+            "_DIALOG": {
+              "inheritance": "DATA"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "to": {
+          "screenID": "SCR_YCSCMNF060S02",
+          "target": "_DIALOG",
+          "layoutID": "LAYOUT02",
+          "width": "908",
+          "height": "648",
+          "frame": {
+            "_DIALOG": {
+              "inheritance": "DATA"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_GENE_SEARCH_KAKUTEI": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "to": {
+          "screenID": "SCR_YCMKMSFB30M01",
+          "target": "_OPENER",
+          "frame": {
+            "_OPENER": {
+              "inheritance": "DATA",
+              "panelID": "_ALL"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "to": {
+          "screenID": "SCR_YCMKMSFB31S01",
+          "target": "_OPENER",
+          "frame": {
+            "_OPENER": {
+              "inheritance": "DATA",
+              "panelID": "_ALL"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_GENE_SEARCH_CLOSE": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "to": {
+          "screenID": "SCR_YCMKMSFB30M01",
+          "target": "_OPENER",
+          "frame": {
+            "_OPENER": {
+              "inheritance": "DATA",
+              "panelID": "_ALL"
+            }
+          }
+        }
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "to": {
+          "screenID": "SCR_YCMKMSFB31S01",
+          "target": "_OPENER",
+          "frame": {
+            "_OPENER": {
+              "inheritance": "DATA",
+              "panelID": "_ALL"
+            }
+          }
+        }
+      }
+    ],
+    "ACT_ERROR": [
+      {
+        "to": {
+          "screenID": "ERROR",
+          "target": "FLM_MAIN_BODY",
+          "frame": {
+            "FLM_MAIN_BODY": {
+              "inheritance": "DATA",
+              "panelID": "PNL_SYSTEM_ERROR"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "actionMap": {
+    "ACT_BEFORE_DISPLAY": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "itemID": "SCR_YCSCMNF060S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "setGeneSearchSoshiki"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "beforeDisplay"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "itemID": "SCR_YCSCMNF060S02",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "setGeneSearchSoshiki"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "setComboBoxData"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "setComboBoxData"
+      }
+    ],
+    "ACT_SHOW_BTN": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "showData"
+      }
+    ],
+    "ACT_GO": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "detailData"
+      }
+    ],
+    "ACT_ADD": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "addData"
+      }
+    ],
+    "ACT_CLEAR": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "clear"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "clear"
+      }
+    ],
+    "ACT_RETURN": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "returnSubMenu"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "back"
+      }
+    ],
+    "ACT_HEADER_TO_MENU": [
+      {
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "returnMainMenu"
+      }
+    ],
+    "ACT_PRESHOW_BACK": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "preShowBack"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "end"
+      }
+    ],
+    "ACT_GeneralSearch021": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "showGene021"
+      },
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "showGene021"
+      }
+    ],
+    "ACT_COPY": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "copy"
+      }
+    ],
+    "ACT_DELETE": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "delete"
+      }
+    ],
+    "ACT_CANCEL": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "cancel"
+      }
+    ],
+    "ACT_PREV": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "prev"
+      }
+    ],
+    "ACT_NEXT": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "next"
+      }
+    ],
+    "ACT_REGISTER": [
+      {
+        "screenID": "SCR_YCMKMSFB31S01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB31SLogic",
+        "methodName": "rgsData"
+      }
+    ],
+    "ACT_EXIT": [
+      {
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "exitSystem"
+      }
+    ],
+    "ACT_GENE_SEARCH_KENSAKU": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchKensaku"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchKensaku"
+      }
+    ],
+    "ACT_GENE_SEARCH_SELECT": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchSelect"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchSelect"
+      }
+    ],
+    "ACT_GENE_SEARCH_KAKUTEI": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchKakutei"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchKakutei"
+      }
+    ],
+    "ACT_GENE_SEARCH_CLOSE": [
+      {
+        "screenID": "SCR_YCSCMNF060S01",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchClose"
+      },
+      {
+        "screenID": "SCR_YCSCMNF060S02",
+        "className": "ycs.cmn.cjf.logic.YCSCMNF060SLogic",
+        "methodName": "geneSearchClose"
+      }
+    ],
+    "ACT_ES00": [
+      {
+        "screenID": "SCR_YCMKMSFB30M01",
+        "className": "ycm.kms.cjf.logic.YCMKMSFB30MLogic",
+        "methodName": "focusout"
+      }
+    ]
   }
+}

@@ -59,8 +59,8 @@ const YBMKKSF610 = {
 
 const YCMKMSFB30 = {
   YCMKMSFB30MPanel: {
-    panel: 'ybm.kks.cjf.panel.YCMKMSFB30MPanel',
-    logic: 'ybm.kks.cjf.logic.YCMKMSFB31SPanel',
+    panel: 'ycm.kks.cjf.panel.YCMKMSFB30MPanel',
+    logic: 'ycm.kks.cjf.logic.YCMKMSFB31SPanel',
   },
 } as const satisfies IClassMap
 
