@@ -1,4 +1,15 @@
-<template>
+
+ <template>
+  <SMSJCFSpread
+    :headerAndColumnProperty="spreadData"
+  />
+  <JCFPanelLayout
+    :foreground="Color.black"
+    :font="new Font('Monospaced', Font.PLAIN, 12)"
+    :width="1000"
+    :height="1000"
+  />
+  <!-- :dimension="1000, 544" -->
   <JCFPushButton
     :bounds="[248, 80, 40, 24]"
     :id="`GeneralSearch021`"
@@ -21,6 +32,14 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[200, 48, 88, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+
+  />
   <JCFLabel
     :bounds="[40, 80, 144, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -30,6 +49,14 @@
     :bounds="[184, 80, 16, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
+  />
+  <JCFFieldString
+    :bounds="[200, 80, 40, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+
   />
   <JCFLabel
     :bounds="[40, 112, 128, 24]"
@@ -41,6 +68,13 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[200, 112, 88, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
   <JCFLabel
     :bounds="[40, 144, 104, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -51,6 +85,13 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFComboBox
+      :bounds="[192, 144, 104, 24]"
+      :id="`stShain`"
+      :selectableElements="[]"
+      :font="new Font('Monospaced', Font.PLAIN, 12)"
+    />
+
   <JCFLabel
     :bounds="[40, 176, 96, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -61,6 +102,7 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+
   <JCFLabel
     :bounds="[200, 176, 48, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -76,6 +118,21 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[200, 208, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
+  <JCFFieldString
+    :bounds="[360, 208, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
+  
   <JCFLabel
     :bounds="[40, 240, 128, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -96,10 +153,25 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`(名前)`"
   />
+
   <JCFLabel
     :bounds="[184, 272, 16, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
+  />
+  <JCFFieldString
+    :bounds="[200, 272, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
+  <JCFFieldString
+    :bounds="[360, 272, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
   />
   <JCFLabel
     :bounds="[40, 304, 128, 24]"
@@ -111,6 +183,14 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[200, 304, 280, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
+
   <JCFLabel
     :bounds="[40, 336, 128, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -121,6 +201,12 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFComboBox
+      :bounds="[200, 336, 120, 24]"
+      :id="`stShain`"
+      :selectableElements="[]"
+      :font="new Font('Monospaced', Font.PLAIN, 12)"
+    />
   <JCFLabel
     :bounds="[528, 336, 80, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -130,6 +216,13 @@
     :bounds="[624, 336, 16, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
+  />
+  <JCFFieldString
+    :bounds="[640, 336, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
   />
   <JCFLabel
     :bounds="[40, 368, 128, 24]"
@@ -151,6 +244,13 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[640, 368, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
   <JCFLabel
     :bounds="[40, 400, 128, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -170,6 +270,13 @@
     :bounds="[624, 400, 16, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
+  />
+  <JCFFieldString
+    :bounds="[640, 400, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
   />
   <JCFLabel
     :bounds="[32, 432, 128, 24]"
@@ -191,6 +298,20 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[640, 432, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
+  <JCFFieldString
+    :bounds="[360, 272, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
   <JCFLabel
     :bounds="[32, 464, 112, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -211,6 +332,13 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
+  <JCFFieldString
+    :bounds="[640, 464, 120, 24]"
+    :id="`nmRonrisakujo`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :inputMode="JFEnableType.TYPE_DIGIT"
+    :enableType="JFLineType.NOTHING"
+  />
   <JCFLabel
     :bounds="[528, 496, 96, 24]"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
@@ -221,21 +349,31 @@
     :font="new Font('Monospaced', Font.PLAIN, 14)"
     :text="`:`"
   />
-  <JCFFieldString
-    :bounds="[280, 16, 152, 24]"
-    :id="`mode`"
-    :enabled="false"
-    :editable="false"
+
+
+  <JCFToggleButton
+    :bounds="[56, 16, 56, 24]"
+    :name="`JCFToggleButton9`"
+    :id="`body_delete`"
+    :label="`削除`"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
-    :borderType="JFLineType.NOTHING"
+    :pushedActionCode="`body_delete`"
   />
-  <JCFFieldString
-    :bounds="[896, 48, 88, 24]"
-    :id="`nmRonrisakujo`"
-    :enabled="false"
-    :editable="false"
+  <JCFToggleButton
+    :bounds="[120, 16, 56, 24]"
+    :name="`JCFToggleButton10`"
+    :id="`body_copy`"
+    :label="`複写`"
     :font="new Font('Monospaced', Font.PLAIN, 14)"
-    :borderType="JFLineType.NOTHING"
+    :pushedActionCode="`body_copy`"
+  />
+  <JCFToggleButton
+    :bounds="[184, 16, 88, 24]"
+    :name="`JCFToggleButton11`"
+    :id="`body_cancel`"
+    :label="`削除解除`"
+    :font="new Font('Monospaced', Font.PLAIN, 14)"
+    :pushedActionCode="`body_cancel`"
   />
   <YUKIFieldLong
     :bounds="[880, 8, 40, 24]"
@@ -251,9 +389,7 @@
     :enabled="false"
     :editable="false"
   />
-  <WijmoGrid
-    :headerAndColumnProperty="0"
-  />
+
 </template>
 
 <script lang="ts" setup>
@@ -262,11 +398,14 @@
  }
 // 共通部品を導入する。
 import {
+  // global,
+  JCFComboBox,
   JCFFieldString,
   JCFPushButton,
+  JCFToggleButton,
+  SMSJCFSpread,
   YUKIFieldLong,
   JCFLabel,
-  // WijmoGrid,
   SystemColor,
   Color,
   JFAlignment,
@@ -275,10 +414,13 @@ import {
   JFEnableType,
   JFLineType,
   Font,
+  JCFPanelLayout,
+  Dimension,
 } from '@/components/jcf/entry'
 
 // ロジックを導入する。
 import Logic from '../logic/YCMKMSFB31SLogic'
 const logic = new Logic()
+// User custom logic flag: True,True
 </script>
 

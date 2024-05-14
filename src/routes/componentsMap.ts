@@ -83,11 +83,11 @@ const YCMKMSFB30 = createClasses([
     component: () =>
       import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB30MPanel.vue'),
   },
-  // {
-  //   class: CLASSNAME.YCMKMSFB31SPanel,
-  //   component: () =>
-  //     import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB31SPanel.vue'),
-  // },
+  {
+    class: CLASSNAME.YCMKMSFB31SPanel,
+    component: () =>
+      import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB31SPanel.vue'),
+  },
 ])
 const YBMKKSF620 = createClasses([
   {
