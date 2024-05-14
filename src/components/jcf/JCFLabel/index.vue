@@ -5,7 +5,7 @@
     :style="commonStyle"
     class="string"
   >
-    {{ text }}
+    <Text>{{ text }}</Text>
   </div>
 </template>
 
@@ -19,6 +19,8 @@ import { calculateCommonStyle } from '../utils/transform'
 import { toAlignment, toInsets } from '../utils/common'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { EJFAlignment } from '@/lib/jcf/gui/JFAlignment'
+
+import Text from '@/components/jcf/utils/Text/index.vue'
 
 defineOptions({
   name: EComponentName.JCFLabel,

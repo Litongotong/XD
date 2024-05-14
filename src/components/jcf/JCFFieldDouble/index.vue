@@ -120,7 +120,11 @@ const isInputMode = props.inputMode !== undefined
 /** 編集不可時の表示値 */
 const fallbackText = props.value || ''
 const text = computed(() => {
-  return instance ? instance.value.value || fallbackText : fallbackText
+  if (props.initialValueDisplay === false) {
+    return ''
+  } else {
+    return instance ? instance.value.value ?? fallbackText : fallbackText
+  }
 })
 
 // 業務ロジック
@@ -129,9 +133,9 @@ const maxLength = props.maxLength
 // 算出スタイル
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
-  //初期化時の背景色
+  // 初期化時の背景色
   style.background = toRGB(transformToColor(props.equalBackground))
-  //初期化時の文字揃えるを右寄せにする
+  // 初期化時の文字揃えるを右寄せにする
   style.textAlign = 'right'
 
   if (props.editable === false) {

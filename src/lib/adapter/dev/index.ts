@@ -2,7 +2,6 @@ import { getGlobalContext } from '@/lib/adapter/hooks'
 import { HashMap } from '@/lib/native/util/HashMap'
 import { SMSHashKeyConst } from '@/lib/sms/sol/sys/SMSHashKeyConst'
 import { SMSLoginInfoImpl } from '@/lib/sms/sol/sys/SMSLoginInfoImpl'
-import { FIRST_BUILD_FOR_PREVIEW_240508 } from '@/utils/debug/constants'
 import { MsisDebug } from '@/utils/debug/log'
 
 export class Dev {
@@ -13,9 +12,7 @@ export class Dev {
 
   login() {
     if (!import.meta.env.DEV) {
-      if (!FIRST_BUILD_FOR_PREVIEW_240508) {
-        return
-      }
+      return
     }
 
     MsisDebug.log('mock login')

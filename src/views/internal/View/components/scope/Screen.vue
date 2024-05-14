@@ -12,7 +12,10 @@ const props = defineProps<{
   screenId: string
 }>()
 
-provider.provide.screen(props.screenId)
+const getScreenId = () => {
+  return props.screenId
+}
+provider.provide.screen(getScreenId)
 
 const { setupScreen } = useSetup()
 setupScreen(props.screenId)

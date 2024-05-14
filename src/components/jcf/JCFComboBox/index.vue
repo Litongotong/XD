@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, toRaw, isRef } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 import type { JCFComboBoxProps } from './types'
 import type { JCFComboBoxData } from '@/lib/jcf/gui/JCFComboBoxData'
@@ -31,6 +31,7 @@ import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { getInstance } from '../utils/instance'
 import { calculateCommonStyle } from '../utils/transform'
 import { Adapter } from '@/lib/adapter/adapter'
+import { getRaw } from '@/utils/vue/getRaw'
 
 // 部品名の明記
 defineOptions({
@@ -70,17 +71,24 @@ const setDefaultSelectedElementValue = () => {
     : props.selectableElements
   if (Array.isArray(list)) {
     const target = list.find((i) => {
-      return i.selected
+      return getRaw(i.selected)
     })
     if (target) {
-      const id = target.id
+      const id = getRaw(target.id)
       if (!selectedElementValue.value) {
-        selectedElementValue.value = toRaw(id) as string
+        selectedElementValue.value = getRaw(id) as string
       }
     }
   }
 }
 setDefaultSelectedElementValue()
+
+// watch instance change and reset default value
+if (instance) {
+  watch(() => instance.selectableElements, () => {
+    setDefaultSelectedElementValue()
+  }, { deep: true })
+}
 
 const actionCode = props.selectedActionCode
 
@@ -91,7 +99,7 @@ const onSelectedChange = (e: Event) => {
     ? instance.selectableElements.value || []
     : (props.selectableElements || [])
   optionsList.forEach((i) => {
-    const isSelected = newValue === i.id
+    const isSelected = newValue === getRaw(i.id)
     i.selected = isSelected
   })
   // dispatch action
@@ -107,11 +115,11 @@ const fallbackLabel = props.text || ''
 
 const toOptions = (selectableElements: JCFSelectableElement[]) => {
   return selectableElements.map((elm) => {
-    const usingLabel = (isRef(elm.text) ? elm.text.value : elm.text) || fallbackLabel
+    const usingLabel = getRaw(elm.text) || fallbackLabel
 
     return {
       label: usingLabel,
-      value: elm.id,
+      value: getRaw(elm.id)
     }
   })
 }

@@ -1,5 +1,5 @@
 import { SMSCLLog } from '@/lib/sms/sol/sys/cjf/SMSCLLog'
-import { YBMKKSF621SLogic } from './YBMKKSF621SLogic'
+import YBMKKSF621SLogic from './YBMKKSF621SLogic'
 import type { JCFEvent } from '@/lib/jcf/ctrl/JCFEvent'
 import type { JCFContext } from '@/lib/jcf/ctrl/JCFContext'
 import type { JCFReturnInfo } from '@/lib/jcf/ctrl/JCFReturnInfo'
@@ -18,7 +18,7 @@ import { ArrayList } from '@/lib/native/util/ArrayList'
  * 配賦マスタ(複写)画面ロジッククラスです。
  */
 // @ts-expect-error
-export class YBMKKSF625SLogic extends YBMKKSF621SLogic {
+export default  class YBMKKSF625SLogic extends YBMKKSF621SLogic {
   /** アイテムID 配賦区分-ライン比率 */
   private static ITEM_LINE_HIRITSU: string = 'lineHiritsu'
 
@@ -589,7 +589,7 @@ export class YBMKKSF625SLogic extends YBMKKSF621SLogic {
 
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)

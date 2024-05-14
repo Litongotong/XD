@@ -37,7 +37,7 @@ export abstract class JCFItemData extends JCFDataBean {
   isModified(): boolean {
     return this.modified.value
   }
-  setModified(modified: boolean): void {
+  protected setModified(modified: boolean): void {
     this.modified.value = modified
   }
   setErrorCode(errorCode: string): void {

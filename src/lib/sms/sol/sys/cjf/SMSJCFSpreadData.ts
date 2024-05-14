@@ -1,6 +1,5 @@
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { JCFSpreadData } from '@/lib/jcf/gui/JCFSpreadData'
-import type { SMSSpreadTools } from './tools/SMSSpreadTools'
 import { ref, type Ref } from 'vue'
 import { ArrayList } from '@/lib/native/util/ArrayList'
 import { HashMap } from '@/lib/native/util/HashMap'
@@ -8,96 +7,104 @@ import { Color } from '@/components/jcf/entry'
 import { bindThis } from '@/utils/class/bind'
 import { isNil } from '@/utils/useful'
 import type { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
-import { Integer } from '@/lib/native/lang/Integer'
-import { NativeBoolean } from '@/lib/native/lang/Boolean'
-import { createArrayByInstance } from '@/utils/array/1D'
+import { Row, type FlexGrid } from '@grapecity/wijmo.grid'
 
 export class SMSJCFSpreadData extends JCFSpreadData {
-  stools: Ref<SMSSpreadTools | undefined> = ref()
-  editableFlg: Ref<boolean | undefined> = ref()
+
+  // Q: what is editable mean in spread data?
+  get editableFlg(): boolean {
+    if (!this.flexGrid) return false
+
+    return this.flexGrid.columns.filter(column => {
+      column.isReadOnly === false
+    }).length > 0
+  }
 
   /** フォーカス設定用ポジション*/
-  intFocusPosition = ref<number[]>([])
+  intFocusPosition = []
 
   /** フォーカス設定用レコード位置*/
-  focusRow = ref(-1)
+  focusRow = -1
 
   /** フォーカス設定用列名*/
-  focusColumnName = ref('')
-
-  /** レコード件数0チェックフラグ*/
-  check0 = ref(false)
+  focusColumnName = ''
 
   /** ゼロ詰め用指定列(最大桁用)*/
-  zeroIntColumn = ref(new ArrayList())
+  zeroIntColumn = new ArrayList()
 
   /** ゼロ詰め用指定列（小数用）*/
-  zeroDecimalColumn = ref(new ArrayList())
+  zeroDecimalColumn = new ArrayList()
 
   /** ゼロ詰め指定長*/
   //private int zeroLength = -1;
-  zeroLength = ref(new ArrayList())
+  zeroLength = new ArrayList()
 
   /** 編集状態指定列名*/
-  editTargetColumns = ref(new HashMap())
+  get editTargetColumns() {
+    if (!this.flexGrid) 
+      return new HashMap()
+
+    const editColumns = new HashMap()
+    this.flexGrid.columns.forEach(column => {
+      editColumns.put(column.binding, !column.isReadOnly)
+    })
+
+    return editColumns
+  }
+
+  set editTargetColumns(newTargetColumns: HashMap<string, boolean>) {
+    if (!this.flexGrid) return
+
+    newTargetColumns.forEach((key, value) => {
+      const column = this.flexGrid?.columns.find(column => column.binding === key)
+      if (column) {
+        column.isReadOnly = !value
+      }
+    })
+  }
 
   /** チェック状態レコード背景色*/
-  checkedBgColor = ref(new Color(100, 149, 237))
+  checkedBgColor = new Color(100, 149, 237)
 
-  constructor(itemId: string) {
-    super(itemId)
+  constructor(itemId: string, flexGrid: Ref<FlexGrid | undefined>) {
+    super(itemId, flexGrid)
 
     bindThis(this)
   }
 
-  /**
-   * Returns the spreadTools.<BR>
-   * @return SpreadTools
-   */
-  getSpreadTools(): SMSSpreadTools {
-    return this.stools.value!
-  }
-  /**
-   * Sets the spreadToolTip.<BR>
-   * @param spreadToolTip The spreadToolTip to set
-   */
-  setSpreadTools(spreadTool: SMSSpreadTools) {
-    this.stools.value = spreadTool
-  }
-
+  // TODO(spread): implement when it is used
   setDataAndAttributes(itemData: JCFItemData) {
-    if (isNil(itemData)) {
-      return
-    }
+    // if (isNil(itemData)) {
+    //   return
+    // }
 
-    if (!(itemData instanceof SMSJCFSpreadData)) {
-      return
-    }
-    this.setData(itemData as any)
+    // if (!(itemData instanceof SMSJCFSpreadData)) {
+    //   return
+    // }
+    // this.setData(itemData as any)
 
-    super.setDataAndAttributes(itemData as any)
+    // super.setDataAndAttributes(itemData as any)
 
-    let data: SMSJCFSpreadData = itemData as SMSJCFSpreadData
+    // let data: SMSJCFSpreadData = itemData as SMSJCFSpreadData
 
-    //this.setSpreadToolTip(data.getSpreadToolTip());
-    this.setEditableFlg(data.isEditableFlg())
-    this.setSpreadTools(data.getSpreadTools())
+    // //this.setSpreadToolTip(data.getSpreadToolTip());
+    // this.setEditableFlg(data.isEditableFlg())
 
-    //ゼロ詰め用指定列(最大桁用)
-    this.zeroIntColumn.value = data.getZeroIntColumn()
-    //ゼロ詰め用指定列（小数用）
-    this.zeroDecimalColumn.value = data.getZeroDecimalColumn()
-    //ゼロ詰め指定長
-    this.zeroLength.value = data.getZeroLength()
-    //編集状態指定列名
-    this.editTargetColumns.value = data.getEditTargetColumns()
+    // //ゼロ詰め用指定列(最大桁用)
+    // this.zeroIntColumn = data.getZeroIntColumn()
+    // //ゼロ詰め用指定列（小数用）
+    // this.zeroDecimalColumn = data.getZeroDecimalColumn()
+    // //ゼロ詰め指定長
+    // this.zeroLength = data.getZeroLength()
+    // //編集状態指定列名
+    // this.editTargetColumns = data.getEditTargetColumns()
   }
 
   /**
    * GUI部品の変更有無を設定します。<BR>
    * @param b GUI部品変更有無（true：変更あり）
    */
-  protected setModified(b: boolean) {
+  setModified(b: boolean) {
     super.setModified(b)
   }
 
@@ -110,7 +117,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return boolean
    */
   isEditableFlg(): boolean {
-    return this.editableFlg.value!
+    return this.editableFlg
   }
 
   /**
@@ -118,48 +125,18 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param editableFlg The editableFlg to set
    */
   setEditableFlg(editableFlg: boolean) {
-    this.editableFlg.value = editableFlg
-  }
+    if (!this.flexGrid) return
 
-  /**
-   * ※推奨されません。<BR>
-   */
-  /*setViewport(JCFSpreadCellPosition position)
-		throws JCFDataIllegalArgumentException {
-			
-		//super.setViewport(arg0);
-		// nullチェック
-		if (position == null) {
-			throw new JCFDataIllegalArgumentException(ERROR_TYPE);
-		}
-	
-		// 行位置の範囲チェック
-		//if (position.row < 0 || rowCount <= position.row ) {
-		if (position.row < 0 ) {
-			
-			throw new JCFDataIllegalArgumentException(ERROR_RANGE_ROW);
-		}
-	
-		
-		// 列位置の範囲チェック
-		if (position.column < 0 || columnCount <= position.column) {
-			throw new JCFDataIllegalArgumentException(ERROR_RANGE_COLUMN);
-		}
-	
-		// ▼▼▼ UT020 V01L20 2004.05.27 性能改善　追加 ▼▼▼
-		super.callChangedListener();
-		
-		// ▲▲▲ UT020 V01L20 2004.05.27 性能改善　追加 ▲▲▲
-	
-		viewport = position;
-	}
-	*/
+    this.flexGrid.columns.forEach(column => {
+      column.isReadOnly = !editableFlg
+    })
+  }
 
   /**
    * 項目部品とデータＢｅａｎの関連を付けます。<BR>
    */
   createDataBean(): JCFItemData {
-    return new SMSJCFSpreadData(super.getItemID()) as any as JCFItemData
+    return new SMSJCFSpreadData(super.getItemID(), this.flexGridRef) as any as JCFItemData
   }
 
   /**
@@ -208,7 +185,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param column 列位置
    */
   setZeroPaddingInteger(column: string) {
-    this.zeroIntColumn.value.add(column)
+    this.zeroIntColumn.add(column)
   }
 
   /**
@@ -220,18 +197,16 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param decimal 小数点以下表示したい桁数(最大3桁)
    */
   setZeroPaddingDecimal(column: string, decimal: number) {
-    this.zeroDecimalColumn.value.add(column)
-    let Idecimal: Integer = new Integer(decimal)
-    this.zeroLength.value.add(Idecimal)
+    super.setZeroPaddingDecimal(column, decimal)
   }
 
   /**
    * ゼロ詰め指定長を返します
    * @return int
    */
-  getZeroLength(): ArrayList {
-    return this.zeroLength.value as ArrayList
-  }
+  // getZeroLength(): ArrayList {
+  //   return this.zeroLength as ArrayList
+  // }
 
   /**
    * 指定したレコード位置、列名にフォーカスをセットします。
@@ -239,8 +214,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param columnName 列名
    */
   setPosition(row: number, columnName: string) {
-    this.focusRow.value = row
-    this.focusColumnName.value = columnName
+    super.setPosition(row, columnName)
   }
 
   /**
@@ -248,7 +222,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param String
    */
   setFocusColumnName(columnName: string) {
-    this.focusColumnName.value = columnName
+    this.focusColumnName = columnName
   }
 
   /**
@@ -256,15 +230,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @param int
    */
   setFocusRow(row: number) {
-    this.focusRow.value = row
-  }
-
-  /**
-   * レコード件数0チェックフラグをセットします
-   * @param boolean
-   */
-  setCheck0(check: boolean) {
-    this.check0.value = check
+    this.focusRow = row
   }
 
   /**
@@ -272,7 +238,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return String
    */
   getFocusColumnName(): string {
-    return this.focusColumnName.value
+    return this.focusColumnName
   }
 
   /**
@@ -280,15 +246,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return int
    */
   getFocusRow(): number {
-    return this.focusRow.value
-  }
-
-  /**
-   * レコード件数0チェックフラグを返します
-   * @return boolean
-   */
-  getCheck0(): boolean {
-    return this.check0.value
+    return this.focusRow
   }
 
   /**
@@ -296,7 +254,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return String
    */
   getZeroDecimalColumn(): ArrayList {
-    return this.zeroDecimalColumn.value as ArrayList
+    return this.zeroDecimalColumn as ArrayList
   }
 
   /**
@@ -304,7 +262,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return String
    */
   getZeroIntColumn(): ArrayList {
-    return this.zeroIntColumn.value as ArrayList
+    return this.zeroIntColumn as ArrayList
   }
 
   /**
@@ -312,7 +270,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return String
    */
   setColumnInformationEditable(column: string, editable: boolean) {
-    this.editTargetColumns.value.put(column, NativeBoolean.valueOf(editable))
+    super.setColumnInformationEditable(column, editable)
   }
 
   /**
@@ -320,19 +278,7 @@ export class SMSJCFSpreadData extends JCFSpreadData {
    * @return HashMap
    */
   getEditTargetColumns(): HashMap {
-    return this.editTargetColumns.value as HashMap
-  }
-
-  /**
-   * セル情報を取得します。<p>
-   * 指定された行位置、列位置のセル情報を取得します。<br>
-   *
-   * @param row 行位置
-   * @param column 列位置
-   * @return セル情報
-   */
-  protected getCell(row: number, column: number): JCFSpreadCellData {
-    return super.getCell(row, column)
+    return this.editTargetColumns as HashMap
   }
 
   /**
@@ -349,10 +295,6 @@ export class SMSJCFSpreadData extends JCFSpreadData {
     if (row === 0) {
       //ヘッダのソート記号「▲▼」を初期化
       super.setLastSorted(null)
-      //スプレッド内のフォーカスを左上端に設定するために、以下を設定
-      this.focusRow.value = 0
-      this.focusColumnName.value = 'column'
-      this.check0.value = true
     }
   }
 
@@ -370,10 +312,6 @@ export class SMSJCFSpreadData extends JCFSpreadData {
     if (super.getRowCount() == 0) {
       //ヘッダのソート記号「▲▼」を初期化
       super.setLastSorted(null)
-      //スプレッド内のフォーカスを左上端に設定するために、以下を設定
-      this.focusRow.value = 0
-      this.focusColumnName.value = 'column'
-      this.check0.value = true
     }
   }
 
@@ -387,35 +325,6 @@ export class SMSJCFSpreadData extends JCFSpreadData {
     super.removeAllRow()
     //ヘッダのソート記号「▲▼」を初期化
     super.setLastSorted(null)
-    //スプレッド内のフォーカスを左上端に設定するために、以下を設定
-    this.focusRow.value = 0
-    this.focusColumnName.value = 'column'
-    this.check0.value = true
-  }
-
-  /**
-   * 行を生成します。
-   * <p>
-   * １行分のセル情報を生成します。<br>
-   * 拡張したセルデータクラス(SampleSpreadCellData)を設定<br>
-   * </p>
-   * @return １行分の空のセル情報
-   */
-  protected createCells(): JCFSpreadCellData[] {
-    let columns: number = this.getColumnCount() // 列数
-    let cells: JCFSpreadCellData[] = createArrayByInstance(
-      JCFSpreadCellData,
-      columns,
-    )
-    for (let col = 0; col < columns; col++) {
-      // セルの初期化
-      // 列属性の背景色、前景色を設定
-      let cell: JCFSpreadCellData = new SMSJCFSpreadCellData()
-      let columnInfo: JCFSpreadColumnData = this.getColumnData(col)
-      this.initializeCell(cell, columnInfo)
-      cells[col] = cell
-    }
-    return cells
   }
 
   _getComponentName(): string {

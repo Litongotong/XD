@@ -11,9 +11,10 @@ defineOptions({
 
 const props = defineProps<{ id?: string }>()
 
-const id = props?.id
-
-if (id?.length) {
-  provider.provide.item(id)
+if (props.id?.length) {
+  const getItemId = () => {
+    return props.id!
+  }
+  provider.provide.item(getItemId)
 }
 </script>

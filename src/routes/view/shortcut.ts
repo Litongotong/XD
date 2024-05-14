@@ -1,8 +1,10 @@
+import { ref } from 'vue'
 import { SYSTEM_ACTION_CODE } from '../config/interface'
 import type {
   ISystemActionDispatcherCreateOptions,
   ISystemActionShortcut,
 } from './interface'
+import { MsisDebug } from '@/utils/debug/log'
 
 export function createSystemShortcutDispatcher(
   opts: ISystemActionDispatcherCreateOptions,
@@ -92,6 +94,27 @@ export function createSystemShortcutDispatcher(
     F12,
     ENTER,
   }
+
+  const isListenerStarted = ref(false)
+
+  const startShortcutListener = () => {
+    MsisDebug.log('[Shortcut] startShortcutListener')
+    if (isListenerStarted.value) {
+      return
+    }
+    const listener = () => {
+      window.addEventListener('keydown', (e) => {
+        const key = e.key.toUpperCase()
+        const func = (shortcut as any)[key]
+        if (func) {
+          MsisDebug.log(`[Shortcut] ${key}`)
+          func()
+        }
+      })
+    }
+    listener()
+  }
+  startShortcutListener()
 
   return shortcut
 }

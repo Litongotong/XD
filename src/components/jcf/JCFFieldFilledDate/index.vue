@@ -59,9 +59,9 @@ import {
   ensureNumberWithDay,
   ensureNumberWithMonth,
   ensureNumberWithYear,
-  getExistedDate,
 } from './format'
 import { isBackspace, isLeftArrow, isRightArrow } from '@/utils/keyboard/keys'
+import { isNil } from '@/utils/useful'
 
 defineOptions({
   name: EComponentName.JCFFieldFilledDate,
@@ -109,31 +109,56 @@ function useInputValues() {
   }) => {
     if (instance) {
       const { year, month, day } = opts
-      const usingYear = year ? year : instance.values.value?.[0] || ''
-      const usingMonth = month ? month : instance.values.value?.[1] || ''
-      const usingDay = day ? day : instance.values.value?.[2] || ''
-      const existedDate = getExistedDate({
-        year: usingYear.toString(),
-        month: usingMonth.toString(),
-        day: usingDay.toString(),
-      })
-      const resultArr: number[] = [
-        parseInt(existedDate.year),
-        parseInt(existedDate.month),
-        parseInt(existedDate.day),
+      const date = {
+        year: undefined,
+        month: undefined,
+        day: undefined,
+      } as {
+        year?: number
+        month?: number
+        day?: number
+      }
+      if (!isNil(year)) {
+        if (!Number.isNaN(year)) {
+          date.year = year
+        }
+      } else {
+        date.year = instance.values.value?.[0]
+      }
+      if (!isNil(month)) {
+        if (!Number.isNaN(month)) {
+          date.month = month
+        }
+      } else {
+        date.month = instance.values.value?.[1]
+      }
+      if (!isNil(day)) {
+        if (!Number.isNaN(day)) {
+          date.day = day
+        }
+      } else {
+        date.day = instance.values.value?.[2]
+      }
+      const resultArr = [
+        isNil(date.year) ? undefined : date.year,
+        isNil(date.month) ? undefined : date.month,
+        isNil(date.day) ? undefined : date.day,
       ]
-      instance.setValue(resultArr)
+      instance.setValue(resultArr as any)
     }
   }
 
   // year
   const onYearChange = (e: Event) => {
     const newValue = (e.target as HTMLInputElement).value
+    if (!newValue?.length) {
+      inputYear.value = ''
+      syncToInstance({ year: NaN })
+      return
+    }
     const limitedString = ensureNumberWithYear(newValue, true)
     // sync to self
-    if (inputYear.value !== limitedString) {
-      inputYear.value = limitedString
-    }
+    inputYear.value = limitedString
     // sync to instance
     const asNumber = parseInt(limitedString)
     syncToInstance({ year: asNumber })
@@ -143,9 +168,7 @@ function useInputValues() {
     // ensure number
     const limitedString = ensureNumberWithYear(newValue)
     // sync to self
-    if (inputYear.value !== limitedString) {
-      inputYear.value = limitedString
-    }
+    inputYear.value = limitedString
     // keyboard event
     const isMaxLength = limitedString.length === yearMaxLength
     // move to month input
@@ -169,23 +192,58 @@ function useInputValues() {
   // month
   const onMonthChange = (e: Event) => {
     const newValue = (e.target as HTMLInputElement).value
+    if (!newValue?.length) {
+      inputMonth.value = ''
+      syncToInstance({ month: NaN })
+      return
+    }
     const limitedString = ensureNumberWithMonth(newValue, true)
     // sync to self
-    if (inputMonth.value !== limitedString) {
-      inputMonth.value = limitedString
-    }
+    inputMonth.value = limitedString
     // sync to instance
     const asNumber = parseInt(limitedString)
     syncToInstance({ month: asNumber })
   }
+  const monthInputCheck = (newMonth: string) => {
+    const monthAsNumber = parseInt(newMonth, 10)
+    if (!Number.isNaN(monthAsNumber)) {
+      //1~12の場合、0で補足したら次へ
+      if (2 <= monthAsNumber && 12 >= monthAsNumber) {
+        const limitedString = ensureNumberWithMonth(newMonth, true)
+        inputMonth.value = limitedString
+        dayInputRef.value.focus()
+      } else if (1 == monthAsNumber) {
+        // pass
+      } else {
+        // イレギュラーの場合、元の値に戻し、0補完後次へ
+        if (2 == newMonth.length && !newMonth.replaceAll('0', '')) {
+          //2桁、00の場合
+          inputMonth.value = ensureNumberWithMonth(
+            inputMonth.value.slice(0, -1),
+            true,
+          )
+          return false
+        } else if (1 == newMonth.length) {
+          //1桁の場合
+          inputMonth.value = newMonth
+        } else {
+          //2桁、00以外の場合
+          inputMonth.value = inputMonth.value.slice(0, -1)
+          return false
+        }
+      }
+    }
+  }
   const onMonthInput = (e: Event) => {
     const newValue = (e.target as HTMLInputElement).value
+    const isValid = monthInputCheck(newValue)
+    if (isValid === false) {
+      inputMonth.value = newValue.slice(0, -1)
+      return
+    }
     // ensure number
     const limitedString = ensureNumberWithMonth(newValue)
-    // sync to self
-    if (inputMonth.value !== limitedString) {
-      inputMonth.value = limitedString
-    }
+    inputMonth.value = limitedString
     // keyboard event
     const isMaxLength = limitedString.length === monthMaxLength
     // move to day input
@@ -221,28 +279,56 @@ function useInputValues() {
   // day
   const onDayChange = (e: Event) => {
     const newValue = (e.target as HTMLInputElement).value
+    if (!newValue?.length) {
+      inputDay.value = ''
+      syncToInstance({ day: NaN })
+      return
+    }
     const limitedString = ensureNumberWithDay(newValue, true)
     // sync to self
-    if (inputDay.value !== limitedString) {
-      inputDay.value = limitedString
-    }
+    inputDay.value = limitedString
     // sync to instance
     const asNumber = parseInt(limitedString)
     syncToInstance({ day: asNumber })
   }
+  const dayInputCheck = (newValue: string) => {
+    const dayAsNumber = parseInt(newValue, 10)
+    const yearAsNumber = parseInt(inputYear.value, 10)
+    const monthAsNumber = parseInt(inputMonth.value, 10)
+    if (!Number.isNaN(monthAsNumber) && !Number.isNaN(yearAsNumber)) {
+      if (isValidDate(yearAsNumber, monthAsNumber, dayAsNumber)) {
+        // has year,month,day legal
+      } else {
+        // exclude day start with 0
+        if (!'0'.equals(newValue)) {
+          return false
+        }
+      }
+    } else if (Number.isNaN(yearAsNumber) || Number.isNaN(monthAsNumber)) {
+      //旧仕様模倣するため、年入力していない場合、日は28まで入力可能
+      const defaultYear = 1991
+      const defaultMonth = !Number.isNaN(monthAsNumber) ? monthAsNumber : 2
+
+      if (2 == newValue.length) {
+        if (isValidDate(defaultYear, defaultMonth, dayAsNumber)) {
+          // pass
+        } else {
+          return false
+        }
+      }
+    }
+  }
   const onDayInput = (e: Event) => {
     const newValue = (e.target as HTMLInputElement).value
+    const isValid = dayInputCheck(newValue)
+    if (isValid === false) {
+      inputDay.value = newValue.slice(0, -1)
+      return
+    }
     // ensure number
     const limitedString = ensureNumberWithDay(newValue)
     // sync to self
-    if (inputDay.value !== limitedString) {
-      inputDay.value = limitedString
-    }
-    const isMaxLength = limitedString.length === dayMaxLength
-    // lose focus
-    if (isMaxLength) {
-      dayInputRef.value.blur();
-    }
+    inputDay.value = limitedString
   }
   const getDayInputCursor = () => {
     return dayInputRef.value.selectionStart
@@ -263,54 +349,27 @@ function useInputValues() {
     }
   }
 
-  //年を入力制御する
-  watch(inputYear, (newYear) => {
-  const yearAsNumber = parseInt(newYear, 10);
-  if (!isNaN(yearAsNumber) && yearAsNumber >= 1 && yearAsNumber <= 9999) {
-    syncToInstance({ year: yearAsNumber });
+  if (instance) {
+    // watch instance change
+    watch(
+      instance.values,
+      (newValues) => {
+        const year = newValues?.[0]
+        const month = newValues?.[1]
+        const day = newValues?.[2]
+        if (typeof year === 'number' && !Number.isNaN(year)) {
+          inputYear.value = ensureNumberWithYear(year.toString(), true)
+        }
+        if (typeof month === 'number' && !Number.isNaN(month)) {
+          inputMonth.value = ensureNumberWithMonth(month.toString(), true)
+        }
+        if (typeof day === 'number' && !Number.isNaN(day)) {
+          inputDay.value = ensureNumberWithDay(day.toString(), true)
+        }
+      },
+      { deep: true },
+    )
   }
-}, { deep: true });
-
-  //月を入力制御する
-  watch(inputMonth, (newMonth) => {
-  const monthAsNumber = parseInt(newMonth, 10);
-  if (!isNaN(monthAsNumber)) {
-    //1~12の場合、0で補足したら次へ
-    if (2 <= monthAsNumber && 12 >= monthAsNumber){
-      syncToInstance({ month: monthAsNumber });
-      inputMonth.value = ensureNumberWithMonth(inputMonth.value, true)
-      dayInputRef.value.focus();
-    } else if(1 == monthAsNumber){
-      syncToInstance({ month: monthAsNumber });
-    } else{
-      // イレギュラーの場合、元の値に戻し、0補完後次へ
-      if(2 == newMonth.length && !newMonth.replaceAll("0","")){
-        //2桁、00の場合
-        inputMonth.value = ensureNumberWithMonth(inputMonth.value.slice(0, -1), true)
-      }else if(1 == newMonth.length){
-        //1桁の場合
-        inputMonth.value = newMonth;
-      }else{
-        //2桁、00以外の場合
-        inputMonth.value = inputMonth.value.slice(0, -1);
-      }
-    }
-  }
-}, { deep: true });
-
-  //日を入力制御する
-  watch(inputDay, (newDay) => {
-  const dayAsNumber = parseInt(newDay, 10);
-  const yearAsNumber = parseInt(inputYear.value, 10);
-  const monthAsNumber = parseInt(inputMonth.value, 10);
-  if (!isNaN(dayAsNumber)) {
-    if (isValidDate(yearAsNumber, monthAsNumber, dayAsNumber)) {
-      syncToInstance({ day: dayAsNumber });
-    } else {
-      inputDay.value = inputDay.value.slice(0, -1);
-    }
-  }
-}, { deep: true });
 
   //入力日付の有効性をチェックする
   const isValidDate = (year: number, month: number, day: number): boolean => {

@@ -8,15 +8,22 @@ import type {
 import { cloneDeep } from '@/utils/useful'
 import { tokenUtil } from '../axios/token'
 import { trim } from '@/utils/useful/trim'
+import { SMSRuntimeException } from '@/lib/sms/sol/sys/SMSRuntimeException'
 
 export function syncHttp(params: ISyncRequestParams): ISyncResponse {
   const { url, configs, method } = params
 
   const finalConfig = Object.assign({}, SYNC_HTTP_DEFAULT_CONFIG, configs)
-  const { baseURL, headers: userHeaders, timeout } = finalConfig
+  const {
+    baseURL,
+    headers: userHeaders,
+    // sync xhr not support config timeout
+    timeout,
+  } = finalConfig
   const headers: ISyncRequestHeaders = {
     ...cloneDeep(SYNC_HTTP_DEFAULT_CONFIG.headers),
     ...(userHeaders || {}),
+    authDebug: 'true',
   }
 
   // schema check
@@ -28,7 +35,6 @@ export function syncHttp(params: ISyncRequestParams): ISyncResponse {
   }
 
   // --- request interceptors start ---
-  // TODO: we really need token ???
   // set token
   const token = tokenUtil.get()
   if (token?.length) {
@@ -51,7 +57,7 @@ export function syncHttp(params: ISyncRequestParams): ISyncResponse {
     xhr.send(requestDataAsString)
   } catch (e: any) {
     console.error(`Request failed (${url}, ${method}), error: ${e.message}`, e)
-    throw e
+    throw new SMSRuntimeException('サーバのリクエストが失敗しました')
   }
 
   const retHeaders = parseResponseHeaders(xhr.getAllResponseHeaders())
@@ -64,7 +70,7 @@ export function syncHttp(params: ISyncRequestParams): ISyncResponse {
       `Failed to parse response JSON: ${xhr.response}, from ${url}, ${method}`,
       e,
     )
-    throw e
+    throw new SMSRuntimeException('サーバの応答が不正です')
   }
   const response: ISyncResponse = {
     data: json,
@@ -85,6 +91,21 @@ function responseHandler(response: ISyncResponse): ISyncResponse {
   if (newToken?.length) {
     tokenUtil.set(newToken)
   }
+
+  if (response.status !== 200) {
+    let msg = 'サーバのリクエストが失敗しました'
+    const errorMsg = response.data?.result?.message
+    if (typeof errorMsg === 'string' && errorMsg.length) {
+      msg = errorMsg
+    } else if (Array.isArray(errorMsg)) {
+      const allMsg = errorMsg.join(', ')
+      if (allMsg.length) {
+        msg = allMsg
+      }
+    }
+    throw new SMSRuntimeException(msg)
+  }
+
   return response
 }
 

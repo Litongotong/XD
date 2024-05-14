@@ -28,7 +28,7 @@ import { StringBuffer } from '@/lib/native/lang/StringBuffer'
 /**
  * 配賦マスタ(複写)画面ロジッククラスです。
  */
-export class YBMKKSF621SLogic extends YBMKKSCjfLogicBase {
+export default class YBMKKSF621SLogic extends YBMKKSCjfLogicBase {
   /** アイテムID 配賦区分-事業登録比率 */
   private static ITEM_JIGYO_TOROKU_HIRITSU: string = 'jigyouTourokuHiritsu'
 
@@ -694,7 +694,7 @@ export class YBMKKSF621SLogic extends YBMKKSCjfLogicBase {
 
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)

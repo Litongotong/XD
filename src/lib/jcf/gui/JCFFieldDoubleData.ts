@@ -61,7 +61,7 @@ export class JCFFieldDoubleData extends JCFItemData {
 
   private __setValueWithNumber(newValue: number): void {
     this.value.value = newValue
-    this.viewText.value = this.value.toString()
+    this.viewText.value = this.value.value.toString()
   }
 
   getDoubleValue(): number {

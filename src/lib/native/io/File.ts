@@ -1,38 +1,38 @@
 export class NativeFile {
   private pathname: string
-  static readonly separator: string = '\\'
+
+  _file?: File
+  
+  _dirName?: string
+  _listFile?: File[]
 
   constructor(pathname: string) {
     this.pathname = pathname
   }
 
-  // TODO
   length(): number {
-    throw new Error('Method not implemented.')
-    return 0
+    return this._file?.length || 0
   }
 
-  // todo
   delete() {
     throw new Error('Method not implemented.')
-    return true
   }
 
-  // todo
-  list() {
-    throw new Error('Method not implemented.')
+  list(): string[] {
+    if (this._listFile?.length) {
+      return this._listFile.map(file => file?.name).filter(Boolean) as string[]
+    }
     return []
   }
 
-  // TODO
   getName(): string {
-    throw new Error('Method not implemented.')
-    return ''
+    return this._file?.name || ''
   }
 
-  // TODO
   getParent(): string {
-    throw new Error('Method not implemented.')
+    if (this._dirName?.length) {
+      return this._dirName
+    }
     return ''
   }
 }

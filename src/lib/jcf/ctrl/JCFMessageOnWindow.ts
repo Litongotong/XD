@@ -1,6 +1,7 @@
 // 🟡 まだ最低限の実装
 
 import { SMSMessageMgr } from '@/lib/sms/sol/sys/SMSMessageMgr'
+import { DIALOG } from '@/utils/dialog'
 
 export class JCFMessageOnWindow {
   BTN_OK = 'ok'
@@ -57,7 +58,7 @@ export class JCFMessageOnWindow {
 
   private __showMessage(messageID: string, inStr: string[]) {
     const rawMsg = this.getMessage(messageID, inStr)
-    const result = window.confirm(rawMsg)
+    const result = DIALOG.confirm(rawMsg)
     if (result) {
       return JCFMessageOnWindow.BTN_YES
     } else {

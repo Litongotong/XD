@@ -8,11 +8,11 @@ export const ensureNumberWithYear = (
   withPaddingAndValidate?: boolean,
 ): string => {
   let numberString = replaceEnsureNumber(value)
-  if (withPaddingAndValidate) {
+  if (withPaddingAndValidate && value) {
     numberString = numberString.padStart(4, '0')
   }
   numberString = numberString.slice(0, 4)
-  if (withPaddingAndValidate) {
+  if (withPaddingAndValidate && value) {
     const asNumber = parseInt(numberString)
     // range: > 0000, < 9999
     if (asNumber < 0) {
@@ -31,7 +31,7 @@ export const ensureNumberWithMonth = (
   withPaddingAndValidate?: boolean,
 ): string => {
   let numberString = replaceEnsureNumber(value)
-  if (withPaddingAndValidate && (numberString && numberString !== '0')) {
+  if (withPaddingAndValidate && numberString && numberString !== '0') {
     numberString = numberString.padStart(2, '0')
   }
   numberString = numberString.slice(0, 2)
@@ -49,26 +49,4 @@ export const ensureNumberWithDay = (
   }
   numberString = numberString.slice(0, 2)
   return numberString
-}
-
-export const getExistedDate = (opts: {
-  year: string
-  month: string
-  day: string
-}) => {
-  const { year, month, day } = opts
-  let resultYear = year
-  let resultMonth = month
-  let resultDay = day
-
-  const yearStr = year.toString().padStart(4, '0')
-  const monthStr = month.toString().padStart(2, '0')
-  const dayStr = day.toString().padStart(2, '0')
-
-  console.log("yearStr",yearStr)
-  console.log("monthStr",monthStr)
-  console.log("dayStr",dayStr)
-
-
-  return { year: resultYear, month: resultMonth, day: resultDay }
 }

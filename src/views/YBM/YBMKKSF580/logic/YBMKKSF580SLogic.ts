@@ -650,9 +650,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
       tree.setRoot(null!)
 
       // 共有領域リセット
-      this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
-      this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
-      this.removeUserData(
+      this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
+      this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
+      this.removeUserDataWithObject(
         context,
         YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY as any,
       )
@@ -852,9 +852,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
         )
 
         // 念のため共有領域リセット
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY as any,
         )
@@ -971,9 +971,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
             .getMessageUtil()
             .getMessage(SMSMessageConst.SMSCMNMCW003, '製品群'),
         )
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY as any,
         )
@@ -1036,9 +1036,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
         )
 
         // 念のため共有領域リセット
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY as any,
         )
@@ -1143,9 +1143,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
             .getMessageUtil()
             .getMessage(SMSMessageConst.SMSCMNMCW003, '製品群'),
         )
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY as any)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY as any)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY as any,
         )
@@ -1703,7 +1703,7 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
     returnInfo: JCFReturnInfo,
   ) {
     SMSCLLog.debug('YBMKKSF580SLogic.closeYbmSearch() start')
-    super.removeUserData(context, YBMKKSF580SLogic.USECASE)
+    super.removeUserDataWithUsecase(context, YBMKKSF580SLogic.USECASE)
     SMSCLLog.debug('YBMKKSF580SLogic.closeYbmSearch() end')
   }
 
@@ -1983,9 +1983,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
         }
         // スプレッド内容をクリア
         spread.removeAllRow()
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY,
         )
@@ -2015,9 +2015,9 @@ export default class YBMKKSF580SLogic extends SMSCjfLogicBase {
         }
         // スプレッド内容をクリア
         spread.removeAllRow()
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY)
-        this.removeUserData(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY)
-        this.removeUserData(
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_RESULTS_KEY)
+        this.removeUserDataWithObject(context, YBMKKSF580SLogic.SEARCH_INDEX_KEY)
+        this.removeUserDataWithObject(
           context,
           YBMKKSF580SLogic.SEARCH_NM_SEIHINGUN_RYAKU_KEY,
         )

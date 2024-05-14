@@ -15,8 +15,14 @@ const props = defineProps<{
   classInfo: IClassInfo
 }>()
 
-provider.provide.panelClassName(props.classInfo.panel)
-provider.provide.logicClassName(props.classInfo.logic)
+const getPanelClassName = () => {
+  return props.classInfo.panel
+}
+const getLogicClassName = () => {
+  return props.classInfo.logic
+}
+provider.provide.panelClassName(getPanelClassName)
+provider.provide.logicClassName(getLogicClassName)
 </script>
 
 <style scoped></style>

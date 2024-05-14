@@ -217,7 +217,7 @@ const installInstanceForJCFSpread: Install<
   JCFSPreadInstallationPayload,
   JCFSpreadData
 > = (props) => {
-  const instance = new JCFSpreadData(props.id!, props.flexGrid)
+  const instance = new JCFSpreadData(props.id!)
 
   // TODO: complete set property
 
@@ -420,16 +420,22 @@ export const installInstanceForSMSFileDialog: Install<
   SMSFileDialogProps,
   SMSFileDialogData
 > = (props) => {
-  const { id, value } = props
-  const ins = new SMSFileDialogData(id!)
+  const ins = new SMSFileDialogData(props.id!)
 
   // install common props
   installInstanceForJCFItemData(ins, props)
   // install self props
-  const useValue = value?.length ? value : ''
-
-  if (useValue !== undefined) {
-    ins.setValue(useValue)
+  if (props.chooseMode !== undefined) {
+    ins.setChooseMode(props.chooseMode)
+  }
+  if (props.title !== undefined) {
+    ins.setTitle(props.title)
+  }
+  if (props.fileType !== undefined) {
+    ins.setFiletype(props.fileType)
+  }
+  if (props.defaultPath !== undefined) {
+    ins.setDefaultPath(props.defaultPath)
   }
 
   return ins

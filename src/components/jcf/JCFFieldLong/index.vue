@@ -117,7 +117,11 @@ const isInputMode = props.inputMode !== undefined
 /** 編集不可時の表示値 */
 const fallbackText = props.value || ''
 const text = computed(() => {
-  return instance ? instance.value.value || fallbackText : fallbackText
+  if (props.initialValueDisplay === false) {
+    return ''
+  } else {
+    return instance ? instance.value.value ?? fallbackText : fallbackText
+  }
 })
 
 // 業務ロジック

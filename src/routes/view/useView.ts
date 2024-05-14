@@ -103,7 +103,7 @@ interface IPanelUtils {
   getPanelIdByFrameId: (frameId?: string) => string | undefined
   getCurrentGamenId: () => string | undefined
   isPanelInCurrentScreen: (panelId: string) => boolean
-  setFrameStatus: (panelId: string, loaded: boolean) => void
+  setFrameStatus: (screenId: string, panelId: string, loaded: boolean) => void
 }
 
 export interface IPanelView {
@@ -214,6 +214,11 @@ export const useView = defineStore('useView', () => {
   // screen
   const screenID = ref<string>()
   const setScreenID = (id: string) => {
+    // delete origin data
+    const originScreenID = screenID.value
+    if (originScreenID?.length) {
+      delete context.value!.globalData[originScreenID]
+    }
     context.value!.currentScreenId = id
     screenID.value = id
   }
@@ -593,7 +598,7 @@ export const useView = defineStore('useView', () => {
         isLoopQueueRunning.value = false
       }
     }
-    watch(logicContainer.value, async (newLogicContainer) => {
+    watch(logicContainer, async (newLogicContainer) => {
       await check(newLogicContainer)
       MsisDebug.log('Loop queue:', loopQueue.value)
     })
@@ -656,7 +661,7 @@ export const useView = defineStore('useView', () => {
     isAllFrameLoaded.value = false
     allFrameLoadedCallback.value = []
   }
-  const checkAllFrameLoaded = async () => {
+  const checkAllFrameLoaded = async (screenId: string) => {
     const map = context.value?.viewData.frameIdToPanelIdMap || {}
     const isEmpty = !Object.keys(map).length
     if (isEmpty) {
@@ -664,7 +669,7 @@ export const useView = defineStore('useView', () => {
       return
     }
     const hasNotLoaded = Object.entries(map).some(([_frameId, panelId]) => {
-      const panelData = context.value?.globalData?.[screenID.value!]?.data?.[panelId]
+      const panelData = context.value?.globalData?.[screenId]?.data?.[panelId]
       const isLoaded = panelData?.status?.loaded
       return !isLoaded
     })
@@ -682,14 +687,17 @@ export const useView = defineStore('useView', () => {
       }
     }
   }
-  const setFrameStatus = (frameId: string, loaded: boolean) => {
+  const setFrameStatus = (
+    screenId: string,
+    frameId: string,
+    loaded: boolean,
+  ) => {
     const panelId = getPanelIdByFrameId(frameId)
     if (!panelId) {
       MsisDebug.warn(`Not found panelId by frameId: ${frameId}`)
       return
     }
-    const panelData =
-      context.value?.globalData?.[screenID.value!]?.data?.[panelId]
+    const panelData = context.value?.globalData?.[screenId]?.data?.[panelId]
     if (!panelData) {
       MsisDebug.warn(`Not found panelData by panelId: ${panelId}`)
       return
@@ -698,7 +706,7 @@ export const useView = defineStore('useView', () => {
         loaded,
       }
       // check all frame loaded
-      checkAllFrameLoaded()
+      checkAllFrameLoaded(screenId)
     }
   }
 
@@ -708,9 +716,9 @@ export const useView = defineStore('useView', () => {
       opts || {}
     const isSystemAction = isSystemActionCode(actionCode)
     if (isSystemAction) {
-      console.log(`Dispatch System actionCode: ${actionCode}`)
+      MsisDebug.log(`Dispatch System actionCode: ${actionCode}`)
     } else {
-      console.log('Dispatch actionCode : ', actionCode)
+      MsisDebug.log('Dispatch actionCode : ', actionCode)
     }
     if (!pageID.value?.length) {
       console.error('pageID is empty')
@@ -1001,7 +1009,7 @@ export const useView = defineStore('useView', () => {
               updateCurrentPage()
             } else {
               // back to menu
-              console.log(
+              MsisDebug.log(
                 `Not found newLayoutID for target: ${target}, will back to menu`,
               )
               backToMenu()

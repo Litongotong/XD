@@ -37,8 +37,8 @@ export class SMSFileDialogData extends JCFItemData {
   defaultPath = ref('')
   //2014/06/30 システム統合開発プロジェクト Add Start
 
-  modified = ref(false)
-  errorCode = ref('')
+  fullPath: Ref<string | null> = ref(null)
+  file: Ref<NativeFile | null> = ref(null)
 
   constructor(itemID: string) {
     super(itemID)
@@ -77,8 +77,6 @@ export class SMSFileDialogData extends JCFItemData {
     let data: SMSFileDialogData = itemData as any as SMSFileDialogData
   }
 
-  private fullPath: Ref<string | null> = ref(null)
-
   setValue(newValue: string) {
     this.fullPath.value = newValue
   }
@@ -86,8 +84,6 @@ export class SMSFileDialogData extends JCFItemData {
   getValue(): string {
     return this.fullPath.value!
   }
-
-  private file: Ref<NativeFile | null> = ref(null)
 
   /****************************************************************************************
    * ファイルを取得します。
@@ -211,8 +207,17 @@ export class SMSFileDialogData extends JCFItemData {
     //		return getFile().getParent() + "\\";
     let dir: string = this.getFile().getParent()
     // 1文字目の"\"はエスケープシーケンス
-    return dir.endsWith('\\') ? dir : dir + NativeFile.separator
 
+    if (dir.endsWith('/') || dir.endsWith('\\')) {
+      return dir
+    }
+    if (dir.includes('/') && !dir.endsWith('/')) {
+      return `${dir}/`
+    }
+    if (dir.includes('\\') && !dir.endsWith('\\')) {
+      return `${dir}\\`
+    }
+    return dir
     // 2007/11/22 Mod end
   }
 

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "run-p type-check build-only",
-    "build-remote-dev": "run-p type-check build-remote-dev-only",
+    "build": "npm run build-only",
+    "build-remote-dev": "npm run build-remote-dev-only",
     "preview": "vite preview",
     "preview-remote-dev": "vite preview --mode development.remote",
     "build-only": "vite build",

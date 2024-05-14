@@ -17,7 +17,10 @@ const props = defineProps<{
   panelId: string
 }>()
 
-provider.provide.frame(props.frameId)
+const getFrameId = () => {
+  return props.frameId
+}
+provider.provide.frame(getFrameId)
 
 const { setupPanel } = useSetup()
 setupPanel(props.panelId)

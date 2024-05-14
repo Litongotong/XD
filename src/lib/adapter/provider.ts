@@ -7,22 +7,49 @@ const ITEM_ID = 'itemId'
 const PANEL_CLASS_NAME = 'panelClassName'
 const LOGIC_CLASS_NAME = 'logicClassName'
 
+type Getter = () => string
+
 export const provider = {
   provide: {
-    screen: (screenId: string) => provide(SCREEN_ID, screenId),
-    frame: (frameId: string) => provide(FRAME_ID, frameId),
-    item: (itemId: string) => provide(ITEM_ID, itemId),
+    screen: (getScreenId: Getter) => {
+      provide(SCREEN_ID, getScreenId)
+    },
+    frame: (getFrameId: Getter) => {
+      provide(FRAME_ID, getFrameId)
+    },
+    item: (getItemId: Getter) => {
+      provide(ITEM_ID, getItemId)
+    },
 
-    panelClassName: (className: string) => provide(PANEL_CLASS_NAME, className),
-    logicClassName: (className?: string) => provide(LOGIC_CLASS_NAME, className),
+    panelClassName: (getClassName: Getter) => {
+      provide(PANEL_CLASS_NAME, getClassName)
+    },
+    logicClassName: (getClassName: () => string | undefined) => {
+      provide(LOGIC_CLASS_NAME, getClassName)
+    },
   },
 
   inject: {
-    screen: () => inject<string>(SCREEN_ID, ''),
-    frame: () => inject<string>(FRAME_ID, ''),
-    item: () => inject<string>(ITEM_ID, ''),
+    screen: () => {
+      const getScreenId = inject<Getter>(SCREEN_ID, () => '')
+      return getScreenId
+    },
+    frame: () => {
+      const getFrameId = inject<Getter>(FRAME_ID, () => '')
+      return getFrameId
+    },
+    item: () => {
+      const getItemId = inject<Getter>(ITEM_ID, () => '')
+      return getItemId
+    },
 
-    panelClassName: () => inject<string>(PANEL_CLASS_NAME, ''),
-    logicClassName: () => inject<string | undefined>(LOGIC_CLASS_NAME),
+    panelClassName: () => {
+      const getClassName = inject<Getter>(PANEL_CLASS_NAME, () => '')
+      return getClassName
+    },
+    logicClassName: () => {
+      const getClassName = inject<() => string | undefined>(LOGIC_CLASS_NAME, () => '')
+      return getClassName
+    },
   },
 } as const

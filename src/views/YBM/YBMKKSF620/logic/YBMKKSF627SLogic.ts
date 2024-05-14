@@ -24,7 +24,7 @@ import { JCFSelectableElement } from '@/lib/jcf/gui/JCFSelectableElement'
 /**
  * 配賦マスタ 取込結果確認画面ロジッククラスです。
  */
-export class YBMKKSF627SLogic extends YBMKKSCjfLogicBase {
+export default class YBMKKSF627SLogic extends YBMKKSCjfLogicBase {
   // --------------------------------------------------------
   // アイテムID
   // --------------------------------------------------------

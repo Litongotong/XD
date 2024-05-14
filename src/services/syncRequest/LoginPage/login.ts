@@ -1,5 +1,7 @@
 import { HTTPMethods } from '@/services/interface'
 import { syncHttp } from '../commonRequest'
+import { storage } from '@/utils/browser/storage'
+import { router } from '@/routes'
 
 /**
  * @description ログイン画面 ログインAPI
@@ -75,7 +77,7 @@ export function loginPage_login(opts: {
   // }
   // return result
 
-  return response.data
+  return response
 }
 
 /**
@@ -88,15 +90,22 @@ export function loginPage_logout(opts: {
     cdUser: string
     cdKaisha: string
   }
+  stTammatsu: string
 }) {
-  const { commonMsg } = opts
+  const { commonMsg, stTammatsu } = opts
   const response = syncHttp({
     url: '/logout',
     method: HTTPMethods.POST,
     data: {
       commonMsg,
+      stTammatsu,
     },
   })
+
+  if (response.status == 200) {
+    storage.clearSessionData()
+    router.push('/')
+  }
 
   return response.data
 }

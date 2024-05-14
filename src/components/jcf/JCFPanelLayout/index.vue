@@ -46,10 +46,13 @@ const { elmRef } = useAutoSize()
 // check frame is loaded
 const slots = useSlots()
 const view = useView()
-const frameId = provider.inject.frame()
+const getScreenId = provider.inject.screen()
+const getFrameId = provider.inject.frame()
 const startItemsLoadListener = () => {
+  const screenId = getScreenId()
+  const frameId = getFrameId()
   // set loaded to false
-  view.utils.setFrameStatus(frameId, false)
+  view.utils.setFrameStatus(screenId, frameId, false)
 
   const itemIds: string[] = []
   const handleSingle = (node: any) => {
@@ -72,7 +75,7 @@ const startItemsLoadListener = () => {
   })
   MsisDebug.log(`JCFPanelLayout: items: ${itemIds}`)
 
-  view.utils.setFrameStatus(frameId, true)
+  view.utils.setFrameStatus(screenId, frameId, true)
 }
 startItemsLoadListener()
 </script>

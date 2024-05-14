@@ -2,20 +2,45 @@ import { Color } from '@/lib/native/awt/Color'
 import { JCFSpreadCellPosition } from './JCFSpreadCellPosition'
 import { JCFItemData } from './JCFItemData'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { toRaw, type Ref } from 'vue'
+import { toRaw, watch, type Ref } from 'vue'
 import { Row, type FlexGrid } from '@grapecity/wijmo.grid'
 import { CellRange, FormatItemEventArgs, Column } from '@grapecity/wijmo.grid'
 import { MsisDebug } from '@/utils/debug/log'
 import { create2DStringArray } from '@/utils/array/2D'
+import { isNil } from '@/utils/useful'
+import { DataType } from '@grapecity/wijmo'
+import { getRaw } from '@/utils/vue/getRaw'
+import { JCFSpreadCellData } from './JCFSpreadCellData'
+import { Vector } from '@/lib/native/util/Vector'
 
 export class JCFSpreadData extends JCFItemData {
   flexGridRef: Ref<FlexGrid | undefined>
 
+  /** column edit types */
+  public static STRING = 1
+  public static NUMBER = 2
+  public static DATE = 3
+  public static COMBOBOX = 5
+  public static COMBOBOX2 = 11
+  public static CHECKBOX = 7
+  public static PUSHBUTTON = 8
+  public static TOGGLEBUTTON = 10
+
+  public static ERROR_RANGE_COLUMN = 'ERROR_RANGE_COLUMN'
+  public static ERROR_RANGE_ROW = 'ERROR_RANGE_ROW'
+  public static ERROR_NO_GRID = 'ERROR_NO_GRID'
+
+  protected dataCellsVec: Vector<JCFSpreadCellData[]> = new Vector()
+
   /** セルを複数選択できるかどうか */
   multipleMode: boolean = false
 
+  protected setModified(b: boolean) {
+    super.setModified(b)
+  }
+
   get flexGrid(): FlexGrid | undefined {
-    return toRaw(this.flexGridRef?.value)
+    return getRaw(this.flexGridRef)
   }
 
   get rowCount(): number {
@@ -23,17 +48,57 @@ export class JCFSpreadData extends JCFItemData {
   }
 
   get columnCount(): number {
-    return this.flexGrid?.rows.length || 0
+    return this.flexGrid?.columns.length || 0
   }
 
-  constructor(itemId: string) {
+  constructor(itemId: string)
+  constructor(itemId: string, flexGrid: Ref<FlexGrid | undefined>)
+  constructor(itemId: string, flexGrid?: Ref<FlexGrid | undefined>) {
     super(itemId)
+
+    flexGrid && this._setFlexGrid(flexGrid)
   }
 
   _setFlexGrid(flexGrid: Ref<FlexGrid | undefined>) {
-    console.log('jcfspread instance stalled', flexGrid)
+    MsisDebug.log('jcfspread instance stalled', flexGrid)
+
+
     this.flexGridRef = flexGrid
+
+    this.addListeners()
   }
+
+  addListeners() {
+    if (!this.flexGridRef) return
+
+    watch(this.flexGridRef, (newVal, oldVal) => {
+      if (newVal === oldVal) return
+
+      if (!this.flexGrid) return
+
+      // Regist listener
+
+      this.flexGrid.beginningEdit.addHandler((s, e) => {
+        let cell = this.getCell(e.row, e.col)
+
+        if (!cell) return
+
+        if (!cell.isEditable()) {
+          e.cancel = true
+        }
+      })
+    })
+  }
+
+  isReverse() {
+    return false
+  }
+
+  getColumnCount() {
+    return this.columnCount
+  }
+
+  setReverse(flag: boolean) {}
 
   getCellValue(row: number, column: number): string {
     const grid = this.flexGrid
@@ -69,6 +134,53 @@ export class JCFSpreadData extends JCFItemData {
     return ''
   }
 
+  getColumnInformationEditType(column: number): number {
+    if (column >= 0 && this.columnCount > column) {
+      const columnType = this.getColumnData(column)['dataType']
+
+      switch (columnType) {
+        case DataType.Date:
+          return JCFSpreadData.DATE
+        case DataType.Boolean:
+          return JCFSpreadData.CHECKBOX
+        case DataType.Number:
+          return JCFSpreadData.NUMBER
+        case DataType.String:
+          return JCFSpreadData.STRING
+        /** TODO(spread): How to map the rest of edit types?
+         * JCFSpreadData: COMBOBOX, COMBOBOX2, TOGGLEBUTTON, PUSHBUTTON
+         * Wijmo: Array, Object
+         */
+        case DataType.Array:
+          return JCFSpreadData.COMBOBOX
+        case DataType.Object:
+          return JCFSpreadData.PUSHBUTTON
+        default:
+          MsisDebug.warn(
+            `No default column edit type in wijmo grid column ${column}`,
+          )
+          return JCFSpreadData.STRING
+      }
+    } else {
+      throw new Error(JCFSpreadData.ERROR_RANGE_COLUMN)
+    }
+  }
+
+  /**
+   * get the Column object from wijmo according to the given index
+   * @param column index of the column
+   * @returns
+   */
+  getColumnData(column: number): Column {
+    const grid = this.flexGrid
+    if (!this.flexGrid) throw new Error(JCFSpreadData.ERROR_NO_GRID)
+    return this.flexGrid.columns[column]
+  }
+
+  setLastSorted(column: string | null) {
+    // TODO(spread): no such function in Wijmo
+  }
+
   /**
    * Focus on the given cell
    * @param row
@@ -88,6 +200,8 @@ export class JCFSpreadData extends JCFItemData {
   removeAllRow(): void {
     const grid = this.flexGrid
     if (!grid) return
+
+    this.dataCellsVec.removeAllElements()
     grid.itemsSource = []
   }
 
@@ -134,15 +248,60 @@ export class JCFSpreadData extends JCFItemData {
   }
 
   /**
+   * Append a row into the selected row index
+   */
+  addRow(row: number): void
+  /**
    * Append a row on the last of table
    */
-  addRow(): void {
+  addRow(): void
+  addRow(row?: number) {
     const grid = this.flexGrid
-    if (grid) {
+
+    if (!grid) return
+
+    if (isNil(row)) {
       grid.itemsSource = grid.itemsSource ? [...grid.itemsSource, {}] : []
+      this.dataCellsVec.add(this.createAndInitializeCells())
+      return
+    }
+
+    if (row < 0 || this.rowCount < row) {
+      throw new Error(JCFSpreadData.ERROR_RANGE_ROW)
+    }
+
+    this.dataCellsVec.add(row, this.createAndInitializeCells())
+    grid.itemsSource.splice(row, 0, {})
+    grid.itemsSource = [...grid.itemsSource]
+  }
+
+  insertRow(row: number): void {
+    this.addRow(row)
+  }
+
+  removeRow(row: number) {
+    if (row < 0 || this.rowCount <= row) {
+      throw new Error(JCFSpreadData.ERROR_RANGE_ROW)
+    } else {
+      this.rmRow(row)
+      return
     }
   }
 
+  private rmRow(row: number) {
+    const grid = this.flexGrid
+
+    if (!grid) return
+
+    this.dataCellsVec.removeElementAt(row)
+
+    grid.itemsSource.splice(row, 1)
+    grid.itemsSource = [...grid.itemsSource]
+  }
+
+  /**
+   * get the positions of current selected columns
+   */
   getSelectedCellsPosition(): JCFSpreadCellPosition[] {
     const grid = this.flexGrid
     const selectedRanges = grid?.selection
@@ -240,6 +399,49 @@ export class JCFSpreadData extends JCFItemData {
   }
 
   /**
+   * Set a background color for the given column header cell
+   * @param chrow column header row index
+   * @param chcolumn column header column index
+   * @param color
+   */
+  setColumnHeaderCellBackground(chrow: number, chcolumn: number, color: Color) {
+    const grid = this.flexGrid
+    if (!grid) return
+    if (chrow >= 0 && grid.columnHeaders.rows.length > chrow) {
+      if (chcolumn >= 0 && grid.columns.length > chcolumn) {
+        const columnHeaderCell = grid.columnHeaders.getCellElement(
+          chrow,
+          chcolumn,
+        )
+        if (columnHeaderCell) {
+          columnHeaderCell.style.backgroundColor = color._toRGBString()
+        }
+      } else {
+        throw new Error(JCFSpreadData.ERROR_RANGE_COLUMN)
+      }
+    } else {
+      throw new Error(JCFSpreadData.ERROR_RANGE_ROW)
+    }
+  }
+
+  public setRowCount(count: number): void {
+    if (count < 0) {
+      throw new Error(JCFSpreadData.ERROR_RANGE_ROW)
+    } else {
+      let row: number
+      if (count > this.rowCount) {
+        for (row = this.rowCount; row < count; row += 1) {
+          this.addRow(this.rowCount)
+        }
+      } else {
+        for (row = this.rowCount; count < row; row -= 1) {
+          this.rmRow(count)
+        }
+      }
+    }
+  }
+
+  /**
    * Get the value of checkbox in the given cell
    * @param row
    * @param column
@@ -248,6 +450,85 @@ export class JCFSpreadData extends JCFItemData {
     const grid = this.flexGrid
     const value = grid?.getCellData(row, column, true)
     return !!value
+  }
+
+  /**
+   * Set the editable property of given cell
+   * @param row
+   * @param column
+   * @param editable
+   */
+  setCellEditable(row: number, column: number, editable: boolean) {
+    if (row < 0 || this.rowCount <= row)
+      throw new Error(JCFSpreadData.ERROR_RANGE_ROW)
+    if (column < 0 || this.columnCount <= column)
+      throw new Error(JCFSpreadData.ERROR_RANGE_COLUMN)
+
+    const cell = this.getCell(row, column)
+
+    if (cell.isEditable() == editable) {
+      return
+    } else {
+      cell.setEditable(editable)
+      return
+    }
+  }
+
+  isCellEditable(row: number, column: number) {
+    if (row < 0 || this.rowCount <= row) throw new Error('ERROR_RANGE_ROW')
+    if (column < 0 || this.columnCount <= column) {
+      throw new Error('ERROR_RANGE_COLUMN')
+    } else {
+      const cell = this.getCell(row, column)
+      return cell.isEditable()
+    }
+  }
+
+  protected createCells(): JCFSpreadCellData[] {
+    let columns: number = this.getColumnCount()
+    const cells: JCFSpreadCellData[] = Array.from({ length: columns })
+
+    for (let col = 0; col < columns; col++) {
+      const cell: JCFSpreadCellData = new JCFSpreadCellData()
+      const columnInfo = this.getColumnData(col)
+      this.initializeCell(cell, columnInfo)
+      cells[col] = cell
+    }
+
+    return cells
+  }
+
+  protected initializeCells(cells: JCFSpreadCellData[]) {
+    for (let col = 0; col < cells.length; col++) {
+      const cell: JCFSpreadCellData = cells[col]
+      const columnInfo = this.getColumnData(col)
+      this.initializeCell(cell, columnInfo)
+    }
+  }
+
+  protected initializeCell(cell: JCFSpreadCellData, columnInfo: Column) {
+    // cell.setBackground(columnInfo.getBackground());
+    // cell.setForeground(columnInfo.getForeground());
+    cell.setEditable(!columnInfo.isReadOnly)
+  }
+
+  /**
+   * Comment: In Java source code, createCells and initializeCells include repeating operations.
+   * @returns
+   */
+  protected createAndInitializeCells(): JCFSpreadCellData[] {
+    const cells: JCFSpreadCellData[] = this.createCells()
+    this.initializeCells(cells)
+    return cells
+  }
+
+  getCell(row: number, column: number) {
+    const cells: JCFSpreadCellData[] = this.dataCellsVec.get(row)
+    const cell = cells && cells[column]
+
+    if (!cell) return new JCFSpreadCellData()
+
+    return cell
   }
 
   getValue(): string {
@@ -277,8 +558,10 @@ export class JCFSpreadData extends JCFItemData {
   }
 
   setCommunicationData(obj: any): void {
-    // TOOD
+    // TODO(spread): setCommunicationData (seem not used yet)
   }
+
+  setDataAndAttributes(itemData: JCFItemData): void {}
 
   _getComponentName(): string {
     return EComponentName.JCFSpread

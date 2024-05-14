@@ -10,7 +10,6 @@ export const request = axios.create({
 
 // request interceptors
 request.interceptors.request.use((config) => {
-  // TODO: we really need token ???
   const token = tokenUtil.get()
   if (token?.length) {
     config.headers!.Authorization = token

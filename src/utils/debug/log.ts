@@ -1,4 +1,4 @@
-import { FIRST_BUILD_FOR_PREVIEW_240508 } from "./constants"
+import { FIRST_BUILD_FOR_PREVIEW_240508 } from './constants'
 
 const DEBUG_STYLE = {
   log: `color: #fff; background-color: rgba(0,0,0,.5); padding: 2px 4px; border-radius: 4px;`,
@@ -42,7 +42,7 @@ export class MsisDebug {
     if (typeof this.devPage === 'boolean') {
       return this.devPage
     }
-    const isDevPage = window.location.pathname.endsWith('/dev')
+    const isDevPage = window.location.hash.includes('/dev')
     this.devPage = isDevPage
     return isDevPage
   }

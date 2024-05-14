@@ -15,11 +15,14 @@ export enum HTTPMethods {
   POST = 'POST',
 }
 
-export interface IResponse {
+interface IResponseError {
   error?: string
   path?: string
-  status: number
-  timestamp: number
+  status?: number
+  timestamp?: number
+}
+
+export interface IResponse extends IResponseError {
   [key: string]: any
 }
 

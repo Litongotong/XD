@@ -54,8 +54,8 @@ const onInput = (e: InputEvent) => {
 }
 
 /** 部品が編集可否 */
-const isInputMode =
-  props.inputMode !== undefined && props.borderType !== JFLineType.NOTHING
+const maybeIsInput = props.inputMode !== undefined || props.enableType !== undefined
+const isInputMode = maybeIsInput && props.borderType !== JFLineType.NOTHING
 
 /** コピー不可 */
 const canNotEdit = props.editable === false
