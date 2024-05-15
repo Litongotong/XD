@@ -89,11 +89,11 @@ export class JCFGroupBoxData extends JCFItemData {
     }
   }
 
-  protected isEnabledInner(): boolean {
+  isEnabledInner(): boolean {
     return this.enabledInner.value
   }
 
-  protected setEnabledInner(innerTo: boolean) {
+  setEnabledInner(innerTo: boolean) {
     this.enabledInner.value = innerTo
   }
 

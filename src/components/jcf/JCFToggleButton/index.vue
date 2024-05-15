@@ -2,7 +2,7 @@
   <div :data-item-id="id" :data-component-name="EComponentName.JCFToggleButton">
     <template v-if="context">
       <div
-        class="base-radio-button"
+        class="base-radio-button toggle_button_common"
         :style="commonStyle"
         @click="onSelectedChange"
       >
@@ -11,17 +11,18 @@
           type="radio"
           :checked="isSelected"
           :disabled="isDisabled"
+          :name="name"
         />
         <label class="radio-button-label">
-          {{ label }}
+          {{ showLabel }}
         </label>
       </div>
     </template>
     <template v-else>
       <div
-        class="base-checkbox-button"
+        class="base-checkbox-button toggle_button_common"
         :style="commonStyle"
-        @click="onSelectedChange"
+        @click="onCheckedChange"
       >
         <input
           class="base-checkbox-button-input"
@@ -30,7 +31,7 @@
           :disabled="isDisabled"
         />
         <label class="checkbox-button-label">
-          {{ label }}
+          {{ showLabel }}
         </label>
       </div>
     </template>
@@ -43,32 +44,39 @@ import type { JCFToggleButtonData } from '@/lib/jcf/gui/JCFToggleButtonData'
 import { computed, inject, ref, watch } from 'vue'
 import { calculateCommonStyle } from '../utils/transform'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
 import {
   JCF_BUTTON_GROUP_PROVIDE_KEY,
   type JCFButtonGroupContainerProvide,
 } from '../JCFButtonGroup/types'
+import { Adapter } from '@/lib/adapter/adapter'
 
 defineOptions({
   name: EComponentName.JCFToggleButton,
 })
 
-const props = defineProps<JCFToggleButtonProps>()
+const adapter = Adapter.create()
 
-const isDisabled = props.enabled === false
+const props = defineProps<JCFToggleButtonProps>()
+const showLabel = props.label
+
+const isDisabled = computed(() => {
+  const usingEnabled = instance ? instance.enabled.value : props.enabled
+  return usingEnabled === false
+})
 
 const id = props.id
+const name = props.name
 // 部品データを用意する
-const instance = installInstance<JCFToggleButtonData>(
-  EComponentName.JCFToggleButton,
-  props,
-)
+const instance = getInstance<JCFToggleButtonData>(props)
 
 // 算出スタイル
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
   style.alignItems = 'center'
-  style.color = isDisabled ? 'var(--color-light-gray)' : undefined
+  if (isDisabled.value) {
+    style.color = 'var(--color-light-gray)'
+  }
   return style
 })
 
@@ -77,11 +85,35 @@ const context = inject<JCFButtonGroupContainerProvide | undefined>(
   undefined,
 )
 const containerIndex = ref<number>(null!)
-const isSelected = instance ? instance.value : ref(false)
+const isSelected =
+  props.state === true
+    ? ref(props.state)
+    : instance
+    ? instance.value
+    : ref(false)
+
+// ラジオボタンの選択変更処理
 const onSelectedChange = () => {
-  if (!isSelected.value) {
+  if (!isDisabled.value && !isSelected.value) {
     isSelected.value = true
   }
+}
+// チェックボックスのチェック状態変更処理
+const onCheckedChange = () => {
+  if (!isDisabled.value) {
+    isSelected.value = !isSelected.value
+  }
+}
+// trigger action
+if (props.pushedActionCode) {
+  watch(isSelected, (newValue) => {
+    if (newValue) {
+      adapter.extra.wrap({
+        actionCode: props.pushedActionCode!,
+        itemId: id,
+      })
+    }
+  })
 }
 
 if (context) {
@@ -102,6 +134,10 @@ if (context) {
   display: flex;
   align-items: center;
   white-space: nowrap;
+}
+
+.toggle_button_common {
+  user-select: none;
 }
 
 .base-radio-button-input {
@@ -144,6 +180,8 @@ if (context) {
   font-size: 1rem;
   height: inherit;
   width: inherit;
+  position: absolute;
+  top: calc(50% - 0.5rem);
 }
 
 .base-checkbox-button-input:checked::after {
@@ -154,7 +192,5 @@ if (context) {
   display: inline-block;
   vertical-align: middle;
   padding-left: 5px;
-  padding-top: 2px;
-  padding-bottom: 0px;
 }
 </style>

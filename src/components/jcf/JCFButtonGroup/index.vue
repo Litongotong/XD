@@ -1,7 +1,6 @@
 <template>
-  <div :data-component-name="EComponentName.JCFButtonGroup">
+  <div :data-component-name="EComponentName.JCFButtonGroup" :data-item-id="id">
     <!-- ラベル付けの外枠線 -->
-
     <fieldset v-if="label" :style="commonStyle">
       <legend v-if="label">
         {{ label }}
@@ -24,26 +23,32 @@ import {
   type JCFButtonGroupContainer,
   JCF_BUTTON_GROUP_PROVIDE_KEY,
 } from './types'
-// import type { JCFButtonGroupData } from '@/lib/jcf/gui/JCFButtonGroupData'
-// JCFButtonGroupDataがないため、一時保存
 import { computed, provide } from 'vue'
 import { calculateCommonStyle } from '../utils/transform'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
+import type { JCFButtonGroupData } from '@/lib/jcf/gui/JCFButtonGroupData'
+import { toFlowLayout } from '../utils/common'
+
 defineOptions({
   name: EComponentName.JCFButtonGroup,
 })
+
 // 部品 props
 const props = defineProps<JCFButtonGroupProps>()
+const id = props.id
 
 // 部品データを用意する
-const instance = installInstance<any>(EComponentName.JCFButtonGroup, props)
-// const instance = installInstance<JCFButtonGroupData>(EComponentName.JCFButtonGroup, props)
-// JCFButtonGroupDataがないため、一時保存
+const instance = getInstance<JCFButtonGroupData>(props)
 
 // 算出スタイル
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
-  return style
+  // 文字選択不可にする
+  style.userSelect = 'none'
+
+  const layoutStyle = toFlowLayout(props.layout)
+
+  return { ...style, ...layoutStyle }
 })
 
 // ボックスのフラグを用意する
@@ -58,10 +63,6 @@ const onChange = (newValue: boolean, currentIndex: number) => {
     }
   })
 }
-provide(JCF_BUTTON_GROUP_PROVIDE_KEY, {
-  onChange,
-  container,
-})
 
 watch(
   container.value,
@@ -74,6 +75,14 @@ watch(
     deep: true,
   },
 )
+
+// children control context
+provide(JCF_BUTTON_GROUP_PROVIDE_KEY, {
+  onChange,
+  container,
+})
+
+const label = props.label
 </script>
 
 <style scoped></style>

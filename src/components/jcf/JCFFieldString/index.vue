@@ -1,9 +1,4 @@
 <template>
-  <!--
-    必須属性：
-    data-item-id -> Item ID 
-    data-compoennt-name -> 部品名
-  -->
   <div
     :style="commonStyle"
     :data-item-id="id"
@@ -17,8 +12,10 @@
     <template v-if="isInputMode">
       <input
         :maxlength="maxLength"
-        :disabled="disabled"
-        v-model="instance!.value.value"
+        :disabled="isDisabled"
+        v-model="inputValue"
+        @input="onInput"
+        :readonly="canNotEdit"
         class="input"
       />
     </template>
@@ -29,9 +26,10 @@
 import type { JCFFieldStringProps } from './types'
 import type { JCFFieldStringData } from '@/lib/jcf/gui/JCFFieldStringData'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { computed } from 'vue'
-import { installInstance } from '../utils/instance'
+import { computed, ref } from 'vue'
+import { getInstance } from '../utils/instance'
 import { calculateCommonStyle } from '../utils/transform'
+import { getEnableTypeTransformer } from './format'
 import { JFLineType } from '@/lib/jcf/gui/JFLineType'
 
 // 部品名の明記
@@ -41,20 +39,31 @@ defineOptions({
 
 // 部品 props
 const props = defineProps<JCFFieldStringProps>()
+const id = props.id
 
 // 部品データを用意する
-const instance = installInstance<JCFFieldStringData>(
-  EComponentName.JCFFieldString,
-  props,
-)
+const instance = getInstance<JCFFieldStringData>(props)
+
+const enableTypeTransformer = getEnableTypeTransformer(props.enableType)
+
+const inputValue = instance ? instance.value : ref('')
+const onInput = (e: InputEvent) => {
+  const newValue = (e.target as HTMLInputElement).value
+  const formattedValue = enableTypeTransformer(newValue)
+  inputValue.value = formattedValue
+}
 
 /** 部品が編集可否 */
-const isInputMode =
-  props.inputMode !== undefined && props.borderType !== JFLineType.NOTHING
+const maybeIsInput = props.inputMode !== undefined || props.enableType !== undefined
+const isInputMode = maybeIsInput && props.borderType !== JFLineType.NOTHING
+
 /** コピー不可 */
-const canNotCut = props.editable === false
+const canNotEdit = props.editable === false
 /** 活性化 */
-const disabled = props.enabled === false
+const isDisabled = computed(() => {
+  const usingEnabled = instance ? instance.enabled.value : props.enabled
+  return usingEnabled === false
+})
 /** 編集不可時の表示値 */
 const text = computed(() => {
   const fallback = props.text || ''
@@ -68,10 +77,9 @@ const maxLength = props.maxLength
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
 
-  // more style handle
-  // if (...) {
-  //   style.backgroundColor = 'lightpink'
-  // }
+  if (props.editable === false) {
+    style.userSelect = 'none'
+  }
 
   return style
 })
@@ -91,7 +99,10 @@ const commonStyle = computed(() => {
 .input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding: 0 1px;
+  background-color: inherit;
+  border-width: 1px;
+  border-radius: 2.5px;
 }
 
 /* magic move */

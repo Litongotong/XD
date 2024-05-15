@@ -7,13 +7,13 @@ import type {
 import type { FlowLayout } from '@/lib/native/awt/FlowLayout'
 
 export interface JCFGroupBoxProps extends JCFItemProps, JCFGroupBoxStaticProps {
+  value?: DynamicProp<string>
   enabledInner?: DynamicProp<boolean>
 }
 
 export interface JCFGroupBoxStaticProps extends JCFCommonStaticProps {
   // 枠線ラベル
   label?: StaticProp<string>
-  // レイアウト FlowLayout?
-  // TODO
+  // レイアウト
   layout?: StaticProp<FlowLayout>
 }

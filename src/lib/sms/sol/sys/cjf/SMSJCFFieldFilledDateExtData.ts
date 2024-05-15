@@ -27,18 +27,6 @@ export class SMSJCFFieldFilledDateExtData extends JCFFieldFilledDateData {
     bindThis(this)
   }
 
-  setDataAndAttributes(itemData: JCFItemData) {
-    if (itemData?._getType() === SMSJCFFieldFilledDateExtData) {
-      super.setDataAndAttributes(itemData)
-    }
-  }
-
-  setData(itemData: JCFItemData) {
-    if (itemData?._getType() === SMSJCFFieldFilledDateExtData) {
-      super.setData(itemData)
-    }
-  }
-
   setModified(newModified: boolean) {
     super.setModified(newModified)
   }
@@ -51,10 +39,6 @@ export class SMSJCFFieldFilledDateExtData extends JCFFieldFilledDateData {
     super.setMaxLengths(newMaxLengths)
   }
 
-  //	protected setValue(String value) {
-  //		super.setValue(value);
-  //	}
-
   setBackground(color: Color) {
     super.setBackground(color)
   }
@@ -65,6 +49,18 @@ export class SMSJCFFieldFilledDateExtData extends JCFFieldFilledDateData {
 
   static _getName(): string {
     return 'SMSJCFFieldFilledDateExtData'
+  }
+
+  setDataAndAttributes(itemData: JCFItemData): void {
+    if (itemData?._getType() === SMSJCFFieldFilledDateExtData) {
+      super.setDataAndAttributes(itemData)
+    }
+  }
+
+  setData(itemData: JCFItemData): void {
+    if (itemData?._getType() === SMSJCFFieldFilledDateExtData) {
+      super.setData(itemData)
+    }
   }
 
   _getType() {

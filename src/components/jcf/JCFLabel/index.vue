@@ -5,7 +5,7 @@
     :style="commonStyle"
     class="string"
   >
-    {{ text }}
+    <Text>{{ text }}</Text>
   </div>
 </template>
 
@@ -14,11 +14,13 @@ import type { JCFLabelProps } from './types'
 import type { JCFLabelData } from '@/lib/jcf/gui/JCFLabelData'
 
 import { computed } from 'vue'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
 import { calculateCommonStyle } from '../utils/transform'
-import { toAlignment } from '../utils/common'
+import { toAlignment, toInsets } from '../utils/common'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { EJFAlignment } from '@/lib/jcf/gui/JFAlignment'
+
+import Text from '@/components/jcf/utils/Text/index.vue'
 
 defineOptions({
   name: EComponentName.JCFLabel,
@@ -27,8 +29,9 @@ defineOptions({
 const props = defineProps<JCFLabelProps>()
 
 const id = props.id
+const autoWrap = props.autoTurn
 
-const ins = installInstance<JCFLabelData>(EComponentName.JCFLabel, props)
+const ins = getInstance<JCFLabelData>(props)
 const fallbackText = props.text || ''
 const text = computed(() => {
   if (ins) {
@@ -41,6 +44,14 @@ const text = computed(() => {
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance: ins, props })
 
+  // 文字選択不可にする
+  style.userSelect = 'none'
+
+  if (autoWrap) {
+    style.flexWrap = 'wrap'
+    style.whiteSpace = 'pre-wrap'
+  }
+
   const alignmentProps = {
     // 水平位置
     alignmentHorizontal: props.alignmentHorizontal ?? EJFAlignment.LEFT,
@@ -49,9 +60,11 @@ const commonStyle = computed(() => {
   }
 
   // 水平位置、垂直位置計算
-  const computedAlignment = toAlignment(alignmentProps)
+  const alignmentStyle = toAlignment(alignmentProps)
 
-  return { ...style, ...computedAlignment }
+  const insetsStyle = toInsets(props.insets)
+
+  return { ...alignmentStyle, ...style, ...insetsStyle }
 })
 </script>
 

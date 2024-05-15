@@ -1,3 +1,5 @@
+import { FIRST_BUILD_FOR_PREVIEW_240508 } from './constants'
+
 const DEBUG_STYLE = {
   log: `color: #fff; background-color: rgba(0,0,0,.5); padding: 2px 4px; border-radius: 4px;`,
   error: `color: #fff; background-color: #f00; padding: 2px 4px; border-radius: 4px;`,
@@ -17,6 +19,8 @@ const getDebugMode = () => {
   return localStorage.getItem(DEBUG_LS_KEY) === EDebugMode.open
 }
 
+const isDev = import.meta.env.DEV || FIRST_BUILD_FOR_PREVIEW_240508
+
 export class MsisDebug {
   private static debug: boolean | undefined
   private static devPage: boolean | undefined
@@ -32,19 +36,19 @@ export class MsisDebug {
   }
 
   static isDevPage() {
-    if (!import.meta.env.DEV) {
+    if (!isDev) {
       return false
     }
     if (typeof this.devPage === 'boolean') {
       return this.devPage
     }
-    const isDevPage = window.location.pathname.endsWith('/dev')
+    const isDevPage = window.location.hash.includes('/dev')
     this.devPage = isDevPage
     return isDevPage
   }
 
   static isDebug() {
-    if (!import.meta.env.DEV) {
+    if (!isDev) {
       return false
     }
     if (typeof this.debug === 'boolean') {
@@ -64,7 +68,7 @@ export class MsisDebug {
   }
 
   static log(...args: any[]) {
-    if (import.meta.env.DEV) {
+    if (isDev) {
       if (!this.isDebug()) {
         return
       }
@@ -74,7 +78,7 @@ export class MsisDebug {
   }
 
   static error(...args: any[]) {
-    if (import.meta.env.DEV) {
+    if (isDev) {
       if (!this.isDebug()) {
         return
       }
@@ -84,7 +88,7 @@ export class MsisDebug {
   }
 
   static warn(...args: any[]) {
-    if (import.meta.env.DEV) {
+    if (isDev) {
       if (!this.isDebug()) {
         return
       }

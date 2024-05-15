@@ -1,4 +1,4 @@
-import type { IGlobalPanelData } from '@/lib/adapter/interface'
+import type { IGlobalPanelData, IPanelStatus } from '@/lib/adapter/interface'
 import type { JCFContext } from '../ctrl/JCFContext'
 import type { JCFItemData } from './JCFItemData'
 import { JCFDataBean } from './JCFDataBean'
@@ -15,6 +15,7 @@ export class JCFPanelData extends JCFDataBean {
   context: JCFContext
   panelId: string
   data: IGlobalPanelData
+  status: IPanelStatus
 
   // origin property
   enabledInner = ref(false)
@@ -29,6 +30,9 @@ export class JCFPanelData extends JCFDataBean {
     this.context = context
     this.panelId = panelId
     this.data = data || {}
+    this.status = {
+      loaded: false
+    }
 
     bindThis(this)
   }

@@ -11,6 +11,7 @@ export class JCFLog {
   private static timestamp = new SimpleDateFormat('yyyy/MM/dd HH:mm:ss SSS')
 
   static write(str: string, level: number): void {
+    Log._pushToAllQueue(str, level)
     if (level <= this.logOutLevel) {
       str = this.addTimestamp(str)
       Log.push(str)

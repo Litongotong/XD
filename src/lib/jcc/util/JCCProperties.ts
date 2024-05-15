@@ -101,7 +101,7 @@ export class JCCProperties {
     // 以下に必要な手続きを記述してください。
     if (key == null) throw new NullPointerException('key is null')
     if (key.equals('')) throw new NullPointerException('key is empty')
-    return String(this.propList.get(key))
+    return String(this.propList.get(key) || '')
   }
   __getStringWithDefaultValue(key: string, defaultValue: string): string {
     let value: string = this.getString(key)

@@ -8,11 +8,8 @@ import type {
 
 export interface JCFFieldFilledDateProps
   extends JCFItemProps,
-    JCFFieldFilledDateStaticProps {
-  value?: DynamicProp<number[]>
-  valueError?: DynamicProp<boolean>
-  isSMS?: boolean
-}
+    JCFFieldFilledDateStaticProps,
+    JCFFieldFilledDateMode {}
 
 export interface JCFFieldFilledDateStaticProps extends JCFCommonStaticProps {
   autoEscape?: StaticProp<boolean>
@@ -25,7 +22,6 @@ export interface JCFFieldFilledDateStaticProps extends JCFCommonStaticProps {
   full?: StaticProp<boolean>
   focusField?: StaticProp<number>
 
-  isYuki?: StaticProp<boolean>
   inputMode?: StaticProp<EJFField>
   intArrayValue?: StaticProp<number[]>
   inputAssist?: StaticProp<any>
@@ -40,4 +36,9 @@ export interface JCFFieldFilledDateStaticProps extends JCFCommonStaticProps {
   selectedInFocus?: StaticProp<boolean>
 
   text?: StaticProp<string>
+}
+
+export interface JCFFieldFilledDateMode {
+  isSMS?: boolean
+  isYuki?: boolean
 }

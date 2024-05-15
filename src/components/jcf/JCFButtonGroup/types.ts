@@ -1,18 +1,15 @@
-import type { EJFAlignment } from '@/lib/jcf/gui/JFAlignment'
 import type { FlowLayout } from '@/lib/native/awt/FlowLayout'
 import type {
   DynamicProp,
   StaticProp,
   JCFCommonStaticProps,
-  JCFItemProps,
 } from '../utils/types'
 import type { Ref } from 'vue'
+import type { JCFGroupBoxProps } from '../JCFGroupBox/types'
 
 export interface JCFButtonGroupProps
-  extends JCFItemProps,
-    JCFButtonGroupStaticProps {
-  // TODO
-}
+  extends JCFGroupBoxProps,
+    JCFButtonGroupStaticProps {}
 
 export interface JCFButtonGroupStaticProps extends JCFCommonStaticProps {
   // 枠線ラベル
@@ -23,13 +20,11 @@ export interface JCFButtonGroupStaticProps extends JCFCommonStaticProps {
   focusable?: StaticProp<boolean>
   // 環境背景の使用可否
   envBackgroundEnabled?: StaticProp<boolean>
-  // 配置の設定 JFAlignment
-  alignment?: StaticProp<EJFAlignment>
   // コントロールの有効化
   controlEnabled?: StaticProp<boolean>
   // 再描画の無視
   ignoreRepaint?: StaticProp<boolean>
-  // レイアウト FlowLayout? GridLayout?
+  // レイアウト
   layout?: StaticProp<FlowLayout>
 }
 

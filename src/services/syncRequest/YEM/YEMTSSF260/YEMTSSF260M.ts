@@ -28,7 +28,7 @@ export function YEMTSSF260M_getTokubaiSettei(data: any): any {
     data,
   })
 
-  return response.data
+  return response
 }
 
 /**

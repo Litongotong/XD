@@ -16,6 +16,7 @@
 import { ref } from 'vue'
 import type { Color } from '@/lib/native/awt/Color'
 import { bindThis } from '@/utils/class/bind'
+import { getRaw } from '@/utils/vue/getRaw'
 
 // 🟢 完成
 
@@ -37,7 +38,7 @@ export class JCFDataBean {
    * jcf.gui.JCFDataBean::getForeground()
    */
   getForeground(): Color {
-    return this.foreground.value!
+    return getRaw(this.foreground)
   }
 
   /**
@@ -72,7 +73,7 @@ export class JCFDataBean {
    * jcf.gui.JCFDataBean::getBackground()
    */
   getBackground(): Color {
-    return this.background.value!
+    return getRaw(this.background)
   }
 
   /**

@@ -1,3 +1,4 @@
+import { ArrayList } from '@/lib/native/util/ArrayList'
 import { HashMap } from '@/lib/native/util/HashMap'
 import { isNil } from '@/utils/useful'
 import { toRaw } from 'vue'
@@ -65,13 +66,53 @@ export function setInstanceValue(
   })
 }
 
+export const hashMapToObject = (data: HashMap) => {
+  if (!(data instanceof HashMap)) {
+    return data
+  }
+
+  const transform = (obj: any) => {
+    if (obj instanceof HashMap) {
+      return hashMapToObject(obj)
+    }
+    if (obj instanceof ArrayList) {
+      const asArr = obj.toArray()
+      const arrResult: any[] = []
+      asArr.forEach((item) => {
+        arrResult.push(transform(item))
+      })
+      return arrResult
+    }
+    if (Array.isArray(obj)) {
+      const arrResult: any[] = []
+      obj.forEach((item) => {
+        arrResult.push(transform(item))
+      })
+      return arrResult
+    }
+    return obj
+  }
+
+  const map = data._getMap()
+  const result: Record<string, any> = {}
+  map.forEach((value, key) => {
+    result[key] = transform(value)
+  })
+
+  return result
+}
+
 export const toHashMap = (data: any) => {
-  const toMap = (data: any): HashMap => {
+  const toMap = (data: any) => {
     if (!data) {
       return data
     }
     if (Array.isArray(data)) {
-      throw new Error('Array is not supported')
+      const arrayList: any[] = [];
+      data.forEach((item) => {
+        arrayList.push(toMap(item))
+      })
+      return arrayList
     }
     if (data instanceof HashMap) {
       return data
@@ -96,5 +137,5 @@ export const toHashMap = (data: any) => {
     return data
   }
 
-  return toMap(data)
+  return toMap(data) as HashMap
 }

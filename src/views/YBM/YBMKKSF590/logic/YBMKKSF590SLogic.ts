@@ -559,9 +559,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
       tree.setRoot(null!)
 
       // 共有領域リセット
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY)
 
       // 次へ、前へボタン非活性化
       next.setEnabled(false)
@@ -694,9 +694,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
           .getMessage(SMSMessageConst.YCSCMNMSI020, count),
       )
 
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_KEYWORD_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_KEYWORD_KEY)
     } catch (th: any) {
       SMSCLLog.debug('YBMKKSF590SLogic.findKamoku() error')
       SMSCLLog.debug(th.toString())
@@ -754,9 +754,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
       )
 
       // 念のため共有領域リセット
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY)
       return
     }
 
@@ -862,9 +862,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
           .getMessageUtil()
           .getMessage(SMSMessageConst.SMSCMNMCW003, '科目'),
       )
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY as any)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as any)
-      this.removeUserData(
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY as any)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as any)
+      this.removeUserDataWithObject(
         context,
         YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY as any,
       )
@@ -925,9 +925,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
       )
 
       // 念のため共有領域リセット
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY as any)
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as any)
-      this.removeUserData(
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY as any)
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as any)
+      this.removeUserDataWithObject(
         context,
         YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY as any,
       )
@@ -1030,12 +1030,12 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
           .getMessageUtil()
           .getMessage(SMSMessageConst.SMSCMNMCW003, '科目'),
       )
-      this.removeUserData(
+      this.removeUserDataWithObject(
         context,
         YBMKKSF590SLogic.SEARCH_RESULTS_KEY as string,
       )
-      this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as string)
-      this.removeUserData(
+      this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY as string)
+      this.removeUserDataWithObject(
         context,
         YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY as string,
       )
@@ -1428,7 +1428,7 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
     returnInfo: JCFReturnInfo,
   ) {
     SMSCLLog.debug('YBMKKSF590SLogic.closeYbmSearch() start')
-    super.removeUserData(context, YBMKKSF590SLogic.USECASE)
+    super.removeUserDataWithUsecase(context, YBMKKSF590SLogic.USECASE)
     SMSCLLog.debug('YBMKKSF590SLogic.closeYbmSearch() end')
   }
 
@@ -1691,9 +1691,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
           }
           // スプレッド内容をクリア
           spread.removeAllRow()
-          this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
-          this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
-          this.removeUserData(
+          this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
+          this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
+          this.removeUserDataWithObject(
             context,
             YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY,
           )
@@ -1723,9 +1723,9 @@ export default class YBMKKSF590SLogic extends SMSCjfLogicBase {
           }
           // スプレッド内容をクリア
           spread.removeAllRow()
-          this.removeUserData(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
-          this.removeUserData(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
-          this.removeUserData(
+          this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_RESULTS_KEY)
+          this.removeUserDataWithObject(context, YBMKKSF590SLogic.SEARCH_INDEX_KEY)
+          this.removeUserDataWithObject(
             context,
             YBMKKSF590SLogic.SEARCH_NM_KAMOKU_RYAKU_KEY,
           )

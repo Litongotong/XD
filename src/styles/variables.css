@@ -28,6 +28,6 @@
   --jcf-button-disabled-color: var(--color-light-gray);
 
   /* grid */
-  --frame-gap: 1.5px;
+  --frame-gap: 2px;
   --panel-padding: 2px;
 }

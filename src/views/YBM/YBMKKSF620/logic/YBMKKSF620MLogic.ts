@@ -729,7 +729,7 @@ export default class YBMKKSF620MLogic extends YBMKKSCjfLogicBase {
         )
       }
 
-      super.removeUserData(
+      super.removeUserDataWithObject(
         context,
         SMSHashKeyConst.GENE_SEARCH_SPREAD_EVENT_POSITION as any,
       )
@@ -837,7 +837,7 @@ export default class YBMKKSF620MLogic extends YBMKKSCjfLogicBase {
 
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)
@@ -879,7 +879,7 @@ export default class YBMKKSF620MLogic extends YBMKKSCjfLogicBase {
 
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)
@@ -3282,7 +3282,7 @@ export default class YBMKKSF620MLogic extends YBMKKSCjfLogicBase {
 
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
 
       //　フッタメッセージの初期化

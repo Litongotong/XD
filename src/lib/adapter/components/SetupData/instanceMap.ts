@@ -3,7 +3,7 @@ export enum EComponentName {
   JCFPushButton = 'JCFPushButton',           // JCFPushButtonData
   JCFToggleButton = 'JCFToggleButton',       // JCFToggleButtonData
   JCFComboBox = 'JCFComboBox',               // JCFComboBoxData
-  JCFButtonGroup = 'JCFButtonGroup',         // Not needed
+  JCFButtonGroup = 'JCFButtonGroup',         // JCFButtonGroupData
   JCFLabel = 'JCFLabel',                     // JCFLabelData
   JCFGroupBox = 'JCFGroupBox',               // JCFGroupBoxData
   JCFFieldDouble = 'JCFFieldDouble',         // JCFFieldDoubleData
@@ -17,6 +17,7 @@ export enum EComponentName {
   JCFTextArea = 'JCFTextArea',               // JCFTextAreaData
   JCFImage = 'JCFImage',                     // JCFImageData
   JCFLines = 'JCFLines',                     // JCFLinesData
+  JCFBoardButton = 'JCFBoardButton',         // JCFBoardButton
 
   // yuki custom components
   YUKIFieldLong = 'YUKIFieldLong',

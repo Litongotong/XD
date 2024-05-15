@@ -17,7 +17,8 @@ export const useSetup = () => {
   }
 
   const setupPanel = (panelId: string) => {
-    const screenId = provider.inject.screen()
+    const getScreenId = provider.inject.screen()
+    const screenId = getScreenId()
     context.globalData[screenId].data[panelId] ||= new JCFPanelData({
       context,
       panelId,
@@ -25,8 +26,10 @@ export const useSetup = () => {
   }
 
   const setupItem: ISetupItem = (itemId, instance) => {
-    const screenId = provider.inject.screen()
-    const frameId = provider.inject.frame()
+    const getScreenId = provider.inject.screen()
+    const screenId = getScreenId()
+    const getFrameId = provider.inject.frame()
+    const frameId = getFrameId()
     const panelId = context.viewData.frameIdToPanelIdMap[frameId]
     if (!panelId) {
       throw new Error(`Panel ID not found, frameId: ${frameId}`)

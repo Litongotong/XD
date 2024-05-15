@@ -7,10 +7,6 @@ import type {
 
 export interface YUKIFieldLongProps
   extends JCFFieldLongProps,
-    YUKIFieldLongStaticProps {
-  // TODO
-}
+    YUKIFieldLongStaticProps {}
 
-export interface YUKIFieldLongStaticProps extends JCFCommonStaticProps {
-  // TODO
-}
+export interface YUKIFieldLongStaticProps extends JCFCommonStaticProps {}

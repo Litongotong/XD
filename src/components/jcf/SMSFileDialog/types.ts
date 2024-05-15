@@ -8,12 +8,12 @@ import type {
 export interface SMSFileDialogProps
   extends JCFItemProps,
     SMSFileDialogStaticProps {
-  value?: DynamicProp<string>
+  chooseMode?: DynamicProp<number>
+  title?: DynamicProp<string>
+  fileType?: DynamicProp<string>
+  defaultPath?: DynamicProp<string>
 }
 
 export interface SMSFileDialogStaticProps extends JCFCommonStaticProps {
-  filetype?: StaticProp<string>
-  title?: StaticProp<string>
-  buttonWidth?: StaticProp<string>
-  data?: StaticProp<File>
+  selectFileActionCode?: StaticProp<string>
 }

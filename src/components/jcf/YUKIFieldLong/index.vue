@@ -4,7 +4,6 @@
     :data-item-id="id"
     :data-component-name="EComponentName.YUKIFieldLong"
     :is-yuki="true"
-    :install="installInstanceForYUKIFieldLong"
   />
 </template>
 
@@ -13,7 +12,6 @@ import type { YUKIFieldLongProps } from './types'
 
 import JCFFieldLong from '../JCFFieldLong/index.vue'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { installInstanceForYUKIFieldLong } from '../utils/instance'
 
 defineOptions({
   name: EComponentName.YUKIFieldLong,

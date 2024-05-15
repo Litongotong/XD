@@ -590,8 +590,6 @@ export abstract class SMSCjfLogicBase extends Adapter {
   }
 
   protected removeUserData(context: JCFContext): void
-  protected removeUserData(context: JCFContext, usecaseID: string): void
-  protected removeUserData(context: JCFContext, key: any): void
   protected removeUserData(
     context: JCFContext,
     usecaseID: string,
@@ -601,17 +599,20 @@ export abstract class SMSCjfLogicBase extends Adapter {
     if (params.length === 1) {
       this.__removeUserDataOnlyContext(params[0])
     } else if (params.length === 2) {
-      const secondArgAsString = typeof params[1] === 'string'
-      if (secondArgAsString) {
-        this.__removeUserDataWithUseCaseID(params[0], params[1])
-      } else {
-        this.__removeUserDataWithKey(params[0], params[1])
-      }
+      throw new Error(`Please use 'removeUserDataWithObject' or 'removeUserDataWithUsecase' instead.`)
     } else if (params.length === 3) {
       this.__removeUserDataWithUseCaseIDAndKey(params[0], params[1], params[2])
     } else {
       throw new Error('Invalid parameters')
     }
+  }
+
+  protected removeUserDataWithObject(context: JCFContext, key: any): void {
+    this.__removeUserDataWithKey(context, key)
+  }
+   
+  protected removeUserDataWithUsecase(context: JCFContext, usecaseID: string): void {
+    this.__removeUserDataWithUseCaseID(context, usecaseID)
   }
 
   /**
@@ -654,7 +655,7 @@ export abstract class SMSCjfLogicBase extends Adapter {
       throw new SMSRuntimeException('ユースケースIDがセットされていません')
     }
     //共有データのキーセットを取得
-    let dataSet: Set = context.userDataKeySet() as Set
+    let dataSet: NativeSet = context.userDataKeySet() as NativeSet
 
     let keys: any[] = dataSet.toArray()
 
@@ -680,7 +681,7 @@ export abstract class SMSCjfLogicBase extends Adapter {
       throw new SMSRuntimeException('ユースケースIDがセットされていません')
     }
     //共有データのキーセットを取得
-    let dataSet: Set = context.userDataKeySet() as Set
+    let dataSet: NativeSet = context.userDataKeySet() as NativeSet
 
     let keys: any[] = dataSet.toArray()
 
@@ -2141,7 +2142,7 @@ export abstract class SMSCjfLogicBase extends Adapter {
     this.deserialize(context, screen_id, SMSHeaderFooterManager.FRAME_MAIN)
 
     //フラグ削除
-    this.removeUserData(context, screen_id as any)
+    this.removeUserDataWithObject(context, screen_id as any)
   }
 
   /**
@@ -2183,7 +2184,7 @@ export abstract class SMSCjfLogicBase extends Adapter {
       //2006.11.21 change start
       //removeUserData(JCFContext, String)ではなく、removeUserData(JCFContext, Object)を実行するように変更
       //			removeUserData(context,screen_id + "_" + frame_id);
-      this.removeUserData(context, (screen_id + '_' + frame_id) as any)
+      this.removeUserDataWithObject(context, (screen_id + '_' + frame_id) as any)
       //2006.11.21 change end
     }
   }

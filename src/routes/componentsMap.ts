@@ -77,18 +77,7 @@ const YBMKKSF610 = createClasses([
       import('@/views/YBM/YBMKKSF610/panel/YBMKKSF610SPanel.vue'),
   },
 ])
-const YCMKMSFB30 = createClasses([
-  {
-    class: CLASSNAME.YCMKMSFB30MPanel,
-    component: () =>
-      import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB30MPanel.vue'),
-  },
-  {
-    class: CLASSNAME.YCMKMSFB31SPanel,
-    component: () =>
-      import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB31SPanel.vue'),
-  },
-])
+
 const YBMKKSF620 = createClasses([
   {
     class: CLASSNAME.YBMKKSF620MPanel,
@@ -120,9 +109,14 @@ const YBMKKSF620 = createClasses([
     component: () =>
       import('@/views/YBM/YBMKKSF620/panel/YBMKKSF627SPanel.vue'),
   },
-
 ])
-
+const YCMKMSFB30 = createClasses([
+  {
+    class: CLASSNAME.YCMKMSFB30MPanel,
+    component: () =>
+      import('@/views/YCM/YCMKMSFB30/panel/YCMKMSFB30MPanel.vue'),
+  },
+])
 export const componentsMap: IComponentMap = {
   // FWC
   ...withConfig(SMS, configs.SMS),
@@ -136,8 +130,8 @@ export const componentsMap: IComponentMap = {
   ...withConfig(YBMKKSF610, configs.YBMKKSF610),
   ...withConfig(YBMKKSF620, configs.YBMKKSF620),
   //YCM
-  ...withConfig(YCMKMSFB30, configs.YCMKMSFB30),
   
+  ...withConfig(YCMKMSFB30, configs.YCMKMSFB30),
 
 }
 

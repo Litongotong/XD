@@ -1,8 +1,7 @@
 <template>
-  <div :data-component-name="EComponentName.JCFGroupBox">
+  <div :data-component-name="EComponentName.JCFGroupBox" :data-item-id="id">
     <!-- ラベル付けの外枠線 -->
-
-    <fieldset v-if="label" :style="commonStyle" class="outLine">
+    <fieldset v-if="label" :style="commonStyle" class="box_outline">
       <legend v-if="label">
         {{ label }}
       </legend>
@@ -10,7 +9,7 @@
     </fieldset>
 
     <!-- ラベルなしの外枠線 -->
-    <div v-else :style="commonStyle" class="outLine">
+    <div v-else :style="commonStyle">
       <slot></slot>
     </div>
   </div>
@@ -19,13 +18,12 @@
 <script setup lang="ts">
 import type { JCFGroupBoxProps } from './types'
 import type { JCFGroupBoxData } from '@/lib/jcf/gui/JCFGroupBoxData'
-import { computed } from 'vue'
+import { computed, type CSSProperties } from 'vue'
 import { calculateCommonStyle } from '../utils/transform'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { installInstance } from '../utils/instance'
-import { JFLineType } from '../entry'
+import { getInstance } from '../utils/instance'
+import { toFlowLayout, toRGB } from '../utils/common'
 import { SystemColor } from '../entry'
-import { toRGB, toPX } from '../utils/common'
 
 defineOptions({
   name: EComponentName.JCFGroupBox,
@@ -33,29 +31,45 @@ defineOptions({
 
 // 部品 props
 const props = defineProps<JCFGroupBoxProps>()
+const id = props.id
+const label = props.label
 
 // 部品データを用意する
-const instance = installInstance<JCFGroupBoxData>(
-  EComponentName.JCFGroupBox,
-  props,
-)
+const instance = getInstance<JCFGroupBoxData>(props)
 
-const [left, top, width, height] = props.bounds!
+const outlineDefaultColor = toRGB(SystemColor.GRAY)
+const outlineCss: CSSProperties = {
+  outline: `1px solid ${outlineDefaultColor}`,
+  // TODO: need re check
+  outlineOffset: '-10px',
+}
 
 // 算出スタイル
 const commonStyle = computed(() => {
-  const style = calculateCommonStyle({ instance, props })
-  style.borderColor = toRGB(SystemColor.GRAY)
-  style.left = toPX(left + 8)
-  style.top = toPX(top + 8)
-  style.width = toPX(width - 16)
-  style.height = toPX(height - 16)
-  return style
+  let style = calculateCommonStyle({ instance, props })
+  // 文字選択不可にする
+  style.userSelect = 'none'
+
+  const hasBorder = style.borderWidth !== undefined
+  if (!hasBorder && !label) {
+    // add default outline
+    style = {
+      ...style,
+      ...outlineCss,
+    }
+  }
+
+  const layoutStyle = toFlowLayout(props.layout)
+
+  return {
+    ...style,
+    ...layoutStyle,
+  }
 })
 </script>
 
 <style scoped>
-.outLine {
-  border: 1px solid rgb(0, 0, 0);
+.box_outline {
+  margin: -5px 0 0 0;
 }
 </style>

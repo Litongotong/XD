@@ -23,6 +23,7 @@ export class SMSRuntimeException extends RuntimeException {
     if (params.length === 1) {
       const asString = typeof params[0] === 'string'
       if (asString) {
+        // @ts-expect-error
         super(params[0])
       } else {
         const th = params[0]

@@ -6,6 +6,8 @@
     class="new_button_style center"
     @click="onClick"
     :data-name="name"
+    :tabindex="isDisableFocus ? -1 : undefined"
+    :disabled="isDisabled"
   >
     <img
       v-if="backgroundImage"
@@ -24,7 +26,7 @@ import type { JCFPushButtonProps } from './types'
 import type { JCFPushButtonData } from '@/lib/jcf/gui/JCFPushButtonData'
 
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
 import { calculateCommonStyle } from '../utils/transform'
 import { computed } from 'vue'
 import { Adapter } from '@/lib/adapter/adapter'
@@ -41,11 +43,16 @@ const props = defineProps<JCFPushButtonProps>()
 
 const id = props.id
 
+const autoWrap = props.autoTurn
+const isDisableFocus = props.focusable === false
+
 // 部品データを用意する
-const instance = installInstance<JCFPushButtonData>(
-  EComponentName.JCFPushButton,
-  props,
-)
+const instance = getInstance<JCFPushButtonData>(props)
+
+const isDisabled = computed(() => {
+  const usingEnabled = instance ? instance.enabled.value : props.enabled
+  return usingEnabled === false
+})
 
 const name = props.name?.length ? props.name : undefined
 
@@ -78,6 +85,15 @@ const text = computed(() => {
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
 
+  if (autoWrap) {
+    style.flexWrap = 'wrap'
+    style.whiteSpace = 'pre-wrap'
+  }
+
+  if (isDisabled.value) {
+    style.color = 'var(--color-light-gray)'
+  }
+
   return style
 })
 
@@ -89,6 +105,7 @@ const onClick = () => {
   }
   logic.extra.wrap({
     actionCode: pushedActionCode,
+    itemId: id,
   })
 }
 </script>
@@ -108,6 +125,7 @@ const onClick = () => {
   box-shadow: var(--jcf-button-shadow);
   cursor: pointer;
   font-size: inherit;
+  user-select: none;
 }
 .new_button_style:disabled {
   cursor: not-allowed;

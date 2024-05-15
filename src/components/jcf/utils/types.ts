@@ -26,7 +26,6 @@ export type JCFComponentBounds = [X, Y, Width, Height]
 type CompatColor<T> = T | Color
 export type CSSColor = CompatColor<CSSProperties['color']>
 
-// TODO: add more types
 export interface JCFCommonStaticProps {
   /** 表示範囲 */
   bounds?: StaticProp<JCFComponentBounds>
@@ -36,6 +35,8 @@ export interface JCFCommonStaticProps {
   alignmentHorizontal?: StaticProp<EJFAlignment>
   /** 垂直位置 */
   alignmentVertical?: StaticProp<EJFAlignment>
+  /** 位置一括設定 */
+  alignment?: StaticProp<EJFAlignment>
 
   // Font
   /** フォント */
@@ -71,6 +72,8 @@ export interface JCFItemPropsWithStaticProps
 export interface JCFCommonProps extends JCFCommonPropsWithCustom {
   /** Item ID */
   id?: DynamicProp<string>
+  // for `getInstance`
+  logic?: JCFItemData
 }
 
 /** 部品一般共通カスタム属性 */
@@ -97,9 +100,7 @@ export interface JCFDataBeanProps {
   foreground?: DynamicProp<CSSColor>
   /** 背景 */
   background?: DynamicProp<CSSColor>
-  /** TODO: 要確認 */
   enabled?: DynamicProp<boolean>
-  /** TODO: 要確認 */
   tag?: DynamicProp<string>
 }
 

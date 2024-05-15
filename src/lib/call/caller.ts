@@ -15,6 +15,8 @@ import { EVerb } from './types'
 import { objectifyInstance, setInstanceValue, toHashMap } from './utils/class'
 import { JCFAdapterException } from '../jcf/ctrl/JCFAdapterException'
 import { checkApiParams } from './utils/check'
+import { SMSRuntimeException } from '../sms/sol/sys/SMSRuntimeException'
+import { DIALOG } from '@/utils/dialog'
 
 export class CallerAdapter {
   execute(inParam: JCFAdapterInParam): JCFAdapterOutParam {
@@ -139,7 +141,7 @@ export class CallerAdapter {
   callServer(inParam: JCFAdapterInParam, verb: EVerb) {
     const isLoginVerb = verb === EVerb.VERB_LOGIN
     const isLogoutVerb = verb === EVerb.VERB_LOGOUT
-    const isCommonVerb = verb === EVerb.VERB_COMMON
+    // const isCommonVerb = verb === EVerb.VERB_COMMON
 
     // 2006/11/27 Add start
     //ログ出力用にクラスとメソッド名称を取得する
@@ -210,8 +212,11 @@ export class CallerAdapter {
     // url replace
     // e.g. YMBKKSF620M_init3
     let url = `/${gamenID}_${splitVerb[splitVerb.length - 1]}`
-    if (isLoginVerb) {
+    if (isLoginVerb || cbsVerb === EVerb.VERB_LOGIN) {
       url = '/login'
+    }
+    if (isLogoutVerb || cbsVerb === EVerb.VERB_LOGOUT) {
+      url = '/logout'
     }
 
     // stringify when send api before
@@ -233,6 +238,10 @@ export class CallerAdapter {
         response,
       )
     } catch (e: any) {
+      // TODO: need this ?
+      if (e instanceof SMSRuntimeException) {
+        DIALOG.alert(e.message)
+      }
       // 2007/08/30 add
       e.printStackTrace()
       // 2007/08/30 add

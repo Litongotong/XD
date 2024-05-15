@@ -16,12 +16,14 @@ import { JCFFieldFilledDateData } from '@/lib/jcf/gui/JCFFieldFilledDateData'
 import { JCFListBoxData } from '@/lib/jcf/gui/JCFListBoxData'
 import { JCFListViewData } from '@/lib/jcf/gui/JCFListViewData'
 import { JCFTextAreaData } from '@/lib/jcf/gui/JCFTextAreaData'
+import { SMSJCFFieldFilledDateExtData } from '@/lib/sms/sol/sys/cjf/SMSJCFFieldFilledDateExtData'
 import { SMSFileDialogData } from '@/lib/sms/sol/sys/cjf/SMSFileDialogData'
 
 import type { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
 import type { Install, JCFItemProps } from './types'
 import type { JCFFieldStringProps } from '../JCFFieldString/types'
 import type { SMSJCFSpreadProps } from '../SMSJCFSpread/types'
+import type { SMSJCFFieldFilledDateExtProps } from '../SMSJCFFieldFilledDateExt/types'
 import type { YUKIFieldDoubleProps } from '../YUKIFieldDouble/types'
 import type { JCFFieldLongProps } from '../JCFFieldLong/types'
 import type { JCFToggleButtonProps } from '../JCFToggleButton/types'
@@ -41,10 +43,10 @@ import type { JCFImageProps } from '../JCFImage/types'
 import type { JCFLinesProps } from '../JCFLines/types'
 import { SMSJCFSpreadData } from '@/lib/sms/sol/sys/cjf/SMSJCFSpreadData'
 import type { YUKIFieldFilledDateProps } from '../YUKIFieldFilledDate/types'
-import type { SMSJCFFieldFilledDateExtProps } from '../SMSJCFFieldFilledDateExt/types'
-import { SMSJCFFieldFilledDateExtData } from '@/lib/sms/sol/sys/cjf/SMSJCFFieldFilledDateExtData'
 import { JCFImageData } from '@/lib/jcf/gui/JCFImageData'
 import type { SMSFileDialogProps } from '../SMSFileDialog/types'
+import { JCFButtonGroupData } from '@/lib/jcf/gui/JCFButtonGroupData'
+import { toInt } from '@/utils/number/toInt'
 
 /** JCFItemData の動的属性値を設定する */
 const installInstanceForJCFItemData = (
@@ -105,8 +107,8 @@ const installInstanceForJCFFieldString: Install<
   // install common props
   installInstanceForJCFItemData(ins, props)
   // install self props
-  const useValue = value?.length ? value : text
-
+  const fallbackValue = text || ''
+  const useValue = value || fallbackValue
   if (useValue !== undefined) {
     ins.setValue(useValue)
   }
@@ -121,7 +123,19 @@ const installInstanceForJCFComboBox: Install<
 > = (props) => {
   const instance = new JCFComboBoxData(props.id!)
 
-  // TODO: complete set property
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
+  if (props.editable !== undefined) {
+    instance.setEditable(props.editable)
+  }
+  if (props.selectableElements !== undefined) {
+    instance.setValue(props.selectableElements)
+  }
+  if (props.value !== undefined) {
+    instance.setValue(props.value)
+  }
 
   return instance
 }
@@ -131,16 +145,13 @@ const installInstanceForJCFFieldDouble: Install<
   JCFFieldDoubleProps,
   JCFFieldDoubleData
 > = (props) => {
-  const { id, value } = props
-  const instance = new JCFFieldDoubleData(id!)
+  const instance = new JCFFieldDoubleData(props.id!)
 
   // install common props
   installInstanceForJCFItemData(instance, props)
   // install self props
-  const useValue = value?.length ? Number(value) : 0
-
-  if (useValue !== undefined) {
-    instance.setValue(useValue)
+  if (props.value !== undefined) {
+    instance.setValue(props.value)
   }
 
   return instance
@@ -174,10 +185,9 @@ const installInstanceForJCFFieldLong: Install<
   // install common props
   installInstanceForJCFItemData(instance, props)
   // install self props
-  const useValue = value?.length ? Number(value) : 0
-
-  if (useValue !== undefined) {
-    instance.setValue(useValue)
+  const usingValue = value?.length ? toInt(value) : 0
+  if (usingValue !== undefined) {
+    instance.setValue(usingValue)
   }
 
   return instance
@@ -189,9 +199,14 @@ const installInstanceForJCFLabel: Install<JCFLabelProps, JCFLabelData> = (
 ) => {
   const instance = new JCFLabelData(props.id!)
 
-  // TODO: complete set property
-  if (props?.text !== undefined) {
-    instance.setValue(props.text)
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
+  const fallbackValue = props?.text || ''
+  const value = props.value || fallbackValue
+  if (value !== undefined) {
+    instance.setValue(value)
   }
 
   return instance
@@ -202,7 +217,7 @@ const installInstanceForJCFSpread: Install<
   JCFSPreadInstallationPayload,
   JCFSpreadData
 > = (props) => {
-  const instance = new JCFSpreadData(props.id!, props.flexGrid)
+  const instance = new JCFSpreadData(props.id!)
 
   // TODO: complete set property
 
@@ -216,19 +231,39 @@ const installInstanceForJCFToggleButton: Install<
 > = (props) => {
   const instance = new JCFToggleButtonData(props.id!)
 
-  // TODO: complete set property
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
+  if (props.value !== undefined) {
+    instance.setValue(props.value)
+  }
+  if (props.label !== undefined) {
+    instance.setLabel(props.label)
+  }
 
   return instance
 }
 
-/** JCFToggleButton 動的属性値を設定する */
+/** JCFButtonGroupData 動的属性値を設定する */
 const installInstanceForJCFButtonGroup: Install<
   JCFButtonGroupProps,
-  JCFToggleButtonData
+  JCFButtonGroupData
 > = (props) => {
-  const instance = new JCFToggleButtonData(props.id!)
+  const instance = new JCFButtonGroupData(props.id!)
 
-  // TODO: complete set property
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
+  const fallbackValue = props?.label || ''
+  const value = props.value || fallbackValue
+  if (value !== undefined) {
+    instance.setValue(value)
+  }
+  if (props.enabledInner !== undefined) {
+    instance.setEnabledInner(props.enabledInner)
+  }
 
   return instance
 }
@@ -240,7 +275,18 @@ const installInstanceForJCFGroupBox: Install<
 > = (props) => {
   const instance = new JCFGroupBoxData(props.id!)
 
-  // TODO: complete set property
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
+  const fallbackValue = props?.label || ''
+  const value = props.value || fallbackValue
+  if (value !== undefined) {
+    instance.setValue(value)
+  }
+  if (props.enabledInner !== undefined) {
+    instance.setEnabledInner(props.enabledInner)
+  }
 
   return instance
 }
@@ -252,7 +298,10 @@ const installInstanceForJCFFieldFilledDate: Install<
 > = (props) => {
   const instance = new JCFFieldFilledDateData(props.id!)
 
-  // TODO: complete set property
+  // common props
+  installInstanceForJCFItemData(instance, props)
+
+  // self props
 
   return instance
 }
@@ -363,7 +412,6 @@ export const installInstanceForSMSJCFFieldFilledDateExt: Install<
   // set common props
   installInstanceForJCFItemData(ins, props)
 
-  // TODO: set JCFFieldFilledDateData fields
   return ins
 }
 
@@ -372,16 +420,22 @@ export const installInstanceForSMSFileDialog: Install<
   SMSFileDialogProps,
   SMSFileDialogData
 > = (props) => {
-  const { id, value } = props
-  const ins = new SMSFileDialogData(id!)
+  const ins = new SMSFileDialogData(props.id!)
 
   // install common props
   installInstanceForJCFItemData(ins, props)
   // install self props
-  const useValue = value?.length ? value : ''
-
-  if (useValue !== undefined) {
-    ins.setValue(useValue)
+  if (props.chooseMode !== undefined) {
+    ins.setChooseMode(props.chooseMode)
+  }
+  if (props.title !== undefined) {
+    ins.setTitle(props.title)
+  }
+  if (props.fileType !== undefined) {
+    ins.setFiletype(props.fileType)
+  }
+  if (props.defaultPath !== undefined) {
+    ins.setDefaultPath(props.defaultPath)
   }
 
   return ins
@@ -402,7 +456,11 @@ const installMap: Record<EComponentName, Install | undefined> = {
   [EComponentName.JCFLabel]: installInstanceForJCFLabel,
   [EComponentName.JCFSpread]: installInstanceForJCFSpread,
   [EComponentName.JCFToggleButton]: installInstanceForJCFToggleButton,
-  [EComponentName.SMSJCFSpread]: undefined,
+  [EComponentName.SMSJCFFieldFilledDateExt]:
+    installInstanceForSMSJCFFieldFilledDateExt,
+  [EComponentName.YUKIFieldDouble]: installInstanceForYUKIFieldDouble,
+  [EComponentName.YUKIFieldLong]: installInstanceForYUKIFieldLong,
+  [EComponentName.SMSJCFSpread]: installInstanceForSMSJCFSpread,
   [EComponentName.JCFButtonGroup]: installInstanceForJCFButtonGroup,
   [EComponentName.JCFGroupBox]: installInstanceForJCFGroupBox,
   [EComponentName.JCFFieldFilledDate]: installInstanceForJCFFieldFilledDate,
@@ -412,11 +470,7 @@ const installMap: Record<EComponentName, Install | undefined> = {
   [EComponentName.JCFTextArea]: installInstanceForJCFTextArea,
   [EComponentName.JCFImage]: installInstanceForJCFImage,
   [EComponentName.JCFLines]: installInstanceForJCFLines,
-  [EComponentName.YUKIFieldDouble]: undefined,
-  [EComponentName.YUKIFieldLong]: undefined,
-  [EComponentName.YUKIFieldFilledDate]: undefined,
-  [EComponentName.SMSJCFFieldFilledDateExt]:
-    installInstanceForSMSJCFFieldFilledDateExt,
+  [EComponentName.YUKIFieldFilledDate]: installInstanceForYUKIFieldFilledDate,
   [EComponentName.SMSFileDialog]: installInstanceForSMSFileDialog,
 }
 
@@ -427,7 +481,7 @@ const installMap: Record<EComponentName, Install | undefined> = {
  */
 export const installInstance = <
   Instance extends JCFItemData = JCFItemData,
-  Props extends JCFItemProps = JCFItemProps,
+  Props extends Record<string, any> = Record<string, any>,
 >(
   component: EComponentName,
   props: Props,
@@ -452,4 +506,14 @@ export const installInstance = <
   }
 
   return ins as Instance
+}
+
+export const getInstance = <
+  Instance extends JCFItemData = JCFItemData,
+  Props extends Record<string, any> = Record<string, any>,
+>(
+  props: Props,
+) => {
+  const ins = props?.logic
+  return ins as Instance | undefined
 }

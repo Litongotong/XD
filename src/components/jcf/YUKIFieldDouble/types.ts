@@ -7,9 +7,6 @@ import type {
 
 export interface YUKIFieldDoubleProps
   extends JCFFieldDoubleProps,
-    YUKIFieldDoubleStaticProps {
-}
+    YUKIFieldDoubleStaticProps {}
 
-export interface YUKIFieldDoubleStaticProps extends JCFCommonStaticProps {
-  // TODO
-}
+export interface YUKIFieldDoubleStaticProps extends JCFCommonStaticProps {}

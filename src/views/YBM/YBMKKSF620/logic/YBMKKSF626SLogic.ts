@@ -37,7 +37,7 @@ import type { JCFSpreadAdditionalInfo } from '@/lib/jcf/gui/JCFSpreadAdditionalI
 /**
  * 配賦マスタ取込画面ロジッククラスです。
  */
-export class YBMKKSF626SLogic extends YBMKKSCjfLogicBase {
+export default class YBMKKSF626SLogic extends YBMKKSCjfLogicBase {
   // ------------------------------------------------
   // アイテムID
   // ------------------------------------------------
@@ -324,7 +324,7 @@ export class YBMKKSF626SLogic extends YBMKKSCjfLogicBase {
       fgInit = super.getUserData(context, YBMKKSCjfConst.FG_INIT)
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)

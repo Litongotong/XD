@@ -21,7 +21,7 @@ export { default as YUKIFieldDouble } from './YUKIFieldDouble.vue'
 export { default as YUKIFieldLong } from './YUKIFieldLong.vue'
 export { default as SMSJCFFieldFilledDateExt } from './SMSJCFFieldFilledDateExt.vue'
 export { default as YUKIFieldFilledDate } from './YUKIFieldFilledDate.vue'
-
+export { default as SMSFileDialog } from './SMSFileDialog.vue'
 // layout component
 export { default as JCFPanelLayout } from '../JCFPanelLayout/index.vue'
 
@@ -45,3 +45,9 @@ export { Rectangle } from '@/lib/native/awt/Rectangle'
 export { Point } from '@/lib/native/awt/Point'
 export { Dimension } from '@/lib/native/awt/Dimension'
 export { FlowLayout }  from '@/lib/native/awt/FlowLayout'
+
+// will using data class
+export { JCFSelectableElement } from '@/lib/jcf/gui/JCFSelectableElement'
+
+// component name
+export { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'

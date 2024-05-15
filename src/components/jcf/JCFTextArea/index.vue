@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import type { JCFTextAreaProps } from './types'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
 import type { JCFTextAreaData } from '@/lib/jcf/gui/JCFTextAreaData'
 import { computed } from 'vue'
 import { calculateCommonStyle } from '../utils/transform'
@@ -30,10 +30,7 @@ const props = defineProps<JCFTextAreaProps>()
 
 const id = props.id
 
-const instance = installInstance<JCFTextAreaData>(
-  EComponentName.JCFTextArea,
-  props,
-)
+const instance = getInstance<JCFTextAreaData>(props)
 
 const fallbackText = props.text || ''
 
@@ -47,6 +44,11 @@ const inputValue = instance?.value
 
 const commonStyle = computed(() => {
   const style = calculateCommonStyle({ instance, props })
+
+  if (props.editable === false) {
+    style.userSelect = 'none'
+  }
+
   return style
 })
 </script>

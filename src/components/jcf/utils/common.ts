@@ -4,11 +4,13 @@ import type { JCFCommonStaticProps } from './types'
 import type { Rectangle } from '@/lib/native/awt/Rectangle'
 import type { Point } from '@/lib/native/awt/Point'
 import type { Dimension } from '@/lib/native/awt/Dimension'
-import type { Font } from '../entry'
+import type { FlowLayout, Font } from '../entry'
 
 import { EJFLineType } from '@/lib/jcf/gui/JFLineType'
 import { EJFAlignment } from '@/lib/jcf/gui/JFAlignment'
 import { isNil } from '@/utils/useful'
+import { EFlowLayout } from '@/lib/native/awt/FlowLayout'
+import type { Insets } from '@/lib/native/awt/Insets'
 
 /**
  * 数字に px を付けてサイズに変換する。
@@ -44,14 +46,17 @@ export function toCSSFont(font?: Font | null) {
   }
 }
 
+// The `inset` / `outset` style is not obvious on origin PC
+const BORDER_STYLE_OUTSET = 'solid'
+const BORDER_STYLE_INSET = 'solid'
 /**
  * ボーダータイプを CSS ボーダーオブジェクトに変換する。
  * @param style ボーダータイプ
  * @returns CSS ボーダーオブジェクト
  */
-export const toBorderStyle = (
+export function toBorderStyle(
   style?: EJFLineType,
-): CSSProperties['border-style'] | undefined => {
+): CSSProperties['border-style'] | undefined {
   if (style === undefined) {
     return undefined
   }
@@ -64,23 +69,95 @@ export const toBorderStyle = (
     case EJFLineType.DOUBLE:
       return 'double'
     case EJFLineType.RAISED:
-      return 'outset'
+      return BORDER_STYLE_OUTSET
     case EJFLineType.SUNKEN:
-      return 'inset'
+      return BORDER_STYLE_INSET
     case EJFLineType.CONVEX:
-      return 'outset'
+      return BORDER_STYLE_OUTSET
     case EJFLineType.FLAT:
       return 'solid'
     case EJFLineType.CONCAVE:
-      return 'inset'
+      return BORDER_STYLE_INSET
     default:
       return undefined
   }
 }
 
-export type IJCFAlignProps = Pick<
+export function toFlowLayout(layout?: FlowLayout) {
+  const css: CSSProperties = {}
+
+  if (isNil(layout)) {
+    return css
+  } else {
+    css.display = 'flex'
+    css.position = 'relative'
+  }
+
+  const align = layout.getAlignment()
+  const hGap = layout.getHgap()
+  const vGap = layout.getVgap()
+
+  if (!isNil(align)) {
+    switch (align) {
+      case EFlowLayout.LEFT:
+        css.justifyContent = 'flex-start'
+        break
+      case EFlowLayout.CENTER:
+        css.justifyContent = 'center'
+        break
+      case EFlowLayout.RIGHT:
+        css.justifyContent = 'flex-end'
+        break
+      case EFlowLayout.LEADING:
+        css.justifyContent = 'flex-start'
+        break
+      case EFlowLayout.TRAILING:
+        css.justifyContent = 'flex-end'
+        break
+    }
+  }
+
+  // only working on chrome >= 84 (2020.07)
+  if (!isNil(hGap)) {
+    css.columnGap = toPX(hGap)
+  }
+  if (!isNil(vGap)) {
+    css.rowGap = toPX(vGap)
+  }
+
+  return css
+}
+
+export function toInsets(insets?: Insets) {
+  const css: CSSProperties = {}
+  if (!insets) {
+    return css
+  }
+
+  const top = insets.getTop()
+  const left = insets.getLeft()
+  const bottom = insets.getBottom()
+  const right = insets.getRight()
+
+  if (!isNil(top)) {
+    css.paddingTop = toPX(top)
+  }
+  if (!isNil(left)) {
+    css.paddingLeft = toPX(left)
+  }
+  if (!isNil(bottom)) {
+    css.paddingBottom = toPX(bottom)
+  }
+  if (!isNil(right)) {
+    css.paddingRight = toPX(right)
+  }
+
+  return css
+}
+
+type JCFAlignProps = Pick<
   JCFCommonStaticProps,
-  'alignmentHorizontal' | 'alignmentVertical'
+  'alignmentHorizontal' | 'alignmentVertical' | 'alignment'
 >
 
 /**
@@ -88,12 +165,54 @@ export type IJCFAlignProps = Pick<
  * @param alignmentProps 水平位置か垂直位置
  * @returns CSS Align 関連オブジェクト
  */
-export const toAlignment = (alignmentProps: IJCFAlignProps) => {
-  const { alignmentHorizontal, alignmentVertical } = alignmentProps
+export const toAlignment = (alignmentProps: JCFAlignProps) => {
+  const { alignmentHorizontal, alignmentVertical, alignment } = alignmentProps
   const css: CSSProperties = {}
 
-  if (alignmentHorizontal || alignmentVertical) {
+  if (
+    !isNil(alignmentHorizontal) ||
+    !isNil(alignmentVertical) ||
+    !isNil(alignment)
+  ) {
     css.display = 'flex'
+  }
+
+  if (!isNil(alignment)) {
+    switch (alignment) {
+      case EJFAlignment.TOP_LEFT:
+        css.justifyContent = 'flex-start'
+        css.alignItems = 'flex-start'
+        break
+      case EJFAlignment.CENTER_LEFT:
+        css.justifyContent = 'flex-start'
+        css.alignItems = 'center'
+        break
+      case EJFAlignment.BOTTOM_LEFT:
+        css.justifyContent = 'flex-start'
+        css.alignItems = 'flex-end'
+        break
+      case EJFAlignment.TOP_CENTER:
+        css.justifyContent = 'center'
+        css.alignItems = 'flex-start'
+        break
+      case EJFAlignment.BOTTOM_CENTER:
+        css.justifyContent = 'center'
+        css.alignItems = 'flex-end'
+        break
+      case EJFAlignment.TOP_RIGHT:
+        css.justifyContent = 'flex-end'
+        css.alignItems = 'flex-start'
+        break
+      case EJFAlignment.CENTER_RIGHT:
+        css.justifyContent = 'flex-end'
+        css.alignItems = 'center'
+        break
+      case EJFAlignment.BOTTOM_RIGHT:
+        css.justifyContent = 'flex-end'
+        css.alignItems = 'flex-end'
+        break
+    }
+    return css
   }
 
   // NOTE: 水平、垂直各自のみで右上等の位置にすることはできないので、
@@ -127,23 +246,6 @@ export const toAlignment = (alignmentProps: IJCFAlignProps) => {
   }
 
   return css
-}
-
-/**
- * @description 数値、金額などを右から3位毎に「,」を付ける
- * @param value 数値。例：12345.1　=>  "12,345.1"
- * @returns
- */
-export function addThousandsSeparator(value: string | number): string {
-  const oldValueArray = value.toString().split('.')
-  let left = oldValueArray[0] ?? ''
-  let right = oldValueArray[1] ?? ''
-
-  if (right.length > 0) {
-    return left.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '.' + right
-  } else {
-    return left.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
-  }
 }
 
 export function toRectangle(rect: Rectangle) {

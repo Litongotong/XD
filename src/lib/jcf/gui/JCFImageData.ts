@@ -19,6 +19,7 @@ import { bindThis } from '@/utils/class/bind'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { Image } from '@/lib/native/awt/Image'
 import { isNil } from '@/utils/useful'
+import { getRaw } from '@/utils/vue/getRaw'
 
 export class JCFImageData extends JCFItemData {
   private image: Ref<Image | null> = ref(null)
@@ -38,6 +39,10 @@ export class JCFImageData extends JCFItemData {
 
   getValue(): string {
     return this.imageURL.value
+  }
+
+  private getRawImage(): Image | null {
+    return getRaw(this.image)
   }
 
   setValue(newValue: string): void
@@ -79,7 +84,7 @@ export class JCFImageData extends JCFItemData {
   }
 
   getImageValue(): Image {
-    return this.image.value!
+    return this.getRawImage()!
   }
 
   private __setValueWithImage(newValue: Image) {

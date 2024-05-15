@@ -1,6 +1,10 @@
 <template>
   <Layout>
-    <Screen :screen-id="view.screen.screenID" :style="view.screen.style">
+    <Screen
+      :screen-id="view.screen.screenID"
+      :style="view.screen.style"
+      :key="view.screen.screenID"
+    >
       <Frame
         v-for="item in view.frame.components"
         :key="item.key"

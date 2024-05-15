@@ -11,6 +11,7 @@ import { createContext } from '@/lib/adapter/hooks';
 import { useView } from '@/routes/view/useView';
 import { Dev } from '@/lib/adapter/dev';
 import { MsisDebug } from './utils/debug/log';
+import { FIRST_BUILD_FOR_PREVIEW_240508 } from './utils/debug/constants';
 
 const view = useView()
 const isPrepared = ref(false)
@@ -26,7 +27,7 @@ onBeforeMount(async () => {
   view.system.setGlobalInstance(insMap)
 
   // mock
-  if (import.meta.env.DEV) {
+  if (FIRST_BUILD_FOR_PREVIEW_240508 || import.meta.env.DEV) {
     const devClass = new Dev()
     devClass.login()
   }

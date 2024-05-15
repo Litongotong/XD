@@ -35,6 +35,10 @@ export interface IGlobalPanelData {
   [itemId: string]: JCFItemData
 }
 
+export interface IPanelStatus {
+  loaded: boolean
+}
+
 export interface IViewData {
   frameIdToPanelIdMap: Record<string, string>
 }

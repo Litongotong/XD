@@ -18,6 +18,7 @@ import { JCFItemData } from '@/lib/jcf/gui/JCFItemData'
 import { JCFSelectableElement } from '@/lib/jcf/gui/JCFSelectableElement'
 import { bindThis } from '@/utils/class/bind'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
+import { getRaw } from '@/utils/vue/getRaw'
 
 // 🟢 完成
 
@@ -44,6 +45,10 @@ export class JCFComboBoxData extends JCFItemData {
     } else {
       this.__setValueWithSelectableElement(newValue)
     }
+  }
+
+  private getRawSelectableElements() {
+    return getRaw(this.selectableElements) as any as JCFSelectableElement[]
   }
 
   private __setValueWithString(newValue: string): void {
@@ -87,7 +92,7 @@ export class JCFComboBoxData extends JCFItemData {
   }
 
   getSelectableElementValue(): JCFSelectableElement[] {
-    return this.selectableElements.value as any as JCFSelectableElement[]
+    return this.getRawSelectableElements()
   }
 
   setData(jcfitemdata?: JCFItemData): void {

@@ -57,17 +57,6 @@ const YBMKKSF610 = {
   },
 } as const satisfies IClassMap
 
-const YCMKMSFB30 = {
-  YCMKMSFB30MPanel: {
-    panel: 'ycm.kms.cjf.panel.YCMKMSFB30MPanel',
-    logic: 'ycm.kms.cjf.logic.YCMKMSFB30MPanel',
-  },
-  YCMKMSFB31SPanel: {
-    panel: 'ycm.kms.cjf.panel.YCMKMSFB31SPanel',
-    logic: 'ycm.kms.cjf.logic.YCMKMSFB31SPanel',
-  },
-} as const satisfies IClassMap
-
 const YBMKKSF620 = {
   YBMKKSF620MPanel: {
     panel: 'ybm.kks.cjf.panel.YBMKKSF620MPanel',
@@ -94,7 +83,16 @@ const YBMKKSF620 = {
     logic: 'ybm.kks.cjf.logic.YBMKKSF627SLogic',
   },
 } as const satisfies IClassMap
-
+const YCMKMSFB30= {
+  YCMKMSFB30MPanel: {
+    panel: 'ycm.kms.cjf.panel.YCMKMSFB30MPanel',
+    logic: 'ycm.kms.cjf.logic.YCMKMSFB30MLogic'
+  },
+  YCMKMSFB31SPanel: {
+    panel: 'ycm.kms.cjf.panel.YCMKMSFB31SPanel',
+    logic: 'ycm.kms.cjf.logic.YCMKMSFB31SLogic'
+  },
+} as const satisfies IClassMap
 export const CLASSNAME = {
   // FWC
   ...SMS,
@@ -108,6 +106,5 @@ export const CLASSNAME = {
   ...YBMKKSF610,
   ...YBMKKSF620,
   //YCM
-  ...YCMKMSFB30,
-  
+  ...YCMKMSFB30
 } as const satisfies IClassMap

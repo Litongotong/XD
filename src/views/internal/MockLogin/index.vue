@@ -15,26 +15,33 @@
     <!-- ボタン -->
     <button class="button-login" @click="loginButtonClick">ログイン</button>
     <button class="button-close" @click="closeButtonClick">閉じる</button>
+
+    <!-- エラーメッセージ -->
+    <span v-if="message" class="message-context">{{ message }}</span>
   </Layout>
 </template>
 
 <script lang="ts" setup>
-import type { IResponse } from '@/services/interface'
+import type { IResponse, ISyncResponse } from '@/services/interface'
 
 import Layout from '../Layout/index.vue'
 
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { loginPage_login } from '@/services/syncRequest/LoginPage/login'
+import { closeBrowser } from '@/utils/browser'
+import { storage } from '@/utils/browser/storage'
+import { TOKEN_KEY } from '@/services/axios/token'
 
 const router = useRouter()
 
 const inputUserName = ref('')
 const inputPassword = ref('')
 const inputUsageDate = ref('')
+let message = ref('')
 
-const loginButtonClick = async (): Promise<void> => {
-  const apiResponseData: IResponse = await loginPage_login({
+const loginButtonClick = (): void => {
+  const apiResponseData: ISyncResponse<IResponse> = loginPage_login({
     cdUserId: inputUserName.value,
     ifPassword: inputPassword.value,
     nmHost: 'DESKTOP-',
@@ -42,14 +49,28 @@ const loginButtonClick = async (): Promise<void> => {
     commonMsg: { unyobi: inputUsageDate.value },
   })
 
-  if (apiResponseData.result.completed) {
-    window.alert('正常登録')
-    router.push('/')
+  if (apiResponseData.status == 200) {
+    /** @description ストレージにtokenデータを保存する */
+    storage.setSessionData({
+      key: TOKEN_KEY,
+      value: apiResponseData.data.result.payloadToken.jwt,
+    })
+
+    /** @description ストレージにUserInfoデータを保存する */
+    storage.setSessionData({
+      key: 'userInfo',
+      value: apiResponseData.data.payload.commonMsg,
+    })
+
+    //サブメニュー画面遷移
+    router.push('/menu')
+  } else if (apiResponseData.status == 401) {
+    message.value = apiResponseData.data.result.message[0].substring(13)
   }
 }
 
 const closeButtonClick = () => {
-  router.push('/')
+  closeBrowser()
 }
 </script>
 
@@ -119,5 +140,11 @@ const closeButtonClick = () => {
   top: 388px;
   height: 24px;
   width: 80px;
+}
+
+.message-context {
+  position: absolute;
+  top: 620px;
+  color: red;
 }
 </style>

@@ -1,24 +1,19 @@
 import type { JCFContext } from '@/lib/jcf/ctrl/JCFContext'
 import { provider } from './provider'
-import { useSetup } from './hooks/setup'
 import { getGlobalContext } from './hooks'
 import { useView } from '@/routes/view/useView'
 import type {
   IAdapterExtraGet,
   IAdapterExtraWrap,
   IExtraWrapOpts,
-  ISetupItem,
 } from './interface'
 import type { JCFItemData } from '../jcf/gui/JCFItemData'
 import { MsisDebug } from '@/utils/debug/log'
 import type { ISystemActionDispatchOpts } from '@/routes/view/interface'
 
 export interface IAdapterExtra {
-  screenId: string
-  frameId: string
   get: IAdapterExtraGet
   wrap: IAdapterExtraWrap
-  setupItem: ISetupItem
 }
 
 function createEmptyItemData() {
@@ -42,11 +37,16 @@ export class Adapter {
 
   private _context: JCFContext
 
+  private getScreenId: () => string
+  private getFrameId: () => string
+
   // in Vue `setup`
   constructor() {
-    const screenId = provider.inject.screen()
-    const frameId = provider.inject.frame()
-    const itemId = provider.inject.item()
+    const getScreenId = provider.inject.screen()
+    this.getScreenId = getScreenId
+    const getFrameId = provider.inject.frame()
+    this.getFrameId = getFrameId
+    const getItemId = provider.inject.item()
 
     // context
     const { context } = getGlobalContext()
@@ -55,14 +55,12 @@ export class Adapter {
     // registry context
     const view = useView()
 
-    const { setupItem } = useSetup()
-
     this.extra = {
-      screenId,
-      frameId,
-      setupItem,
       get: (itemId) => this.getItemDataById(itemId),
       wrap: async (opts: IExtraWrapOpts) => {
+        const screenId = getScreenId()
+        const frameId = getFrameId()
+        const itemId = getItemId()
         const dispatchOpts: ISystemActionDispatchOpts = {
           ...opts, // actionCode, itemId, additionalParams
           frameId,
@@ -83,19 +81,20 @@ export class Adapter {
     }
 
     // registry to logic container
-    const logicClassName = provider.inject.logicClassName()
+    const logicClassName = provider.inject.logicClassName()()
     if (logicClassName) {
       view.adapter.registerLogic(logicClassName, this)
     }
   }
 
   private getItemDataById(itemId: string): JCFItemData {
+    const screenId = this.getScreenId()
+    const frameId = this.getFrameId()
     const globalData = this._context.globalData
-    const screenData = globalData[this.extra.screenId].data
-    const panelId =
-      this._context.viewData.frameIdToPanelIdMap[this.extra.frameId]
+    const screenData = globalData[screenId].data
+    const panelId = this._context.viewData.frameIdToPanelIdMap[frameId]
     if (!panelId) {
-      throw new Error(`panelId is not found, frameId: ${this.extra.frameId}`)
+      throw new Error(`panelId is not found, frameId: ${frameId}`)
     }
     const panelData = screenData[panelId].data
     const itemData = panelData[itemId] || EMPTY_ITEM_DATA
@@ -105,16 +104,13 @@ export class Adapter {
   static create() {
     if (MsisDebug.isDevPage()) {
       const mockExtra: IAdapterExtra = {
-        screenId: 'SCR_MOCK_SCREEN_ID',
-        frameId: 'MOCK_FLM_BODY_FRAME',
-        setupItem: () => {},
         get: (itemId) => {
           MsisDebug.log(`"logic.extra.get" itemId`, itemId)
           return EMPTY_ITEM_DATA
         },
         wrap: async (opts) => {
           MsisDebug.log(`"logic.extra.wrap" opts`, opts)
-        }
+        },
       }
       const mockIns = {
         extra: mockExtra,

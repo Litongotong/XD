@@ -20,6 +20,7 @@ import { StringBuffer } from '@/lib/native/lang/StringBuffer'
 import { Integer } from '@/lib/native/lang/Integer'
 import { bindThis } from '@/utils/class/bind'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
+import { getRaw } from '@/utils/vue/getRaw'
 
 // 🟢 完成
 
@@ -33,6 +34,8 @@ export class JCFFieldFilledDateData extends JCFItemData {
 
   constructor(itemID: string) {
     super(itemID)
+
+    this.setMaxLengths([4, 2, 2])
 
     bindThis(this)
   }
@@ -110,7 +113,7 @@ export class JCFFieldFilledDateData extends JCFItemData {
   }
 
   getIntArrayValue(): number[] {
-    return this.values.value
+    return getRaw(this.values)
   }
 
   setDataAndAttributes(itemData: JCFItemData) {

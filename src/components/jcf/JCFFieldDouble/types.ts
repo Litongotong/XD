@@ -9,7 +9,8 @@ import type {
 
 export interface JCFFieldDoubleProps
   extends JCFItemProps,
-    JCFFieldDoubleStaticProps {
+    JCFFieldDoubleStaticProps,
+    JCFFieldDoubleMode {
   value?: DynamicProp<number>
 }
 
@@ -36,7 +37,6 @@ export interface JCFFieldDoubleStaticProps extends JCFCommonStaticProps {
   greaterBackground?: StaticProp<CSSColor>
   greaterForeground?: StaticProp<CSSColor>
 
-  isYuki?: StaticProp<boolean>
   inputMode?: StaticProp<EJFField>
   inputAssist?: StaticProp<any>
   initialValueDisplay?: StaticProp<boolean>
@@ -60,4 +60,8 @@ export interface JCFFieldDoubleStaticProps extends JCFCommonStaticProps {
   selectedInFocus?: StaticProp<boolean>
   selectionStart?: StaticProp<number>
   selectionEnd?: StaticProp<number>
+}
+
+export interface JCFFieldDoubleMode {
+  isYuki?: boolean
 }

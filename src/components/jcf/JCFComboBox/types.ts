@@ -5,20 +5,15 @@ import type {
   JCFCommonStaticProps,
   JCFItemProps,
 } from '../utils/types'
-import { ArrayList } from '@/lib/native/util/ArrayList'
 import { JCFSelectableElement } from '@/lib/jcf/gui/JCFSelectableElement'
 
 export interface JCFComboBoxProps extends JCFItemProps, JCFComboBoxStaticProps {
-  // TODO
   value?: DynamicProp<string>
   editable?: DynamicProp<boolean>
   selectableElements?: DynamicProp<JCFSelectableElement[]>
-  selectableElementValue?: DynamicProp<ArrayList>
 }
 
 export interface JCFComboBoxStaticProps extends JCFCommonStaticProps {
-  // TODO
-
   name?: StaticProp<any>
   focusable?: StaticProp<boolean>
   /** 入力モード*/
@@ -30,6 +25,6 @@ export interface JCFComboBoxStaticProps extends JCFCommonStaticProps {
   popupVariableWidthMode?: StaticProp<boolean>
   searchable?: StaticProp<boolean>
   selectByAction?: StaticProp<boolean>
-  selectedActionCode?: StaticProp<number>
+  selectedActionCode?: StaticProp<string>
   selectviewMode?: StaticProp<boolean>
 }

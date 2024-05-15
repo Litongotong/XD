@@ -68,7 +68,7 @@ export class JCFContext {
     return this.succeedData.size === 0
   }
   userSucceedKeySet(): NativeSet {
-    const ret = new KeySet(Object.keys(this.succeedData))
+    const ret = new KeySet([...this.succeedData])
     return ret
   }
   userSucceedSize(): number {
@@ -87,11 +87,11 @@ export class JCFContext {
     return this.applicationData.delete(key)
   }
   applicationDataKeySet(): NativeSet {
-    const ret = new KeySet(Object.keys(this.applicationData))
+    const ret = new KeySet([...this.applicationData.keys()])
     return ret
   }
   applicationDataSize(): number {
-    return Object.keys(this.applicationData).length
+    return [...this.applicationData.keys()].length
   }
   clearApplicationData(): void {
     this.applicationData.clear()
@@ -120,11 +120,11 @@ export class JCFContext {
     return this.userData.delete(key)
   }
   userDataKeySet(): NativeSet {
-    const ret = new KeySet(Object.keys(this.userData))
+    const ret = new KeySet([...this.userData.keys()])
     return ret
   }
   userDataSize(): number {
-    return Object.keys(this.userData).length
+    return [...this.userData.keys()].length
   }
   clearUserData(): void {
     this.userData.clear()

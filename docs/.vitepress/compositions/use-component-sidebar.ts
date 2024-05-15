@@ -12,7 +12,7 @@ export function useComponentSidebar(): DefaultTheme.Sidebar {
     return `${SECTION.COMPONENTS}${formatted}`
   }
 
-  const creationGuid: DefaultTheme.Sidebar = [
+  const creationGuide: DefaultTheme.Sidebar = [
     {
       text: '部品',
       items: [
@@ -23,6 +23,27 @@ export function useComponentSidebar(): DefaultTheme.Sidebar {
         {
           text: '部品間データ送信',
           link: computeCreationGuideLink('component-communication'),
+        },
+      ],
+    },
+  ]
+
+  /**
+   * 部品型のリンクを算出する。
+   * @param filename 部品型のファイル名
+   */
+  const computeWijmoGuideLink = (filename: string): string => {
+    const formatted = filename.trim().replace('.md', '')
+    return `${SECTION.COMPONENTS}wijmo/${formatted}`
+  }
+
+  const wijmoGuide: DefaultTheme.Sidebar = [
+    {
+      text: 'Wijmo',
+      items: [
+        {
+          text: 'Wijmo ライセンスキー 使用説明',
+          link: computeWijmoGuideLink('wijmo-license-manual'),
         },
       ],
     },
@@ -77,6 +98,11 @@ export function useComponentSidebar(): DefaultTheme.Sidebar {
   ]
 
   return {
-    [SECTION.COMPONENTS]: [...creationGuid, ...styleGuide, ...type],
+    [SECTION.COMPONENTS]: [
+      ...creationGuide,
+      ...wijmoGuide,
+      ...styleGuide,
+      ...type,
+    ],
   }
 }

@@ -1,3 +1,4 @@
+import { hashMapToObject } from '@/lib/call/utils/class'
 import type { NativeMap } from './Map'
 import { KeySet, type NativeSet } from './Set'
 
@@ -119,7 +120,7 @@ export class HashMap<K extends any = any, V extends any = any>
   }
 
   _toObject(): Record<string, V> {
-    return Object.fromEntries(this.map)
+    return hashMapToObject(this)
   }
 
   _getType() {

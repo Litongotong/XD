@@ -9,7 +9,8 @@ import type {
 
 export interface JCFFieldLongProps
   extends JCFItemProps,
-    JCFFieldLongStaticProps {
+    JCFFieldLongStaticProps,
+    JCFFieldLongMode {
   value?: DynamicProp<string>
 }
 
@@ -21,7 +22,7 @@ export interface JCFFieldLongStaticProps extends JCFCommonStaticProps {
   caretVisible?: StaticProp<boolean>
   caretPosition?: StaticProp<number>
   columns?: StaticProp<any>
-  columnBaseChar?:StaticProp<string>
+  columnBaseChar?: StaticProp<string>
 
   editable?: StaticProp<boolean>
   enableInputNegativeValue?: StaticProp<boolean>
@@ -31,7 +32,6 @@ export interface JCFFieldLongStaticProps extends JCFCommonStaticProps {
   focusable?: StaticProp<boolean>
   formatTiming?: StaticProp<number>
 
-  isYuki?: StaticProp<boolean>
   inputMode?: StaticProp<EJFField>
   inputAssist?: StaticProp<any>
   insertMode?: StaticProp<any>
@@ -54,4 +54,8 @@ export interface JCFFieldLongStaticProps extends JCFCommonStaticProps {
   selectedInFocus?: StaticProp<boolean>
   selectionStart?: StaticProp<number>
   selectionEnd?: StaticProp<number>
+}
+
+export interface JCFFieldLongMode {
+  isYuki?: boolean
 }

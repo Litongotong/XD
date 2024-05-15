@@ -1,3 +1,5 @@
+import { MsisDebug } from "../debug/log"
+
 export interface IIndexDBIndex {
   name: string
   keyPath: string | Iterable<string>
@@ -322,7 +324,7 @@ export class IndexDBUtil {
           }
           const updateRequest = cursor.update(Value)
           updateRequest.onerror = () => {
-            console.log('IndexDB Update failed')
+            MsisDebug.log('IndexDB Update failed')
           }
           if (updateAll) {
             cursor.continue()
@@ -363,7 +365,7 @@ export class IndexDBUtil {
             cursor.continue()
           }
           deleteRequest.onerror = () => {
-            console.log('Delete failed')
+            MsisDebug.log('Delete failed')
           }
         } else {
           resolve(true)
@@ -375,7 +377,7 @@ export class IndexDBUtil {
   async close() {
     const db = this.getDB()
     db.close()
-    console.log('IndexDB closed')
+    MsisDebug.log('IndexDB closed')
   }
 
   async deleteDb(): Promise<boolean> {
@@ -385,7 +387,7 @@ export class IndexDBUtil {
     return new Promise((resolve, reject) => {
       deleteRequest.onerror = () => reject(false)
       deleteRequest.onsuccess = () => {
-        console.log(
+        MsisDebug.log(
           `IndexDB ${this.opts.databaseName} has been deleted successfully.`,
         )
         resolve(true)

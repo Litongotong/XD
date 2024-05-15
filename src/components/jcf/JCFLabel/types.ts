@@ -1,3 +1,4 @@
+import type { Insets } from '@/lib/native/awt/Insets'
 import type {
   DynamicProp,
   StaticProp,
@@ -7,7 +8,7 @@ import type {
 import type { Color } from '@/lib/native/awt/Color'
 
 export interface JCFLabelProps extends JCFItemProps, JCFLabelStaticProps {
-  // TODO
+  value?: DynamicProp<string>
 }
 
 export interface JCFLabelStaticProps extends JCFCommonStaticProps {
@@ -18,8 +19,7 @@ export interface JCFLabelStaticProps extends JCFCommonStaticProps {
   enableMenu?: StaticProp<boolean>
   enableToolTip?: StaticProp<boolean>
   equality?: StaticProp<boolean>
-  /** インセット */
-  insets?: StaticProp<any>
+  insets?: StaticProp<Insets>
   toolTipText?: StaticProp<string>
   underlineColor?: StaticProp<Color>
 }

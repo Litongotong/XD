@@ -1,4 +1,8 @@
+import { ref } from "vue"
+
 class LogController {
+  _allQueue = ref<string[]>([])
+
   private queue: string[] = []
   private THRESHOLD = 10
 
@@ -32,6 +36,12 @@ class LogController {
     if (this.queue.length >= this.THRESHOLD) {
       this.send(this.queue)
       this.queue = []
+    }
+  }
+
+  _pushToAllQueue(str: string, level: number) {
+    if (import.meta.env.DEV) {
+      this._allQueue.value.push(`${str} (level: ${level})`)
     }
   }
 }

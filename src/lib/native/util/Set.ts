@@ -7,6 +7,7 @@ export interface NativeSet<T extends any = any> {
    * @param obj
    */
   iterator(): NativeIterator<T>
+  toArray<V extends any = T>(list?: V[]): V[]
 }
 
 export class KeySet<T extends any = any> implements NativeSet {
@@ -20,5 +21,10 @@ export class KeySet<T extends any = any> implements NativeSet {
   iterator(): NativeIterator<T> {
     const impl = new IteratorImpl([...this.set])
     return impl
+  }
+
+  toArray(list?: any[]): any[] {
+    const arr = [...this.set.values()]
+    return arr
   }
 }

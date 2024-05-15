@@ -11,9 +11,11 @@
         class="base-input"
         type="text"
         :maxLength="maxLength"
-        :disabled="!enabled"
+        :disabled="isDisabled"
         :style="commonStyle"
         v-model="inputedValue"
+        @input="onInput"
+        @change="onChange"
         @focus="handleFocus"
         @blur="handleBlur"
       />
@@ -27,9 +29,12 @@ import type { JCFFieldLongData } from '@/lib/jcf/gui/JCFFieldLongData'
 
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { computed, ref, watch } from 'vue'
-import { addThousandsSeparator, toRGB } from '../utils/common'
-import { installInstance } from '../utils/instance'
+import { toRGB } from '../utils/common'
+import { getInstance } from '../utils/instance'
 import { calculateCommonStyle, transformToColor } from '../utils/transform'
+import { toLooseIntNumber } from '@/utils/number/toLooseNumber'
+import { addThousandsSeparator } from '@/utils/number/separator'
+import { clearString, clearStringButAllowComma } from './format'
 
 // 部品名
 defineOptions({
@@ -38,35 +43,85 @@ defineOptions({
 
 // 部品 props
 const props = defineProps<JCFFieldLongProps>()
+const id = props.id
+const isYuki = props.isYuki
 
 // 部品データを用意する
-const instance = installInstance<JCFFieldLongData, JCFFieldLongProps>(
-  EComponentName.JCFFieldLong,
-  props,
-)
+const instance = getInstance<JCFFieldLongData>(props)
 
-const inputedValue = ref(instance!.value.value)
-
-watch(inputedValue, (newValue) => {
-  let finalValue = newValue.toString()
-  if (props.isYuki) {
-    // YUKIFieldDoubleの場合、カンマを入力できないように制御する
-    // const rule = /[^\d]+/g
-    // finalValue = finalValue.replace(rule, '')
-  }
-
-  instance?.setValue(Number(finalValue))
+const isDisabled = computed(() => {
+  const usingEnabled = instance ? instance.enabled.value : props.enabled
+  return usingEnabled === false
 })
 
-const id = props.id
+const defaultValue = (instance ? instance.value.value : props.value) || 0
+const inputedValue = ref<string>(defaultValue.toString())
+
+const onInput = (e: Event) => {
+  let newValue = (e.target as HTMLInputElement).value as string
+  // clear
+  if (isYuki) {
+    newValue = clearString(newValue)
+  } else {
+    newValue = clearStringButAllowComma(newValue)
+  }
+  // sync to self
+  if (inputedValue.value !== newValue) {
+    inputedValue.value = newValue
+  }
+}
+
+const onChange = (e: Event) => {
+  const newValue = (e.target as HTMLInputElement).value as string
+  const asNumber = toLooseIntNumber(newValue)
+
+  // sync to self
+  const asString = asNumber.toString()
+  if (inputedValue.value !== asString) {
+    inputedValue.value = asString
+  }
+  // sync to instance
+  if (instance) {
+    instance.setValue(asNumber)
+  }
+}
+
+// watch instance
+watch(
+  () => instance?.value.value,
+  (newValue) => {
+    // sync to self
+    const asNumber = toLooseIntNumber(newValue)
+    const asString = asNumber.toString()
+    inputedValue.value = asString
+  },
+)
+
+// フォカス時に「,」を取り除く
+const handleFocus = (): void => {
+  const asNumber = toLooseIntNumber(inputedValue.value)
+  inputedValue.value = asNumber.toString()
+}
+
+// フォカスアウト時に3桁毎にカンマ「,」を付ける
+const handleBlur = (): void => {
+  // ensure number
+  const asNumber = toLooseIntNumber(inputedValue.value)
+  const strWithSeparator = addThousandsSeparator(asNumber)
+  inputedValue.value = strWithSeparator
+}
 
 /** 部品が編集可否 */
 const isInputMode = props.inputMode !== undefined
 
 /** 編集不可時の表示値 */
+const fallbackText = props.value || ''
 const text = computed(() => {
-  const fallback = props.value || ''
-  return instance ? instance.value.value : fallback
+  if (props.initialValueDisplay === false) {
+    return ''
+  } else {
+    return instance ? instance.value.value ?? fallbackText : fallbackText
+  }
 })
 
 // 業務ロジック
@@ -79,20 +134,13 @@ const commonStyle = computed(() => {
   style.background = toRGB(transformToColor(props.equalBackground))
   //初期化時の文字揃えるを右寄せにする
   style.textAlign = 'right'
+
+  if (props.editable === false) {
+    style.userSelect = 'none'
+  }
+
   return style
 })
-
-// フォカス時に「,」を取り除く
-const handleFocus = (event: Event): void => {
-  const node = event.target as HTMLInputElement
-  node.value = (instance ? instance.value.value : 0).toString()
-}
-
-// フォカスアウト時に3桁毎にカンマ「,」を付ける
-const handleBlur = (event: Event): void => {
-  const node = event.target as HTMLInputElement
-  node.value = addThousandsSeparator(instance!.value.value)
-}
 </script>
 
 <style scoped>
@@ -105,6 +153,8 @@ const handleBlur = (event: Event): void => {
   justify-content: right;
 }
 .base-input {
-  box-sizing: border-box;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

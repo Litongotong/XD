@@ -36,7 +36,12 @@ interface ICalculateCommonStyleOpts<T extends JCFItemData> {
  * @param props 部品共通属性
  * @returns 位置スタイル
  */
-export function calculatePositionStyle(props: JCFItemPropsWithStaticProps) {
+export function calculatePositionStyle(props?: JCFItemPropsWithStaticProps) {
+  // FIXME: if set layout, we can ignore bounds
+  if (isNil(props?.bounds)) {
+    return {}
+  }
+
   const { bounds } = props
   const x = bounds?.[0] || 0
   const y = bounds?.[1] || 0
@@ -110,11 +115,14 @@ export function calculateCommonStyle<T extends JCFItemData>(
 
   const positionStyle: CSSProperties = calculatePositionStyle(props)
 
-  const borderCssStyle: CSSProperties = {
-    borderColor: toRGB(borderColor),
-    borderWidth: toPX(borderWidth),
-    borderStyle: toBorderStyle(borderType),
-  }
+  const hasBorder = typeof borderWidth === 'number' && borderWidth > 0
+  const borderCssStyle: CSSProperties = hasBorder
+    ? {
+        borderColor: toRGB(borderColor),
+        borderWidth: toPX(borderWidth),
+        borderStyle: toBorderStyle(borderType),
+      }
+    : {}
 
   const alignStyle: CSSProperties = toAlignment({
     alignmentHorizontal,
@@ -137,6 +145,13 @@ export function calculateCommonStyle<T extends JCFItemData>(
     ? { display: 'none', visibility: 'hidden' }
     : {}
 
+  // disable style
+  const enableValue = ins ? ins.enabled.value : props.enabled
+  const isDisabled = enableValue === false
+  const disableStyle: CSSProperties = {
+    userSelect: isDisabled ? 'none' : undefined,
+  }
+
   const style: CSSProperties = {
     ...positionStyle,
     ...fontCssStyle,
@@ -145,6 +160,7 @@ export function calculateCommonStyle<T extends JCFItemData>(
     ...borderCssStyle,
     ...alignStyle,
     ...underlineStyle,
+    ...disableStyle,
   }
 
   return style

@@ -23,7 +23,7 @@ import { ArrayList } from '@/lib/native/util/ArrayList'
  * 配賦マスタ画面ロジッククラスです。
  */
 // @ts-expect-error
-export class YBMKKSF624SLogic extends YBMKKSF620MLogic {
+export default class YBMKKSF624SLogic extends YBMKKSF620MLogic {
   /** 画面ID */
   private static CD_GAMEN_ID: string = 'YBMKKSF624S'
 
@@ -212,11 +212,11 @@ export class YBMKKSF624SLogic extends YBMKKSF620MLogic {
             ) as string,
           )
         }
-        super.removeUserData(
+        super.removeUserDataWithObject(
           context,
           SMSHashKeyConst.GENE_SEARCH_SPREAD_EVENT_POSITION as any,
         )
-        super.removeUserData(context, YBMKKSCjfConst.SEARCH_ST_MODE as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.SEARCH_ST_MODE as any)
 
         returnInfo.setFocus(
           SMSHeaderFooterManager.FRAME_MAIN,
@@ -493,7 +493,7 @@ export class YBMKKSF624SLogic extends YBMKKSF620MLogic {
       fgInit = super.getUserData(context, YBMKKSCjfConst.FG_INIT)
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)
@@ -531,7 +531,7 @@ export class YBMKKSF624SLogic extends YBMKKSF620MLogic {
       fgInit = super.getUserData(context, YBMKKSCjfConst.FG_INIT)
       // Initフラグがnullでなければキー削除
       if (fgInit != null) {
-        super.removeUserData(context, YBMKKSCjfConst.FG_INIT as any)
+        super.removeUserDataWithObject(context, YBMKKSCjfConst.FG_INIT as any)
       }
     } catch (th: any) {
       super.callErrorAdapter(context, th)

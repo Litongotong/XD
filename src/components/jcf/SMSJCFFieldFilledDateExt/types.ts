@@ -1,14 +1,14 @@
-import type { JCFFieldFilledDateProps } from '../JCFFieldFilledDate/types'
 import type {
-  DynamicProp,
-  StaticProp,
   JCFCommonStaticProps,
+  JCFCommonProps,
+  DynamicProp,
 } from '../utils/types'
 
 export interface SMSJCFFieldFilledDateExtProps
-  extends JCFFieldFilledDateProps,
+  extends JCFCommonProps,
     SMSJCFFieldFilledDateExtStaticProps {
   // TODO
+  name?: DynamicProp<string>
 }
 
 export interface SMSJCFFieldFilledDateExtStaticProps

@@ -6,6 +6,7 @@ import type {
   JCFItemProps,
   StaticProp,
 } from '../utils/types'
+import type { EJFEnableType } from '@/lib/jcf/gui/JFEnableType'
 
 export interface JCFFieldStringProps
   extends JCFItemProps,
@@ -13,7 +14,6 @@ export interface JCFFieldStringProps
   value?: DynamicProp<string>
 }
 
-// TODO: 型を補完する
 export interface JCFFieldStringStaticProps extends JCFCommonStaticProps {
   /** 編集可否 */
   editable?: StaticProp<boolean>
@@ -41,7 +41,7 @@ export interface JCFFieldStringStaticProps extends JCFCommonStaticProps {
   echoChar?: StaticProp<string>
   enableChars?: StaticProp<string[]>
   enableMenu?: StaticProp<boolean>
-  enableType?: StaticProp<any>
+  enableType?: StaticProp<EJFEnableType>
   fullField?: StaticProp<any>
   indispensableField?: StaticProp<any>
   inputLimitation?: StaticProp<any>

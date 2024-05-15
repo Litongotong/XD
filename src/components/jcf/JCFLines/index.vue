@@ -11,7 +11,7 @@ import type { JCFLinesProps } from './types'
 import type { JCFLinesData } from '@/lib/jcf/gui/JCFLinesData'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
 import { calculateCommonStyle } from '../utils/transform'
-import { installInstance } from '../utils/instance'
+import { getInstance } from '../utils/instance'
 import { computed } from 'vue'
 import { toPX } from '../utils/common'
 
@@ -22,7 +22,7 @@ defineOptions({
 const props = defineProps<JCFLinesProps>()
 
 // 部品データを用意する
-const instance = installInstance<JCFLinesData>(EComponentName.JCFLines, props)
+const instance = getInstance<JCFLinesData>(props)
 
 // 算出スタイル
 const commonStyle = computed(() => {

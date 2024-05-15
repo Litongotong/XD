@@ -23,6 +23,7 @@ import { StringBuilder } from '@/lib/native/lang/StringBuilder'
 import { NativeString } from '@/lib/native/lang/String'
 import { StringBuffer } from '@/lib/native/lang/StringBuffer'
 import { EComponentName } from '@/lib/adapter/components/SetupData/instanceMap'
+import { getRaw } from '@/utils/vue/getRaw'
 
 // 🟢 完成
 
@@ -101,11 +102,11 @@ export class JCFListBoxData extends JCFItemData {
   }
 
   private __setValueWithArray(newValue: JCFSelectableElement[]): void {
-    this.selectableElements.value = JCFSelectableElement.copy(newValue)!
+    this.selectableElements.value = JCFSelectableElement.copy(newValue)! as any
   }
 
   getSelectableElementValue(): JCFSelectableElement[] {
-    return this.selectableElements.value as JCFSelectableElement[]
+    return getRaw(this.selectableElements)
   }
 
   setDataAndAttributes(itemData: JCFItemData) {
